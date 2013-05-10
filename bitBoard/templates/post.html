@@ -1,0 +1,130 @@
+{% extends "forum_base.html" %}
+
+{% block title %}
+% if is_thread
+	% if is_private
+		Post Private Thread
+	% else
+		Post Thread: {{forum.name}}
+	% endif
+% else
+	% if is_edit
+		Edit Post:
+	% else
+		Post Reply:
+	% endif
+	{{thread.title}}
+% endif
+{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+% if not is_edit and is_thread
+	% if is_private
+		<a href='/messages'>Private Messages</a>
+	% else
+		<a href='/forum'>Forum</a>
+		&raquo;
+		<a href='{{forum.url}}'>{{forum.name}}</a>
+	% endif
+	&raquo;
+
+	<a href='{{url}}'>Post New Thread</a>
+% else
+	{{base_thread_crumbs(forum, thread)}}
+	&raquo;
+
+	<a href='{{url}}'>
+		% if is_edit
+		Edit Post
+		% else
+		Post Reply
+		% endif
+	</a>
+
+% endif
+
+{% endcall %}
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, form_field_table_cell, csrf_token_field %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tWideForm'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				% if is_edit
+					Edit Post in {{thread.title}}
+				% elif is_thread
+					% if is_private
+						Post Private Thread
+					% else
+						Post Thread in {{forum.name}}
+					% endif
+				% else
+					Reply to {{thread.title}}
+				% endif
+			</td>
+		</tr>
+
+		% if is_thread
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				Thread Information
+			</td>
+		</tr>
+
+		% if is_private
+			<tr>
+				<td class='tFormLabel' rowspan='2'>
+					{{form.recipients.label}}
+				</td>
+				<td class='tFormUnilabel'>
+					Enter a list of usernames below, one on each line. You may add up to {{pm_recipient_limit - 1}} names. All of these users will be able to view and post in your private thread.
+				</td>
+			</tr>
+			<tr>
+				{{form_field_table_cell(form, 'recipients', rows=3, also_errors=recipient_errors)}}
+			</tr>
+		% endif
+
+		{{form_field_table_row(form, 'title')}}
+		{{form_field_table_row(form, 'subtitle')}}
+
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				Initial Post
+			</td>
+		</tr>
+		% endif
+
+		% call form_field_table_row(form, 'content', rows=10)
+		HTML and BBCode are permitted here.
+		% endcall
+
+		% set submit_name = 'Post'
+		% if is_edit
+		% set submit_name = 'Save'
+		% endif
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='{{submit_name}}' class='button'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+
+{% endblock %}

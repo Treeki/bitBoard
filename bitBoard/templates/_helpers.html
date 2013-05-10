@@ -1,0 +1,25 @@
+{% macro pagination_widget(pag, url, class='pagination') %}
+% set cur_page = pag.page
+
+<div class='{{class}}'>
+	% if pag.has_prev
+	<a href='{{url}}?page={{pag.prev_num}}' class='pgPrev'>&laquo; Previous</a>
+	% endif
+
+	% for page in pag.iter_pages()
+		% if page
+			% if page == cur_page
+				<span class='pgCurrent'>{{page}}</span>
+			% else
+				<a href='{{url}}?page={{page}}'>{{page}}</a>
+			% endif
+		% else
+			<span class='pgFiller'>...</span>
+		% endif
+	% endfor
+
+	% if pag.has_next
+	<a href='{{url}}?page={{pag.next_num}}' class='pgNext'>Next &raquo;</a>
+	% endif
+</div>
+{% endmacro %}

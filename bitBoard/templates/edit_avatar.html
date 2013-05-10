@@ -1,0 +1,68 @@
+% set mode = 'edit_avatar'
+{% extends "userpanel_base.html" %}
+
+% block title
+Edit Avatar
+% endblock
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, form_field_table_cell, csrf_token_field %}
+
+% if g.user.avatar_path
+<form method='post' action='{{delete_url}}'>
+	{{csrf_token_field()}}
+	<table class='tNormal tForm75'>
+		<tr>
+			<td class='tFormTitle'>
+				Current Avatar
+			</td>
+		</tr>
+		<tr>
+			<td class='tFormUnifield'>
+				<img src='/avatar/{{g.user.avatar_path}}'>
+			</td>
+		</tr>
+		<tr>
+			<td class='tFormFooter'>
+				<input type='submit' value='Remove Avatar'>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<br> <!-- this is awful. -->
+% endif
+
+<form method='post' enctype='multipart/form-data' action='{{url}}'>
+	{{csrf_token_field()}}
+	<table class='tNormal tForm75'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				Upload New Avatar
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan='2' class='tFormUnilabel'>
+				Choose an image to upload from your computer. Avatars must be smaller than <b>{{max_kilobytes}} kB</b> and <b>{{max_width}} x {{max_height}} pixels</b>.
+				<br>
+				The following file types are accepted:
+				% for ext in valid_extensions
+					{{ext}}{%if not loop.last%},{%endif%}
+				% endfor
+			</td>
+		</tr>
+
+		{{form_field_table_row(form, 'image', also_errors=errors)}}
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='Upload'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+{% endblock %}

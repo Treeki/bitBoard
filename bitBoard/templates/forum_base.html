@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+% if not thread or not thread.is_private
+{% set active_page = 'forum' %}
+% endif
+
+{% block base_body %}
+{% block body %}{% endblock %}
+{% endblock %}
+
+{% macro base_thread_crumbs(forum, thread) %}
+	% if thread.is_private
+	<a href='/messages'>Private Messages</a>
+	% else
+	<a href='/forum'>Forum</a>
+	&raquo;
+	<a href='{{forum.url}}'>{{forum.name}}</a>
+	% endif
+
+	&raquo;
+	<a href='{{thread.url}}' class='crumbFocus'>{{thread.title}}</a>
+	% if thread.subtitle
+	<!--<span class='threadCrumbsSubtitle'>&middot; {{thread.subtitle}}</span>-->
+	% endif
+
+	% if thread.is_locked and thread.is_stickied
+	<span class='threadCrumbsInfo'>(Sticky, Closed)</span>
+	% elif thread.is_locked
+	<span class='threadCrumbsInfo'>(Closed)</span>
+	% elif thread.is_stickied
+	<span class='threadCrumbsInfo'>(Sticky)</span>
+	% endif
+{% endmacro %}

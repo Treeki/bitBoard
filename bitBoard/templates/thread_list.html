@@ -1,0 +1,214 @@
+% if mode == 'private_messages'
+	{% extends "userpanel_base.html" %}
+% else
+	{% extends "forum_base.html" %}
+% endif
+
+
+{% block title %}
+% if forum
+{{forum.name}}
+% elif mode == 'updated_threads'
+Updated Threads
+% elif mode == 'private_messages'
+Private Messages
+% endif
+{% endblock %}
+
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+
+% if mode == 'private_messages'
+	<a href='/messages'>Private Messages</a>
+% else
+	<a href='/forum'>Forum</a>
+	&raquo;
+
+	% if forum
+	<a href='{{forum.url}}'>{{forum.name}}</a>
+	% elif mode == 'updated_threads'
+	<a href='{{url_for('updated_threads')}}'>Updated Threads</a>
+	% endif
+% endif
+
+{% endcall %}
+
+<ul class='page_links'>
+	% if mode == 'private_messages'
+		<li><a href='{{url_for('pm_post_thread')}}'>New Private Thread</a></li>
+	% elif forum and forum.can_be_posted_in_by(g.user)
+		<li><a href='{{forum.post_url}}'>New Thread</a></li>
+	% endif
+</ul>
+
+{% endcall %}
+{% endblock %}
+
+
+{% macro thread_row(thread, thread_read) %}
+		## Oh no, logic in my templates.
+		## I'm a terrible person.
+		% if g.user
+			% set is_new = True
+			% if thread_read 
+				% if thread_read.time > thread.last_updated_at
+					% set is_new = False
+				% else
+					% set new_time = thread_read.time
+				% endif
+			% else
+				% set new_time = None
+			% endif
+		% endif
+
+		% set t_url = thread.url
+
+		<td class='tStd threadListIcon'>
+			% if is_new
+			<a href='{{t_url}}?findPostAfter={{new_time|format_ugly_date_and_time}}'>
+				NEW!
+			</a>
+			% endif
+		</td>
+		<td class='tStd threadListTitle'>
+			% if mode == 'updated_threads'
+
+			<a href='{{t_url}}' class='threadListThreadLink'>{{thread.title}}</a>
+			{% if thread.subtitle %}<span class='threadSubtitleWithForumRef'>{{thread.subtitle}}</span>{% endif %}
+			<span class='threadListForumRef'><a href='{{thread.forum.url}}'>in {{thread.forum.name}}</a></span>
+
+			% else
+
+			% set pageCt = thread.page_count
+			% if pageCt > 1
+				<span class='threadListPageJump'>
+					<span class='threadListPageJumpTitle'>
+						Pages:
+					</span>
+					% if pageCt > 6
+						% set dleft = 3
+						% set dright = pageCt - 2
+					% else
+						% set dleft = 7
+						% set dright = -1
+					% endif
+
+					% for p in range(1, pageCt + 1)
+						% if p <= dleft or p >= dright
+							<a href='{{t_url}}?page={{p}}'>{{p}}</a>
+						% elif p == (dleft + 1)
+							...
+						% endif
+					% endfor
+				</span>
+			% endif
+
+			<a href='{{t_url}}' class='threadListThreadLink'>
+				% if thread.is_stickied
+					<span class='threadStickyNote'>Sticky:</span>
+				% endif
+				{{thread.title}}
+			</a>
+
+			% if thread.subtitle
+			<span class='threadSubtitle'>{{thread.subtitle}}</span>
+			% endif
+
+			% endif
+
+		</td>
+		<td class='tStd threadListCreator'>
+			{{thread.creator.link}}
+		</td>
+		<td class='tStd threadListPostCount'>
+			{{thread.post_count - 1}}
+		</td>
+		<td class='tStd threadListLastPost'>
+			<a href='{{thread.last_post.url}}'>{{thread.last_post_at|relative_date_and_time}}</a>
+			<br>
+			by {{thread.last_poster.link}}
+		</td>
+{% endmacro %}
+
+
+{% block body %}
+% set dategroup = None
+
+% set span_all = 5
+
+<table class='tNormal'>
+	% if mode == 'forum'
+	<tr>
+		<td class='tHeaderLarge'>
+		</td>
+		<td colspan='{{span_all - 1}}' class='tHeaderLarge'>
+			<div class='paginationHeader'>
+				% if pagination.pages == 0
+					No threads in this forum.
+				% elif pagination.pages == 1
+					Showing all threads.
+				% else
+					Showing {{threads|length}} of {{pagination.total}} threads.
+				% endif
+			</div>
+
+			% if pagination.pages > 1
+			{{helpers.pagination_widget(pagination, forum.url, 'inlinePagination')}}
+			% endif
+		</td>
+	</tr>
+	% endif
+
+	<tr>
+		<td class='tHeader' style='width: 24px'></td>
+		<td class='tHeader left'>Thread:</td>
+		<td class='tHeader' style='width: 15%'>Creator:</td>
+		<td class='tHeader' style='width: 10%'>Replies:</td>
+		<td class='tHeader' style='width: 20%'>Last Post:</td>
+	</tr>
+
+	% if stickies
+		% for thread, thread_read in stickies
+			<tr class='{{loop.cycle('row0', 'row1')}}'>
+				{{thread_row(thread, thread_read)}}
+			</tr>
+		% endfor
+		<tr><td class='tSeparator' colspan='{{span_all}}'></td></tr>
+	% endif
+
+	% for thread, thread_read in threads
+		% if mode == 'updated_threads'
+			% set dategroup = update_dategroup(dategroup, thread.last_post_at)
+			% if dategroup.show_now
+				<tr>
+					<td class='tSubHeader'></td>
+					<td class='tSubHeader' colspan='{{span_all - 1}}'>
+						{{dategroup.current|date}}
+					</td>
+				</tr>
+			% endif
+		% endif
+		<tr class='{{loop.cycle('row0', 'row1')}}'>
+			{{thread_row(thread, thread_read)}}
+		</tr>
+	% endfor
+
+
+	% if pagination and pagination.pages > 1 and threads|length > 5
+	<tr>
+		<td colspan='{{span_all}}' class='tFooterWithPagination'>
+			{{helpers.pagination_widget(pagination, forum.url, 'inlinePagination')}}
+		</td>
+	</tr>
+	% else
+	<tr>
+		<td colspan='{{span_all}}' class='tMiniFooter'></td>
+	</tr>
+	% endif
+</table>
+
+{% endblock %}
+

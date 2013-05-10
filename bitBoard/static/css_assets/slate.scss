@@ -1,0 +1,1022 @@
+@mixin clearfix {
+	*zoom: 1;
+	&:before, &:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin inlineBlock {
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+
+@mixin ul_reset {
+	margin: 0;
+	padding: 0;
+	li {
+		margin: 0;
+		padding: 0;
+		text-indent: 0px;
+		list-style-type: none;
+	}
+}
+
+@mixin boxShadow($shadow...) {
+	box-shadow: $shadow;
+}
+
+// Generic styles
+
+$globalHorzPadding: 12px;
+
+// Nice green: 120deg
+// Slightly grassier green: 100deg
+// Teal: 180deb
+// Tealy blue: 200deg
+// Deeper blue: 220deg
+// Nice purple: 270deg
+// Brown: 10deg
+$themeHue: 260deg;
+$linkHue: $themeHue + 180deg;
+
+$pageBG: #272727;
+
+$linkColour: hsl($linkHue, 70%, 60%);
+$hoverLinkColour: hsl($linkHue, 70%, 75%);
+
+$accentHeaderColour: hsl($themeHue, 70%, 20%);
+$paginationColour: hsl($themeHue, 60%, 20%);
+$paginationBlockColour: hsl($themeHue, 60%, 10%);
+$accentSubHeaderColour: hsl($themeHue, 40%, 13%);
+$accentSubSubHeaderColour: hsl($themeHue, 30%, 10%);
+
+$accentMinorTextColour: hsl($themeHue, 40%, 70%);
+$accentReallyMinorTextColour: hsl($themeHue, 30%, 35%);
+
+$headerBG: hsl($themeHue, 20%, 10%);
+$lightbarColour: hsl($themeHue, 70%, 18%);
+$lightbar3DLight: lighten($lightbarColour, 10%);
+$lightbarGradTop: lighten($lightbarColour, 15%);
+$lightbar3DShadow: darken($lightbarColour, 15%);
+$subBarBGTop: hsl($themeHue, 40%, 10%);
+$subBarBGBottom: hsl($themeHue, 40%, 15%);
+
+$dropdownColour: hsl($themeHue, 40%, 17%);
+
+@function light_3d($base, $invert) {
+	@if $invert {
+		@return darken($base, 10%);
+	} @else {
+		@return lighten($base, 10%);
+	}
+}
+
+@function shadow_3d($base, $invert) {
+	@if $invert {
+		@return lighten($base, 5%);
+	} @else {
+		@return darken($base, 15%);
+	}
+}
+
+@mixin box3d_hsplit_mid($base, $invert: false) {
+	background: $base;
+	border-top: 1px solid light_3d($base, $invert);
+	border-bottom: 1px solid shadow_3d($base, $invert);
+}
+
+@mixin box3d_hsplit_left($base, $invert: false) {
+	@include box3d_hsplit_mid($base, $invert);
+	border-left: 1px solid light_3d($base, $invert);
+}
+
+@mixin box3d_hsplit_right($base, $invert: false) {
+	@include box3d_hsplit_mid($base, $invert);
+	border-right: 1px solid shadow_3d($base, $invert);
+}
+
+@mixin box3d($base, $invert: false) {
+	@include box3d_hsplit_left($base, $invert);
+	@include box3d_hsplit_right($base, $invert);
+}
+
+// This makes the stretchy footer work
+html, body { height: 100%; }
+
+body {
+	background: $pageBG;
+	color: #eee;
+}
+
+a {
+	color: $linkColour;
+	//font-weight: bold;
+	text-decoration: none;
+
+	&:hover {
+		color: $hoverLinkColour;
+		text-decoration: underline;
+	}
+}
+
+.left { text-align: left !important; }
+.center { text-align: center !important; }
+.right { text-align: right !important; }
+
+//hr
+.thin {
+	margin: 6px 0;
+}
+
+#main_wrapper {
+	padding: 8px $globalHorzPadding 24px;
+}
+
+#main_header {
+	background: $headerBG;
+	background-image: linear-gradient($headerBG, lighten($headerBG, 5%));
+}
+
+#header_titlebar, #header_lightbar, .sub_bar {
+	@include clearfix;
+}
+
+#header_title {
+	padding: 6px $globalHorzPadding;
+	font-size: 123.1%;
+	font-weight: bold;
+	float: left;
+}
+
+#header_lightbar {
+	padding: 6px $globalHorzPadding;
+
+	font-size: 93%;
+
+	border-top: 1px solid $lightbar3DLight;
+	background: $lightbarColour;
+	background-image: linear-gradient(to bottom, $lightbarGradTop, $lightbarColour);
+	border-bottom: 1px solid $lightbar3DShadow;
+	@include boxShadow(inset 0px 1px 1px lighten($lightbarGradTop, 22%));
+}
+
+#header_board_stats {
+	float: left;
+	font-size: 70%;
+	line-height: 100%;
+	width: 20%;
+	text-align: left;
+}
+
+
+
+@mixin headerNavTopLevelHover {
+	border-top: 1px solid $lightbar3DShadow;
+	border-left: 1px solid $lightbar3DShadow;
+	background: lighten($lightbarColour, 10%);
+	background-image: linear-gradient($lightbarColour, lighten($lightbarColour, 10%));
+	@include boxShadow(inset 0px 1px 1px darken($lightbarColour, 5%));
+}
+
+#header_nav {
+	text-align: center;
+	& > a, & > .dropdownContainer > a {
+		color: hsl($themeHue, 70%, 85%);
+		text-shadow: 0px 1px 0px hsl($themeHue, 70%, 5%);
+		padding: 3px 9px;
+		border-left: 1px solid $lightbarColour;
+		&:hover {
+			@include headerNavTopLevelHover;
+		}
+	}
+	.selected, & > .dropdownContainer:hover > a {
+		@include headerNavTopLevelHover;
+	}
+}
+#headerUserBar {
+	float: right;
+	width: 20%;
+	text-align: right;
+	& > a {
+		margin-left: 12px;
+	}
+}
+
+#header_online_users {
+	font-size: 77%;
+	float: right;
+	padding: 6px $globalHorzPadding;
+}
+
+.sub_bar {
+	padding: 6px $globalHorzPadding;
+	font-size: 85%;
+	a { font-weight: normal; }
+}
+#main_header > .sub_bar {
+	background-image: linear-gradient(to bottom, $subBarBGTop, $subBarBGBottom);
+	border-bottom: 1px solid $lightbar3DShadow;
+	@include boxShadow(
+		inset 0px 1px 1px #000,
+		0px 1px 2px hsl($themeHue, 20%, 10%)
+		);
+}
+#main_footer > .sub_bar {
+	border-top: 1px solid $lightbar3DLight;
+	border-bottom: 1px solid $lightbarColour;
+}
+#footer_info {
+	padding-top: 8px;
+	text-align: center;
+	font-size: 70%;
+	color: $accentReallyMinorTextColour;
+	a { color: lighten($accentReallyMinorTextColour, 20%); }
+}
+
+#wrap_all_but_footer {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -4em;
+}
+#footer_pusher, #main_footer {
+	height: 4em;
+}
+#main_footer {
+	background: $headerBG;
+	overflow: hidden;
+}
+
+
+
+.breadcrumbs { float: left; }
+.crumbFocus { font-weight: bold; }
+.page_links, .sbCentreLinks {
+	@include ul_reset;
+	li {
+		@include inlineBlock;
+		padding: 0 8px;
+		border-left: 1px solid $lightbarColour;
+
+		&:first-child {
+			border-left: 0;
+		}
+	}
+}
+.pageLinksNotALink {
+	color: hsl($themeHue, 20%, 50%);
+}
+.page_links {
+	float: right;
+	margin-right: -8px;
+}
+// http://matthewjamestaylor.com/blog/beautiful-css-centered-menus-no-hacks-full-cross-browser-support
+.sbCentreLinks {
+	position: relative;
+	left: 50%;
+
+	@include inlineBlock;
+	margin: 0 auto;
+
+	li {
+		position: relative;
+		left: -50%;
+	}
+	li:first-child {
+		border-left: 0;
+	}
+}
+
+
+// FLASH MESSAGES
+$flashHighlight: hsl(100deg, 50%, 25%);
+$flashColour: hsl(100deg, 50%, 15%);
+$flashGradTop: hsl(100deg, 50%, 20%);
+$flashGradBottom: hsl(100deg, 50%, 11%);
+.flash, .flashToast {
+	text-align: center;
+	padding: 4px 8px;
+
+
+	@include box3d($flashColour);
+	background: linear-gradient(to bottom, $flashGradTop, $flashGradBottom);
+	@include boxShadow(0px 1px 3px #181818, inset 0px 1px 5px $flashHighlight);
+}
+.flash {
+	width: 70%;
+	margin: 0 auto 8px;
+}
+
+.flashToast {
+	z-index: 300;
+	position: fixed;
+	left: 20%;
+	right: 20%;
+	bottom: 20px;
+	opacity: 0.7;
+	//@include box3d(rgba($flashColour, 0.7));
+}
+
+
+
+
+
+.dropdownContainer {
+	position: relative;
+	z-index: 1000;
+}
+.dropdownContainer.inline {
+	@include inlineBlock;
+}
+
+.dropdownLeft { left: -99999px; }
+.dropdownRight { right: 99999px; }
+.dropdownContainer:hover > .dropdownLeft { left: 0px; }
+.dropdownContainer:hover > .dropdownRight { right: 0px; }
+
+
+.dropdownLeft, .dropdownRight {
+	@include box3d($dropdownColour);
+	@include boxShadow(
+		0px 1px 2px #111
+		// inset 0px 1px 3px lighten($dropdownColour, 10%)
+		);
+
+	z-index: 50;
+	padding: 4px;
+	margin: 0;
+	min-width: 160px;
+	list-style: none;
+	position: absolute;
+
+	text-align: left;
+
+	a {
+		display: block;
+		padding: 1px 5px;
+		color: hsl($themeHue, 70%, 80%);
+
+		&:hover {
+			background: lighten($lightbarColour, 5%);
+			text-decoration: none;
+			@include boxShadow(inset 0px 1px 2px darken($lightbarColour, 12%));
+		}
+	}
+}
+
+
+
+
+.tNormal {
+	border-collapse: separate;
+	*border-collapse: collapse;
+	width: 100%;
+	@include boxShadow(0px 1px 1px #111);
+}
+
+// IE7 HACK
+td { *position: relative; }
+
+
+.tHeaderLarge {
+	font-size: 93%;
+	padding: 2px;
+	text-align: center;
+
+	text-shadow: 0px 1px 1px darken($accentHeaderColour, 30%);
+	@include box3d($accentHeaderColour);
+	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderColour, 35%));
+	background-image: linear-gradient(lighten($accentHeaderColour, 15%), $accentHeaderColour);
+}
+
+.tHeader {
+	padding: 3px 8px;
+	font-size: 77%;
+	color: $accentMinorTextColour;
+	@include box3d($accentSubHeaderColour);
+	@include boxShadow(inset 0px 1px 1px lighten($accentSubHeaderColour, 5%));
+	background-image: linear-gradient($accentSubHeaderColour, lighten($accentSubHeaderColour, 5%));
+	text-align: center;
+}
+
+.tSubHeader {
+	padding: 2px 8px;
+	font-size: 77%;
+	color: darken($accentMinorTextColour, 10%);
+	@include box3d($accentSubSubHeaderColour);
+	text-align: left;
+}
+
+.tSeparator {
+	@include box3d(lighten($accentSubHeaderColour, 5%));
+	height: 3px;
+}
+
+.tStd {
+	@include box3d(#1e1e1e);
+	padding: 4px 8px;
+}
+
+@mixin cellAlt {
+	background: #151515;
+}
+
+
+.tMiniFooter {
+	@include box3d($accentSubHeaderColour);
+	height: 3px;
+}
+
+.tFooterWithPagination {
+	@include box3d($accentSubHeaderColour);
+	// @include boxShadow(inset 0px 1px 5px lighten($accentSubHeaderColour, 10%));
+	@include boxShadow(inset 0px 1px 1px lighten($accentSubHeaderColour, 20%));
+	background-image: linear-gradient(lighten($accentSubHeaderColour, 10%), $accentSubHeaderColour);
+	font-size: 93%;
+	padding: 3px;
+}
+
+.tWideForm {
+	width: 95%;
+	margin: 0 auto;
+}
+.tForm75 {
+	width: 75%;
+	margin: 0 auto;
+}
+.tMidForm {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.tFormTitle {
+	@extend .tHeaderLarge;
+}
+.tFormSubTitle {
+	@extend .tHeader;
+	font-size: 85%;
+	text-align: center;
+}
+
+.tFormFooter {
+	@extend .tFormSubTitle;
+	& > input, & > button {
+		margin: 4px 0 6px;
+	}
+}
+
+.tFormLabel {
+	font-size: 93%;
+	min-width: 120px;
+	width: 15%;
+	vertical-align: top;
+}
+.tFormUnilabel {
+	font-size: 93%;
+	color: #ccc;
+}
+.tFormWideLabels .tFormLabel {
+	min-width: 220px;
+}
+.tFormLabel, .tFormField, .tFormUnifield, .tFormUnilabel {
+	@extend .tStd;
+}
+.tFormLabelExtra {
+	font-size: 77%;
+	color: #999;
+	padding-top: 3px;
+	margin-top: 3px;
+	border-top: 1px dotted #444;
+
+	& > p {
+		margin: 0 0 1em 0;
+	}
+}
+
+.tFormField > textarea,
+.tFormField > input[type='text'],
+.tFormField > input[type='password'] {
+	width: 98%;
+}
+.tFormFieldError, .tAjaxFormResult {
+	@include box3d(#411);
+}
+
+.tFormError, .tAjaxFormResult {
+	font-size: 85%;
+	color: #fcc;
+}
+.tFormError {
+	display: block;
+}
+.tAjaxFormResult {
+	@extend .tStd;
+}
+
+.tFormRequired {
+	color: hsl(0deg, 100%, 40%);
+}
+
+.tFormError {
+	padding-bottom: 8px;
+}
+
+.tAjaxFormResult {
+	display: none;
+}
+
+
+.inlinePostPreview {
+	height: 200px;
+	overflow: scroll;
+	border: 1px solid #000;
+	margin: 3px;
+	padding: 6px;
+}
+
+
+// PAGINATION
+.paginationBlockAlone {
+	//@extend .tHeaderLarge;
+	font-size: 93%;
+	padding: 2px;
+
+	@include clearfix;
+	margin-top: 10px;
+
+	// @include box3d($paginationBlockColour);
+	// background-image: linear-gradient(lighten($paginationBlockColour, 10%), $paginationBlockColour);
+	// @include boxShadow(
+	// 	inset 0px 1px 1px lighten($paginationBlockColour, 20%),
+	// 	0px 1px 3px #000
+	// 	);
+
+	@include box3d(#1a1a1a);
+	@include boxShadow(0px 1px 4px #111);
+
+	& > .paginationHeader {
+		color: #aaa;
+	}
+}
+
+// Basic pagination styles
+.paginationHeader {
+	padding: 3px 6px;
+	font-size: 85%;
+	float: left;
+}
+.inlinePagination {
+	float: right;
+	padding-right: 3px;
+	& > a, & > span {
+		float: left;
+		padding: 1px 6px;
+		margin: 1px 0px 1px 0px;
+		text-decoration: none;
+	}
+
+	& > span {
+		cursor: default;
+	}
+}
+
+.tNormal .inlinePagination {
+	& > a, & > span {
+		background: $paginationColour;
+		background-image: linear-gradient(to bottom,
+			lighten($paginationColour, 10%),
+			darken($paginationColour, 10%));
+		color: hsl($themeHue, 40%, 70%);
+		@include boxShadow(inset 0px 1px 2px darken($paginationColour, 18%));
+	}
+
+	& > a:hover {
+		background: lighten($paginationColour, 10%);
+		background-image: linear-gradient(to bottom,
+			lighten($paginationColour, 20%),
+			darken($paginationColour, 10%));
+	}
+	& > .pgCurrent {
+		background: $accentSubSubHeaderColour;
+		background-image: linear-gradient(to bottom,
+			$accentSubSubHeaderColour,
+			lighten($accentSubSubHeaderColour, 20%));
+	}
+	& > .pgFiller {
+		background: transparent;
+		@include boxShadow(none);
+	}
+}
+
+.paginationBlockAlone .inlinePagination {
+	& > a, & > span {
+		margin-right: 0;
+		background: #393939;
+		background-image: linear-gradient(to bottom, #444, #2a2a2a);
+		color: #ccc;
+		@include boxShadow(inset 0px 1px 3px #666);
+	}
+
+	& > a:hover {
+		background: #555;
+		background-image: linear-gradient(to bottom, #666, #4a4a4a);
+		@include boxShadow(inset 0px 1px 3px #999);
+	}
+	& > .pgCurrent {
+		background: #444;
+		background-image: linear-gradient(to bottom, #222, #494949);
+		@include boxShadow(inset 0px 1px 2px #151515);
+		color: #888;
+	}
+	& > .pgFiller {
+		background: transparent;
+		@include boxShadow(none);
+	}
+}
+
+
+// SIDEBAR PAGES
+$sidebarBG: #1e1e1e;
+#pageWithSidebar {
+	width: 100%;
+}
+#pwsSidebar {
+	width: 20%;
+	min-width: 150px;
+	vertical-align: top;
+}
+#pwsContent {
+	padding-left: 12px;
+	vertical-align: top;
+}
+
+$pwslSat: 40%;
+$pwslHoverBG: #2b2b2b;
+$pwslSelBG: hsl($themeHue, $pwslSat, 25%);
+.pwsSidebarHeading {
+	padding: 4px 4px 3px 10px;
+	margin-top: 12px;
+	font-size: 77%;
+
+	color: #ddd;
+	text-shadow: 0px 1px 1px #000;
+	@include box3d($accentHeaderColour);
+
+	border-radius: 5px 5px 0 0;
+	background: hsl($themeHue, 40%, 18%);
+	background: linear-gradient(
+		hsl($themeHue, 70%, 23%),
+		hsl($themeHue, 70%, 10%));
+	border: 1px solid #111;
+	@include boxShadow(inset 0px 1px 1px hsl($themeHue, 70%, 35%));
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+.pwsSidebarSection {
+	padding: 4px 4px 1px;
+	background: $sidebarBG;
+	margin-bottom: 8px;
+	border-radius: 0 0 5px 5px;
+}
+#pwsSidebar a {
+	display: block;
+	margin-bottom: 4px;
+	padding: 2px 50px 2px 7px;
+	color: hsl($themeHue, 40%, 60%);
+	font-size: 85%;
+
+	border-radius: 3px;
+
+
+	position: relative;
+	overflow: hidden;
+
+	&:after {
+		content: '';
+		display: block;
+
+		position: absolute;
+		top: 50%;
+		margin-top: -50px;
+		right: 0;
+		width: 0;
+
+		border-left: 50px solid $sidebarBG;
+		border-top: 50px solid $sidebarBG;
+		border-bottom: 50px solid $sidebarBG;
+	}
+
+	&:hover {
+		background: $pwslHoverBG;
+		color: #fff;
+		text-decoration: none;
+		&:after {
+			border-left: 50px solid $pwslHoverBG;
+		}
+	}
+	&.selected {
+		background: $pwslSelBG;
+		color: #fff;
+		&:after {
+			border-left: 50px solid $pwslSelBG;
+		}
+	}
+}
+
+
+
+// FORUM INDEX
+
+.fiDescription { font-size: 85%; }
+
+.fiCounts {
+	font-size: 77%;
+	text-align: center;
+	@include cellAlt;
+}
+
+.fiLastPost {
+	font-size: 77%;
+}
+
+
+// FORUM VIEW
+
+.threadListThreadLink {
+	font-size: 85%;
+	display: block;
+}
+.threadStickyNote {
+	color: hsl($themeHue, 40%, 70%);
+	font-weight: bold;
+}
+.threadSubtitle {
+	padding-top: 4px;
+	display: block;
+	color: #ddd;
+	font-size: 77%;
+}
+.threadListCreator {
+	text-align: center;
+	@include cellAlt;
+}
+.threadListPostCount {
+	@include cellAlt;
+	text-align: center;
+}
+.threadListLastPost {
+	font-size: 77%;
+}
+
+.threadListCrumbsSubtitle {
+	font-style: italic;
+}
+
+
+.threadSubtitleWithForumRef {
+	color: #ddd;
+	font-size: 77%;
+	&:after {
+		content: ' -';
+	}
+}
+.threadListForumRef {
+	font-size: 77%;
+	& > a {
+		color: #999;
+		font-style: italic;
+	}
+}
+
+.threadListPageJumpTitle {
+	padding: 0px 4px;
+}
+.threadListPageJump {
+	float: right;
+	font-size: 77%;
+	padding-top: 4px;
+	padding-left: 15px;
+	color: #bbb;
+	& > a {
+		background: #111;
+		padding: 2px 5px;
+	}
+}
+
+
+// THREADS
+$postSidebarBG: hsl($themeHue, 30%, 10%);
+
+.postSidebar {
+	vertical-align: top;
+	text-align: center;
+	width: 180px;
+	//padding: 4px;
+	padding: 0;
+
+	.avatar {
+		display: block;
+		margin: 4px auto;
+	}
+
+	.userTitle {
+		display: block;
+		font-size: 77%;
+	}
+	.groupName {
+		display: block;
+		font-size: 77%;
+		color: #ddd;
+	}
+
+	@include box3d($postSidebarBG);
+	//@include boxShadow(inset 0px 1px 3px hsl($themeHue, 30%, 19%));
+}
+
+.postSidebarTopBit {
+	border-bottom: 1px dotted $accentHeaderColour;
+	padding: 4px 6px 8px 6px;
+	background-image: linear-gradient(to bottom, lighten($postSidebarBG, 3%), $postSidebarBG);
+}
+
+.postSidebarInfo {
+	margin: 6px auto;
+	font-size: 77%;
+	.label {
+		text-align: right;
+		padding-right: 6px;
+		color: darken($accentMinorTextColour, 20%);
+		width: 1px; //hack
+	}
+	.value {
+		text-align: left;
+	}
+}
+
+.postDate, .postRevisions, .postOptions {
+	font-size: 77%;
+	padding: 4px 8px;
+	color: #aaa;
+}
+
+.postDate {
+	@include box3d_hsplit_left(#181818);
+	height: 1px; // just a hacky way to make it the minimum height
+}
+.postRevisions {
+	@include box3d_hsplit_mid(#181818);
+	color: #777;
+}
+.postOptions {
+	@include box3d_hsplit_right(#181818);
+	text-align: right;
+	& > a {
+		margin-right: 14px;
+	}
+}
+
+.postDate, .postRevisions, .postOptions {
+	background-image: linear-gradient(to bottom, #1f1f1f, #181818);
+}
+
+.postContentWrapper {
+	@include box3d(#222);
+	vertical-align: top;
+	padding: 8px 8px;
+}
+.postText {
+	font-size: 93%;
+}
+.postSignature {
+	color: #888;
+	font-size: 77%;
+	padding-top: 4px;
+	margin-top: 16px;
+	border-top: 1px dotted #444;
+}
+
+.quickEdit > form > textarea {
+	width: 98%;
+}
+
+.quickEditBar {
+	padding-top: 8px;
+	font-size: 85%;
+}
+
+
+#thQuickReplyTable {
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
+
+
+// POST STYLE EDITOR
+
+.js .epSimplePostStyleOptions,
+.js .epAdvancedPostStyleOptions {
+	display: none;
+}
+
+.no-js .epSimplePostStyleOptions,
+.no-js .epAdvancedPostStyleOptions,
+.js.epSimplePostStyle .epSimplePostStyleOptions,
+.js.epAdvancedPostStyle .epAdvancedPostStyleOptions {
+	display: table-row;
+}
+
+
+
+// FORMS
+
+textarea, input, button {
+	color: #eee;
+}
+
+textarea, input[type='text'], input[type='password'] {
+	@include boxShadow(inset 0px 1px 2px #111);
+	border: 1px solid #555;
+	background: #333;
+	padding: 4px;
+
+	font-size: 85%;
+
+	&:hover {
+		border: 1px solid #888;
+	}
+
+	&:focus, &:active {
+		border: 1px solid #999;
+		background: #484848;
+	}
+}
+
+button, input[type='submit'] {
+	@include box3d(#444);
+	color: #ccc;
+	padding: 3px 9px;
+	@include boxShadow(0px 1px 1px #000, inset 0px 1px 2px #555);
+
+	&:hover {
+		@include box3d(#555);
+	}
+
+	&:active {
+		@include box3d(#333, $invert: true);
+		padding-top: 5px;
+		padding-bottom: 1px;
+	}
+}
+
+
+// OVERLAYS
+
+#overlayWrapper {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 4000;
+	//z-index: 100;
+}
+#overlayBG {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #000;
+	filter: alpha(opacity=60);
+	zoom: 1; // ARGH IE
+	opacity: 0.6;
+}
+.overlay {
+	position: relative;
+	display: none;
+	z-index: 5000;
+	margin: 48px auto;
+	@include boxShadow(0px 2px 4px #000);
+}
+
+
+#workingOverlay {
+	display: none;
+	position: fixed;
+	text-align: center;
+	right: 30px;
+	top: 30px;
+	font-size: 120%;
+	padding: 6px 12px;
+	z-index: 10000;
+	@include box3d(rgba(17, 17, 17, 0.7));
+}

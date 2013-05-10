@@ -1,0 +1,16 @@
+{% extends 'wiki_base.html' %}
+{% block title %}Page Not Found{% endblock %}
+
+{% block body %}
+<h1 class='wikiPageHeader'>{{page_name}}</h1>
+
+<p>
+	This wiki page doesn't exist.
+	% if g.effective_group.can_create_wiki_pages
+	Would you like to <a href='/wiki/{{page_name}}/edit'>create it</a>?
+	% else
+	Registered and logged in users can create and edit pages.
+	% endif
+</p>
+
+{% endblock %}

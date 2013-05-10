@@ -1,0 +1,71 @@
+% set mode = 'edit_profile'
+{% extends "userpanel_base.html" %}
+
+% block title
+Edit Profile
+% endblock
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, form_field_table_cell, csrf_token_field %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tForm75 tFormWideLabels'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				Edit Profile
+			</td>
+		</tr>
+
+		% if is_admin
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				Administration Options
+			</td>
+		</tr>
+		{{form_field_table_row(form, 'name')}}
+		{{form_field_table_row(form, 'group')}}
+		{{form_field_table_row(form, 'thread_count')}}
+		{{form_field_table_row(form, 'post_count')}}
+		% endif
+
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				About Me
+			</td>
+		</tr>
+		% call form_field_table_row(form, 'title')
+		Appears below your name next to posts.
+		% endcall
+
+		{{form_field_table_row(form, 'gender')}}
+		{{form_field_table_row(form, 'location')}}
+		{{form_field_table_row(form, 'website')}}
+
+		<tr>
+			<td class='tFormLabel' rowspan='2'>
+				{{form.birthday.label}}
+				<div class='tFormLabelExtra'>
+					Enter this way: YYYY-MM-DD
+					<br>
+					(example: 2013-04-28)
+				</div>
+			</td>
+			{{form_field_table_cell(form, 'birthday_mode')}}
+		</tr>
+		<tr>
+			{{form_field_table_cell(form, 'birthday')}}
+		</tr>
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='Save'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "forum_base.html" %}
+
+{% block title %}{{final_crumb}}{% endblock %}
+
+{% block sub_bar %}
+% if crumbs_type
+	{% call create_sub_bar() %}
+
+	{% call sub_bar_crumbs() %}
+		% if crumbs_type == 'thread'
+		{{base_thread_crumbs(forum, thread)}}
+		&raquo;
+		% endif
+		<a href='{{url}}'>{{final_crumb}}</a>
+	{% endcall %}
+
+	{% endcall %}
+% endif
+{% endblock %}
+
+
+% from '_form_helpers.html' import csrf_token_field
+
+{% block body %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+	{{form.next}}
+
+	<table class='tNormal tWideForm'>
+		<tr>
+			<td class='tFormTitle'>
+				Confirm
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormSubTitle'>
+				{{message}}
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormFooter'>
+				<input type='submit' value='{{final_crumb}}'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+
+{% endblock %}

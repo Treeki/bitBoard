@@ -1,0 +1,217 @@
+{% import '_helpers.html' as helpers -%}
+<!DOCTYPE html>
+<html class='no-js'>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>{%block title%}{%endblock%} - Treeki's Dev Board 2.5</title>
+
+		{% assets "css_all" %}
+		<link href="{{ASSET_URL}}" media="screen, projection" rel="stylesheet" type="text/css" id='blah'>
+		{% endassets %}
+
+		{% from "_form_helpers.html" import form_field_table_row, csrf_token_field %}
+
+		<script src="/static/vendor/modernizr-2.6.2.min.js"></script>
+	</head>
+	<body>
+		<div id='wrap_all_but_footer'>
+			<header id='main_header'>
+				<div id='header_titlebar'>
+					<div id='header_title'>
+						Treeki's Dev Board 2.5
+					</div>
+					<div id='header_online_users'>
+						<b>Online Users:</b>
+						% set online_users = get_online_users()
+						% if not online_users
+						Nobody.
+						% else
+							% for user in online_users
+								{{user.link}}{% if not loop.last %},{% endif %}
+							% endfor
+						% endif
+					</div>
+				</div>
+
+				<div id='header_lightbar'>
+					<div id='header_board_stats'>
+						{{current_time()|date_and_time}}
+						<br>
+						<b>{{g.view_count}}</b> views
+					</div>
+
+
+					<div id='headerUserBar'>
+
+						{% if g.user %}
+						Logged in as
+						<div class='inline dropdownContainer'>
+							{{g.user.name}}
+							<ul class='dropdownRight'>
+								<li><a href='{{g.user.url}}'>My Profile</a></li>
+								<li><a href='{{url_for('edit_settings')}}'>Edit Settings</a></li>
+								<li><a href='{{url_for('logout')}}'>Log Out</a></li>
+							</ul>
+						</div>
+						{% else %}
+						<a href='{{url_for('login')}}' id='loginLink'>Log In</a>
+						<a href='{{url_for('register')}}'>Register</a>
+						{% endif %}
+
+					</div>
+
+
+					<nav id='header_nav'>
+						{% set forum_menu = (
+						(url_for('updated_threads'), 'updated_threads', 'Updated Threads'),
+						(url_for('latest_posts'), 'latest_posts', 'Latest Posts'),
+						) -%}
+						{% set navbar = (
+						(url_for('index'), 'index', 'Home', None),
+						(url_for('forum_index'), 'forum', 'Forum', forum_menu),
+						(url_for('wiki_main'), 'wiki', 'Wiki', None),
+						(url_for('user_list'), 'users', 'Member List', None),
+						) %}
+						% for href, id, caption, menu in navbar
+							% if menu is not none
+							<div class='inline dropdownContainer'>
+							% endif
+								<a href='{{href}}'{%if id==active_page%} class='selected'{%endif%}>{{caption}}</a>
+							% if menu is not none
+								<ul class='dropdownLeft'>
+									% for i_href, i_id, i_caption in menu
+									<li>
+										<a href='{{i_href}}'{%if i_id==active_page%} class='selected'{%endif%}>{{i_caption}}</a>
+									</li>
+									% endfor
+								</ul>
+							</div>
+							% endif
+						% endfor
+					</nav>
+				</div>
+
+				{% macro create_sub_bar() %}
+				<div class='sub_bar'>
+					{{ caller() }}
+				</div>
+				{% endmacro %}
+				{% macro sub_bar_crumbs() %}
+				<div class='breadcrumbs'>
+					{{ caller() }}
+				</div>
+				{% endmacro %}
+
+				{% block sub_bar %}{% endblock %}
+			</header>
+
+
+			<div id='main_wrapper'>
+
+				{% with messages = get_flashed_messages() %}
+				{% if messages %}
+				<div class='flashes'>
+					{% for message in messages %}
+					{% set clsNames = '' %}
+					{% if loop.first %}{% set clsNames = clsNames + ' first' %}{% endif %}
+					{% if loop.last %}{% set clsNames = clsNames + ' last' %}{% endif %}
+					<div class='flash{{clsNames}}'>
+						{{message}}
+					</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+				{% endwith %}
+
+				{% block base_body %}{% endblock %}
+			</div>
+			<div id='footer_pusher'></div>
+		</div>
+
+		<footer id='main_footer'>
+			{{ self.sub_bar() }}
+			<div id='footer_info'>
+				Powered by bitBoard
+				&middot;
+				&copy; 2013 Treeki
+				&middot;
+				__BIT_FOOTER_INFO__
+			</div>
+		</footer>
+
+		<div id='overlayWrapper'>
+			% if not g.user and not no_login_overlay
+			<form action='{{url_for('login')}}' method='post'>
+				% set login_form = get_global_login_form()
+				{{csrf_token_field()}}
+
+				<table id='loginFormOverlay' class='overlay tNormal tMidForm'>
+					<tr>
+						<td colspan='2' class='tFormTitle'>
+							Log In
+						</td>
+					</tr>
+					<tr>
+						<td colspan='2' class='tFormSubTitle'>
+							Don't have an account?
+							Click <a href='{{url_for('register')}}'>here</a> to sign up.
+						</td>
+					</tr>
+
+					{{form_field_table_row(login_form, 'name')}}
+					{{form_field_table_row(login_form, 'password')}}
+
+					<tr>
+						<td colspan='2' class='tFormFooter'>
+							<input type='submit' name='login_submit' value='Log in'>
+						</td>
+					</tr>
+				</table>
+
+			</form>
+			% endif
+
+			<table id='confirmOverlay' class='overlay tNormal tMidForm'>
+				<tr>
+					<td class='tFormTitle'>
+						Confirm
+					</td>
+				</tr>
+				<tr>
+					<td class='tFormUnifield' id='confirmOverlayMessage'>
+					</td>
+				</tr>
+				<tr>
+					<td class='tFormFooter'>
+						<button id='confirmOverlayButton'>Confirm</button>
+					</td>
+				</tr>
+			</table>
+
+			<div id='overlayBG'></div>
+		</div>
+
+		<div id='workingOverlay'>
+			<img src='/static/loading.gif' alt='Loading...'>
+			<br>
+			Loading...
+		</div>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="/static/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+		<script type='text/javascript' src='{{url_for('static', filename='bits.js')}}'></script>
+		<script type='text/javascript'>
+		var csrfToken = '{{csrf_token()}}';
+		</script>
+		{% block scripts %}{% endblock %}
+
+		<!--[if lte IE 7]>
+		<script>
+			$(document).ready(function() {
+				$('td:empty').html('<span style=\'zoom:1;font-size:1px\'></span>');
+			});
+		</script>
+		<![endif]-->
+	</body>
+</html>

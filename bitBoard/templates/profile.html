@@ -1,0 +1,30 @@
+{% extends "other_base.html" %}
+{% set active_page = 'users' %}
+
+{% block title %}Profile: {{user.name}}{% endblock %}
+
+{% block body %}
+<table class='tNormal'>
+	<tr>
+		<td colspan='2' class='tHeaderLarge'>
+			{{user.name}}'s profile
+		</td>
+	</tr>
+	<tr>
+		<td class='tStd tProfileField'>Group:</td>
+		<td class='tStd tProfileValue'>{{user.group.name}}</td>
+	</tr>
+	<tr>
+		<td class='tStd tProfileField'>Posts:</td>
+		<td class='tStd tProfileValue'>{{user.post_count|pluralize('post')}}, {{user.thread_count|pluralize('thread')}}</td>
+	</tr>
+	<tr>
+		<td class='tStd tProfileField'>Joined:</td>
+		<td class='tStd tProfileValue'>{{user.created_at|date}}</td>
+	</tr>
+	<tr>
+		<td class='tStd tProfileField'>Last activity:</td>
+		<td class='tStd tProfileValue'>{{user.last_active_at|date}}</td>
+	</tr>
+</table>
+{% endblock %}

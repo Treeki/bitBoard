@@ -1,0 +1,45 @@
+{% extends "forum_base.html" %}
+
+{% block title %}Latest Posts{% endblock %}
+
+{% block body %}
+{% set dategroup = None %}
+
+<table class='styled fullWidth rowHighlights'>
+	<tr class='header'>
+		<td style='width: 15%'>Date:</td>
+		<td style='text-align:left'>Thread:</td>
+		<td style='width: 20%'>Poster:</td>
+	</tr>
+	{% for post in posts %}
+	{% set dategroup = update_dategroup(dategroup, post.created_at) %}
+	{% if dategroup.show_now %}
+	<tr class='subheader'>
+		<td></td>
+		<td colspan='2'>
+			{{dategroup.current|date}}
+		</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td class='postListDateTime'>
+			<span class='postListTime'>{{post.created_at|time}}</span>
+			<br>
+			<span class='postListDate'>{{post.created_at|date}}</span>
+		</td>
+		<td class='postListThread'>
+			{% set thread = post.thread %}
+
+			<a href='{{thread.url}}' class='threadListThreadLink'>{{thread.title}}</a>
+			<br>
+			{% if thread.subtitle %}<span class='threadSubtitleWithForumRef'>{{thread.subtitle}}</span>{% endif %}
+			<span class='threadListForumRef'><a href='{{thread.forum.url}}'>{{thread.forum.name}}</a></span>
+		</td>
+		<td class='postListCreator'>
+			{{post.creator.link}}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
+

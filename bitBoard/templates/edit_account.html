@@ -1,0 +1,56 @@
+% set mode = 'edit_account'
+{% extends "userpanel_base.html" %}
+
+% block title
+Edit Account
+% endblock
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, form_field_table_cell, csrf_token_field %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tForm75 tFormWideLabels'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				Account Settings
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				As a security measure, please enter your current password.
+			</td>
+		</tr>
+		% if user != g.user
+		<tr>
+			<td colspan='2' class='tFormUnilabel'>
+				(You are currently editing someone else's
+				account. You should enter your <i>own</i> password, not the one
+				belonging to this account.)
+			</td>
+		</tr>
+		% endif
+		{{form_field_table_row(form, 'current_password')}}
+
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				New Password
+			</td>
+		</tr>
+
+		{{form_field_table_row(form, 'password')}}
+		{{form_field_table_row(form, 'confirm_password')}}
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='Save'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+{% endblock %}

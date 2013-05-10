@@ -1,0 +1,64 @@
+{% extends "forum_base.html" %}
+
+{% block title %}Delete Post{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+	{{base_thread_crumbs(forum, thread)}}
+	&raquo;
+	<a href='{{url}}'>Delete Post</a>
+{% endcall %}
+
+{% endcall %}
+{% endblock %}
+
+
+% from '_form_helpers.html' import csrf_token_field
+
+% set author = post.creator
+% set is_me = (g.user == author)
+
+{% block body %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tWideForm'>
+		<tr>
+			<td class='tFormTitle'>
+				Confirm Post Deletion
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormSubTitle'>
+				Are you sure you want to delete
+				% if is_me
+				your post
+				% else
+				a post by {{author.link}}
+				% endif
+				in "<i>{{thread.title}}</i>"? You can review it below:
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormUnifield'>
+				<div class='inlinePostPreview'>
+					{{parse_text(post.current_version.content)}}
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td class='tFormFooter'>
+				<input type='submit' value='Delete Post'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+
+{% endblock %}

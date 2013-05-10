@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% set active_page = 'userpanel' %}
+
+{% block base_body %}
+{%
+	set edit_user_links = (
+		('edit_profile', 'Edit Profile'),
+		('edit_post_style', 'Edit Post Style'),
+		('edit_avatar', 'Change Avatar'),
+		('edit_account', 'Change Password'),
+	)
+%}
+<table id='pageWithSidebar'>
+	<tr>
+		<td id='pwsSidebar'>
+			<div class='pwsSidebarHeading'>{{user.name}}</div>
+			<div class='pwsSidebarSection'>
+				<a href='{{user.url}}'>View Profile</a>
+				% if user == g.user
+				<a href='{{url_for('private_messages')}}'{%if mode=='private_messages'%} class='selected'{%endif%}>Private Messages</a>
+				% endif
+				<a href='{{url_for('logout')}}'>Log Out</a>
+
+			</div>
+
+			<div class='pwsSidebarHeading'>Settings</div>
+
+			<div class='pwsSidebarSection'>
+				% for link, title in edit_user_links
+				<a href='{{url_for_edit_user(link)}}'{%if mode==link%}class='selected'{%endif%}>{{title}}</a>
+				% endfor
+			</div>
+		</td>
+		<td id='pwsContent'>
+			{% block body %}{% endblock %}
+		</td>
+	</tr>
+</table>
+{% endblock %}

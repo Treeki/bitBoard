@@ -1,0 +1,128 @@
+% set forum = thread.forum
+% set mode = 'thread'
+{% extends "forum_base.html" %}
+
+
+{% block scripts %}
+{{super()}}
+<script type='text/javascript' src='{{url_for('static', filename='threadView.js')}}'></script>
+<script type='text/javascript'>
+	var replyURL = {{thread.reply_url|tojson|safe}};
+</script>
+{% endblock %}
+
+
+{% block title %}
+{{thread.title}}
+{% endblock %}
+
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+	{{base_thread_crumbs(forum, thread)}}
+{% endcall %}
+
+<ul class='page_links'>
+	% if forum and forum.can_be_moderated_by(g.user)
+	<li><a href='{{thread.sticky_url}}' class='modActionLink stickyLink' data-cls-name='stickyLink'>
+		% if thread.is_stickied
+		Unstick
+		% else
+		Stick
+		% endif
+	</a></li>
+	<li><a href='{{thread.lock_url}}' class='modActionLink lockLink' data-cls-name='lockLink'>
+		% if thread.is_locked
+		Unlock
+		% else
+		Lock
+		% endif
+	</a></li>
+	% endif
+
+	% if thread.can_be_replied_to_by(g.user)
+	<li><a href='{{thread.reply_url}}'>Post Reply</a></li>
+	% endif
+</ul>
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+
+{% macro pag_block() %}
+<div class='paginationBlockAlone'>
+	<div class='paginationHeader'>
+		% if thread.is_private
+			Users in this private conversation:
+			% for u in thread.private_users
+				{{u.link}}{% if not loop.last %},{% endif %}
+			% endfor
+			<br>
+		% endif
+
+		% if pagination.pages == 0
+			No posts in this threa... wait, what?!
+		% elif pagination.pages == 1
+			Showing all posts.
+		% else
+			Showing {{posts|length}} of {{pagination.total}} posts.
+		% endif
+	</div>
+
+	% if pagination.pages > 1
+	{{helpers.pagination_widget(pagination, thread.url, 'inlinePagination')}}
+	% endif
+</div>
+{% endmacro %}
+% set thread_pag_block = pag_block()
+{{ thread_pag_block }}
+
+% set basePostNum = ((pagination.page - 1) * pagination.per_page)
+
+<div id='postsContainer'>
+	% for post in posts
+		% set postNumber = basePostNum + loop.index
+		% include "post_box.html"
+	% endfor
+</div>
+
+
+{% if thread.can_be_replied_to_by(g.user) %}
+
+<form method='post' action='{{thread.reply_url}}' id='quickReply'>
+% from '_form_helpers.html' import csrf_token_field
+{{csrf_token_field()}}
+
+<table class='tNormal tWideForm' id='thQuickReplyTable'>
+	<tr>
+		<td class='tFormTitle'>Quick Reply</td>
+	</tr>
+	<tr>
+		<td id='quickReplyResult' class='tAjaxFormResult'></td>
+	</tr>
+	<tr>
+		<td class='tFormField'>
+			{{qr_form.content(rows=6)}}
+		</td>
+	</tr>
+	<tr>
+		<td class='tFormFooter'>
+			<input type='submit' value='Post' class='button'>
+		</td>
+	</tr>
+</table>
+
+</form>
+
+{% endif %}
+
+{{ thread_pag_block }}
+
+{% endblock %}
+
+

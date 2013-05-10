@@ -1,0 +1,100 @@
+% set mode = 'edit_post_style'
+{% extends "userpanel_base.html" %}
+
+% block title
+Edit Post Style
+% endblock
+
+{% block scripts %}
+{{super()}}
+<script type='text/javascript' src='{{url_for('static', filename='postStyle.js')}}'></script>
+{% endblock %}
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, form_field_table_cell, csrf_token_field %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tWideForm tFormWideLabels'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				Post Style
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan='2' class='tFormField'>
+				% set one, two = form.post_style
+				<table style='margin: 6px auto 10px; width:80%'>
+					<tr>
+						<td style='width:50%;vertical-align: top; padding-right: 16px'>
+							{{one()}}
+							{{one.label}}
+							<div class='tFormLabelExtra'>
+								This format is used on most forums. You can put anything you want (within reason) in your Signature, specified below, and it will appear underneath all your posts in smaller text.
+							</div>
+						</td>
+						<td style='vertical-align: top; padding-left: 16px'>
+							{{two()}}
+							{{two.label}}
+							<div class='tFormLabelExtra'>
+								If you're familiar with HTML and CSS, the Advanced mode allows you to totally customise the look of your posts. This can be as simple as a default text colour and/or font, or it can be a complete overhaul of the post box, including the sidebar.
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class='epSimplePostStyleOptions'>
+			<td colspan='2' class='tFormSubTitle'>
+				Simple Style Options
+			</td>
+		</tr>
+		% call form_field_table_row(form, 'signature', row_class='epSimplePostStyleOptions', rows=8)
+		This will appear below your posts. HTML and BBCode are permitted, but make sure it doesn't take up too much space and/or download any large images (for example, GIF animations).
+		% endcall
+
+		<tr class='epAdvancedPostStyleOptions'>
+			<td colspan='2' class='tFormSubTitle'>
+				Advanced Style Options
+			</td>
+		</tr>
+
+		<tr class='epAdvancedPostStyleOptions'>
+			<td rowspan='2' class='tFormLabel'>
+				Header &amp; Footer
+				<div class='tFormLabelExtra'>
+					<p>
+						The header and footer will automatically surround every post you make.
+						You can use this for styling your post (colours, background, etc). HTML and BBCode are permitted.
+					</p>
+					<p>
+						Linebreaks will not be automatically converted in these fields, so you
+						must insert a &lt;br&gt; tag wherever you want a new line.
+					</p>
+					<p>
+						Please be responsible with your custom styles so that you don't affect anything outside your post box. The &lt;table&gt; containing your posts has the class <b>.postByUser{{g.user.id}}</b>, which is safe to use in your CSS.
+					</p>
+				</div>
+			</td>
+			{{ form_field_table_cell(form, 'post_header', rows=8) }}
+		</tr>
+		<tr class='epAdvancedPostStyleOptions'>
+			{{ form_field_table_cell(form, 'post_footer', rows=8) }}
+		</tr>
+		<!--{{ form_field_table_row(form, 'stylesheet', rows=6) }}
+		{{ form_field_table_row(form, 'style_url') }}-->
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='Save Style'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+{% endblock %}

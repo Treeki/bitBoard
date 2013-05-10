@@ -1,0 +1,35 @@
+{% extends "other_base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+
+{% from "_form_helpers.html" import form_field_table_row %}
+
+<form method='post' action='{{url_for('register')}}'>
+	{{csrf_token_field()}}
+
+	<table class='tMidForm tNormal'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				Sign Up
+			</td>
+		</tr>
+		<tr>
+			<td colspan='2' class='tFormSubTitle'>
+				Already got an account?
+				Click <a href='{{url_for('login')}}'>here</a> to log in instead.
+			</td>
+		</tr>
+
+		{{form_field_table_row(form, 'name')}}
+		{{form_field_table_row(form, 'password')}}
+		{{form_field_table_row(form, 'confirm_password')}}
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='Create Account' class='button'>
+			</td>
+		</tr>
+	</table>
+</form>
+{% endblock %}

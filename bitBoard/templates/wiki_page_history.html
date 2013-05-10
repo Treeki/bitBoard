@@ -1,0 +1,61 @@
+{% extends 'wiki_base.html' %}
+
+{% block title %}
+History: {{page.name}}
+{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+<a href='{{url_for('wiki_main')}}'>Wiki</a>
+&raquo;
+<a href='{{page.url}}' class='crumbFocus'>{{page.name}}</a>
+&raquo;
+<a href='{{page.history_url}}'>History</a>
+{% endcall %}
+
+<ul class='page_links'>
+	% if page.can_be_edited_by(g.user)
+	<li>
+		<a href='{{page.edit_url}}'>Edit</a>
+	</li>
+	% endif
+</ul>
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+
+<table class='tNormal'>
+	<tr>
+		<td class='tHeader'>Date</td>
+		<td class='tHeader'>Delta</td>
+		<td class='tHeader'>Author</td>
+		<td class='tHeader'>Description</td>
+		% if g.show_ip_addresses
+		<td class='tHeader'>IP Address</td>
+		% endif
+	</tr>
+
+	% for revision in revisions
+	<tr>
+		<td class='tStd'>
+			<a href='{{revision.url}}'>
+				{{revision.created_at|relative_date_and_time}}
+			</a>
+		</td>
+		<td class='tStd'>{{revision.char_delta}}</td>
+		<td class='tStd'>{{revision.creator.link}}</td>
+		<td class='tStd'>{{revision.description}}</td>
+		% if g.show_ip_addresses
+		<td class='tStd'>{{revision.created_ip}}</td>
+		% endif
+	</tr>
+	% endfor
+</table>
+
+{% endblock %}

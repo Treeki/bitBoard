@@ -1,0 +1,58 @@
+{% extends "wiki_base.html" %}
+
+{% block title %}
+Edit: {{page_name}}
+{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+<a href='{{url_for('wiki_main')}}'>Wiki</a>
+&raquo;
+## Note: We can't use page.url here because page might be None
+<a href='{{url_for('wiki_page', name=page_name)}}'>{{page_name}}</a>
+&raquo;
+<a href='{{url}}'>Edit</a>
+{% endcall %}
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+
+{% from "_form_helpers.html" import
+	form_field_table_row, csrf_token_field %}
+
+<form method='post' action='{{url}}'>
+	{{csrf_token_field()}}
+
+	<table class='tNormal tWideForm'>
+		<tr>
+			<td colspan='2' class='tFormTitle'>
+				% if page
+				Edit Page
+				% else
+				Create Page
+				% endif
+			</td>
+		</tr>
+
+		{{form_field_table_row(form, 'edit_reason')}}
+
+		% call form_field_table_row(form, 'content', rows=10)
+		HTML and BBCode are permitted here.
+		% endcall
+
+		<tr>
+			<td colspan='2' class='tFormFooter'>
+				<input type='submit' value='save' class='button'>
+			</td>
+		</tr>
+	</table>
+
+</form>
+
+{% endblock %}

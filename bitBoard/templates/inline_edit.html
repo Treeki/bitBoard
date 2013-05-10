@@ -1,0 +1,13 @@
+% from '_form_helpers.html' import csrf_token_field
+<div id='quickEditPost{{post.id}}' class='quickEdit'>
+	<div id='quickEditResult{{post.id}}'></div>
+
+	<form id='quickEditForm{{post.id}}' method='post' action='{{url}}'>
+		{{csrf_token_field()}}
+		{{form.content(rows=8)}}
+		<div class='quickEditBar'>
+			<input type='submit' value='Save'>
+			<button id='cancelEdit{{post.id}}'>Cancel</button>
+		</div>
+	</form>
+</div>

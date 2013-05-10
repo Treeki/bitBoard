@@ -1,0 +1,72 @@
+{% extends "forum_base.html" %}
+
+{% block title %}Forum{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+<ul class='sbCentreLinks'>
+	<li><a href='{{url_for('updated_threads')}}'>Updated Threads</a></li>
+	<li><a href='{{url_for('latest_posts')}}'>Latest Posts</a></li>
+</ul>
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+
+% for category, forums in categories
+<table class='tNormal'>
+	<tr>
+		<td class='tHeaderLarge'>
+		</td>
+		<td class='tHeaderLarge' colspan='3'>
+			{{category.name}}
+		</td>
+	</tr>
+	<tr>
+		<td class='tHeader'></td>
+		<td class='tHeader left'>Forum:</td>
+		<td class='tHeader' style='width: 12%'>Posts:</td>
+		<td class='tHeader' style='width: 25%'>Last Post:</td>
+	</tr>
+
+	% for forum, unread_count in forums
+	<tr class='row0'>
+		<td class='tStd fiIcon'>
+			{{unread_count}}
+		</td>
+		<td class='tStd fiName'>
+			<a href='{{forum.url}}' class='fiLink'>{{forum.name}}</a>
+			<br>
+			<span class='fiDescription'>{{forum.description}}</span>
+		</td>
+		<td class='tStd fiCounts'>
+			{{forum.thread_count}} threads
+			<br>
+			{{forum.post_count}} posts
+		</td>
+		<td class='tStd fiLastPost'>
+			{% set thread = forum.last_thread %}
+			{% if not thread %}
+			Never
+			{% else %}
+			% set pURL = thread.last_post_url
+			<a href='{{pURL}}'>{{thread.last_post_at|relative_date_and_time}}</a>
+			<br>
+			in {{thread.title}}
+			<br>
+			by {{thread.last_poster.link}}
+			{% endif %}
+		</td>
+	</tr>
+	% endfor
+
+	<tr><td class='tMiniFooter' colspan='4'></td></tr>
+</table>
+% endfor
+
+{% endblock %}
+

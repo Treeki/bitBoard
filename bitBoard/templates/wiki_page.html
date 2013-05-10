@@ -1,0 +1,43 @@
+{% extends 'wiki_base.html' %}
+
+{% block title %}
+{{page.name}}
+{% endblock %}
+
+{% block sub_bar %}
+{% call create_sub_bar() %}
+
+{% call sub_bar_crumbs() %}
+<a href='{{url_for('wiki_main')}}'>Wiki</a>
+&raquo;
+<a href='{{page.url}}' class='crumbFocus'>{{page.name}}</a>
+{% endcall %}
+
+<ul class='page_links'>
+	<li class='pageLinksNotALink' title='{{revision.description}}'>
+		% if is_old_revision
+		Previous revision:
+		% else
+		Last edited:
+		% endif
+
+		{{revision.created_at|relative_date_and_time}} by {{revision.creator.link}}
+	</li>
+	% if page.can_be_edited_by(g.user)
+	<li>
+		<a href='{{page.edit_url}}'>Edit</a>
+	</li>
+	% endif
+	<li>
+		<a href='{{page.history_url}}'>History</a>
+	</li>
+</ul>
+
+{% endcall %}
+{% endblock %}
+
+
+
+{% block body %}
+{{parse_text(revision.content)}}
+{% endblock %}

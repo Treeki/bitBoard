@@ -1,0 +1,98 @@
+{% macro form_errors(form) %}
+	% if form.errors
+	<ul class='errors'>
+		% for field_name, field_errors in form.errors|dictsort if field_errors
+			% for error in field_errors
+				<li>{{form[field_name].label}}: {{error}}</li>
+			% endfor
+		% endfor
+	</ul>
+	% endif
+{% endmacro %}
+
+
+{% macro form_errors_table_cell(form, field_name, also_errors=None) %}
+	% set errors = form.errors[field_name]
+	% if also_errors
+		% if errors
+			% set errors = errors + also_errors
+		% else
+			% set errors = also_errors
+		% endif
+	% endif
+	<td class='tFormField{%if errors%} tFormFieldError{%endif%}'>
+		% if errors
+			% for error in errors
+				<span class='tFormError'>{{error}}</span>
+			% endfor
+		% endif
+		{{caller()}}
+	</td>
+{% endmacro %}
+
+{% macro form_field_table_cell(form, field_name, also_errors=None) %}
+	% set copy_kwargs = kwargs
+	% call form_errors_table_cell(form, field_name, also_errors)
+		{{form[field_name](**copy_kwargs)}}
+	% endcall
+{% endmacro %}
+
+
+{% macro form_field_table_row(form, field_name, row_class = None, also_errors = None) %}
+	% set field = form[field_name]
+	% set copy_kwargs = kwargs
+	<tr{% if row_class is not none %} class='{{row_class}}'{% endif %}>
+		<td class='tFormLabel'>
+			{{field.label}}
+			% if field.flags.required
+			<span class='tFormRequired'>*</span>
+			% endif
+			% if caller
+			<div class='tFormLabelExtra'>{{caller()}}</div>
+			% endif
+		</td>
+		% call form_errors_table_cell(form, field_name, also_errors)
+			{{field(**copy_kwargs)}}
+		% endcall
+	</tr>
+{% endmacro %}
+
+{% macro form_as_table(main_title) %}
+
+<table class='tNormal tWideForm'>
+	<tr>
+		<td colspan='2' class='tFormTitle'>
+			{{main_title}}
+		</td>
+	</tr>
+
+% for field in varargs
+
+% if field is string
+<tr>
+	<td colspan='2' class='tFormSubTitle'>
+		{{field|safe}}
+	</td>
+</tr>
+% else
+<tr class='{{loop.cycle('formRow0', 'formRow1')}}'>
+	<td class='tFormLabel'>
+		{{field.label}}
+	</td>
+	<td class='tFormField'>
+		{{field()}}
+	</td>
+</tr>
+% endif
+
+% endfor
+
+</table>
+
+{% endmacro %}
+
+
+
+{% macro csrf_token_field() %}
+<input type='hidden' name='_csrf_token' value='{{ csrf_token() }}'>
+{% endmacro %}

@@ -1,0 +1,21 @@
+{% extends "other_base.html" %}
+{% set active_page = 'users' %}
+
+{% block title %}User List{% endblock %}
+
+{% block body %}
+<table class='styled' style='width: 500px; margin: 0 auto'>
+	<tr class='header'>
+		<td style='width: 48px'>ID</td>
+		<td>Username</td>
+		<td>Group</td>
+	</tr>
+	{% for user in users %}
+	<tr>
+		<td>{{user.id}}</td>
+		<td>{{user.link}}</td>
+		<td>{{user.group.name}}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,82 @@
+% set user = post.creator
+% set post_ver = post.current_version
+<table class='tNormal postByUser{{user.id}}' id='post{{post.id}}'>
+	<tr>
+		<td class='postSidebar' rowspan='2'>
+			<div class='postSidebarTopBit'>
+				{{user.link}}
+				% if user.title
+					<span class='userTitle'>{{user.title}}</span>
+				% endif
+				% if user.avatar_path
+					<img src='/avatar/{{user.avatar_path}}' alt='Avatar' class='avatar'>
+				% endif
+				<!--<span class='groupName'>{{user.cached_group.name}}</span>-->
+			</div>
+			<table class='postSidebarInfo'>
+				<tr>
+					<td class='label'>Group:</td>
+					<td class='value'>{{user.cached_group.name}}</td>
+				</tr>
+				<tr>
+					<td class='label'>Posts:</td>
+					<td class='value'>
+						% if post.number > -1
+						{{post.number}} /
+						% endif
+						{{user.post_count}}</td>
+				</tr>
+				<tr>
+					<td class='label'>Joined:</td>
+					<td class='value'>{{user.created_at|relative_date}}</td>
+				</tr>
+			</table>
+		</td>
+
+		% set contentSpan = 3 if (post.version_count > 1) else 2
+		<td class='postDate'>
+			{{post.created_at|relative_date_and_time}}
+		</td>
+		% if post.version_count > 1
+		<td class='postRevisions'>
+			Revision #{{post.version_count}} by {{post_ver.creator.link}}; {{post_ver.created_at|relative_date_and_time}}
+		</td>
+		% endif
+		<td class='postOptions'>
+			% if post.can_be_edited_by(g.user)
+			<a href='{{post.edit_url}}' class='editPostLink' data-post-id='{{post.id}}'>Edit</a>
+			% endif
+
+			% if post.can_be_deleted_by(g.user)
+			<a href='{{post.delete_url}}' class='deletePostLink' data-post-id='{{post.id}}'>Delete</a>
+			% endif
+
+			% if g.show_ip_addresses
+			<span title='{{post.created_ip}}'>
+				#{{postNumber}}
+			</span>
+			% else
+			#{{postNumber}}
+			% endif
+		</td>
+	</tr>
+
+	<tr>
+		{% if user.post_style == 1 %}
+		<td class='postContentWrapper' colspan='{{contentSpan}}'>
+			<div id='postContent{{post.id}}' class='postText'>
+				{{parse_text(post_ver.content)}}
+			</div>
+			{% if user.signature %}
+			<div id='postSignature{{post.id}}' class='postSignature'>
+				{{parse_text(user.signature)}}
+			</div>
+			{% endif %}
+		</td>
+		{% else %}
+		<td class='postContentWrapperCustom' colspan='{{contentSpan}}'>
+			{{parse_text(user.post_header + post.content + user.post_footer)}}
+		</td>
+		{% endif %}
+	</tr>
+</table>
