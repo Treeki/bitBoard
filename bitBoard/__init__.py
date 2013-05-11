@@ -140,16 +140,6 @@ def before_request():
 	# I don't think I like this bit too much...
 	g.show_ip_addresses = g.effective_group.is_admin
 
-	if save_req_info:
-		# atomic update
-		Config.query.update(dict(views=Config.views+1))
-		config = Config.query.first()
-		if config == None:
-			config = Config(views=1)
-			db.session.add(config)
-		g.view_count = config.views
-		db.session.commit()
-
 @app.after_request
 def after_request(response):
 	if not hasattr(g, 'start_time') or g.start_time is None:
@@ -305,6 +295,19 @@ def _get_online_users():
 	when = datetime.datetime.now() - datetime.timedelta(minutes=5)
 	return User.query.filter(User.last_active_at > when).all()
 
+def _update_and_get_view_count():
+	if hasattr(g, 'view_count'):
+		return g.view_count
+	# atomic update
+	Config.query.update(dict(views=Config.views+1))
+	config = Config.query.first()
+	if config == None:
+		config = Config(views=1)
+		db.session.add(config)
+	g.view_count = config.views
+	db.session.commit()
+	return g.view_count
+
 from bitBoard import parser
 @app.context_processor
 def add_template_functions():
@@ -314,5 +317,6 @@ def add_template_functions():
 			parse_text=parser.parse_text,
 			get_global_login_form=_get_global_login_form,
 			get_online_users=_get_online_users,
+			update_and_get_view_count=_update_and_get_view_count,
 			)
 
