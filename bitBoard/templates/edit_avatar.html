@@ -10,7 +10,7 @@ Edit Avatar
 {% from "_form_helpers.html" import
 	form_field_table_row, form_field_table_cell, csrf_token_field %}
 
-% if g.user.avatar_path
+% if user.avatar_path
 <form method='post' action='{{delete_url}}'>
 	{{csrf_token_field()}}
 	<table class='tNormal tForm75'>
@@ -21,7 +21,7 @@ Edit Avatar
 		</tr>
 		<tr>
 			<td class='tFormUnifield'>
-				<img src='/avatar/{{g.user.avatar_path}}'>
+				<img src='/avatar/{{user.avatar_path}}'>
 			</td>
 		</tr>
 		<tr>
