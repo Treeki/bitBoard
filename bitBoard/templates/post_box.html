@@ -26,6 +26,12 @@
 						% endif
 						{{user.post_count}}</td>
 				</tr>
+				% if user.location
+				<tr>
+					<td class='label'>From:</td>
+					<td class='value'>{{user.location}}</td>
+				</tr>
+				% endif
 				<tr>
 					<td class='label'>Joined:</td>
 					<td class='value'>{{user.created_at|relative_date}}</td>
