@@ -4,3 +4,5 @@ __pycache__
 .sass-cache
 *.sublime-project
 *.sublime-workspace
+data
+slate.css
