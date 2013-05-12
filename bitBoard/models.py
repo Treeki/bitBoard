@@ -278,12 +278,14 @@ class Thread(db.Model):
 		else:
 			return u'/forum/{0}/{1}-{2}'.format(self.forum.slug, self.id, self.slug)
 		#return url_for('view_thread', slug=self.forum.slug, id=self.id, thread_slug=self.slug)
+
+	@property
+	def last_unread_url(self):
+		return self.url + u'?findLastUnread'
+
 	@property
 	def last_post_url(self):
-		if self.is_private:
-			return u'/messages/{0}-{1}?findPost={2}'.format(self.id, self.slug, self.last_post_id)
-		else:
-			return u'/forum/{0}/{1}-{2}?findPost={3}'.format(self.forum.slug, self.id, self.slug, self.last_post_id)
+		return u'{0}?findPost={1}'.format(self.url, self.last_post_id)
 	
 	@property
 	def reply_url(self):

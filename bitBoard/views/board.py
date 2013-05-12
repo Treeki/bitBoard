@@ -1,7 +1,7 @@
 from bitBoard import app, jsonify_errors, add_null_entities, \
 		THREADS_PER_PAGE, POSTS_PER_PAGE, \
 		PM_RECIPIENT_LIMIT, \
-		parse_ugly_date_and_time
+		parse_ugly_date_and_time, format_ugly_date_and_time
 from bitBoard.views.base import RedirectForm, get_redirect_target
 from bitBoard.models import *
 from bitBoard.parser import parse_text
@@ -177,11 +177,13 @@ def post_page_num(post):
 	page_num = (count_before / POSTS_PER_PAGE) + 1
 	return page_num
 
-def redirect_to_post(post):
+def redirect_to_post(thread, post):
+	if not post:
+		return redirect_to_post(thread, thread.last_post)
 	page_num = post_page_num(post)
 	page_bit = ('?page=%d' % page_num) if page_num != 1 else ''
 
-	url = '%s%s#post%d' % (post.thread.url, page_bit, post.id)
+	url = u'%s%s#post%d' % (post.thread.url, page_bit, post.id)
 	return redirect(url, code=303)
 
 @app.route('/forum/<slug>/<int:thread_id>')
@@ -218,7 +220,7 @@ def _base_view_thread(thread):
 			abort(404)
 		if post.thread_id != thread.id:
 			abort(404)
-		return redirect_to_post(post)
+		return redirect_to_post(thread, post)
 	elif 'findPostAfter' in request.args:
 		raw_timestamp = request.args['findPostAfter']
 		timestamp = parse_ugly_date_and_time(raw_timestamp)
@@ -234,7 +236,12 @@ def _base_view_thread(thread):
 				order_by(db.asc(Post.created_at)).\
 				first()
 
-		return redirect_to_post(post)
+		return redirect_to_post(thread, post)
+	elif g.user and 'findLastUnread' in request.args:
+		read = ThreadRead.query.filter_by(user_id=g.user.id, thread_id=thread.id).first()
+		url = u'{0}?findPostAfter={1}'.format( \
+			thread.url, format_ugly_date_and_time(read.time))
+		return redirect(url, code=303)
 
 	if g.user:
 		read = ThreadRead.query.filter_by(user_id=g.user.id, thread_id=thread.id).first()
