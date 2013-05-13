@@ -43,19 +43,34 @@
 
 
 					<div id='headerUserBar'>
-
 						{% if g.user %}
-						<div id='userButtonWrapper' class='dropdownContainer'>
+						% with notes = get_notifications()
+						<div id='notificationsWrapper' class='inline dropdownContainer'>
+							<a href='javascript:void(0)' id='notificationsButton' class='clickToDropdown' tabindex='1'>
+								New: {{notes|length}}
+							</a>
+							<ul id='notifications' class='dropdownRight'>
+								% for note in notes
+								<li>
+									<span class='notificationTime'>{{note.updated_at|relative_date_and_time}}:</span>
+									<span class='notificationText'>{{note}}</span>
+								</li>
+								% endfor
+							</ul>
+						</div>
+						% endwith
+
+						<div id='userButtonWrapper' class='inline dropdownContainer'>
 							<a href='javascript:void(0)' id='userButton' class='clickToDropdown' tabindex='1'>
 								{{g.user.name}}
-								<span class='downArrow'></span>
 							</a>
-							<ul class='dropdownRight'>
+							<ul class='dropdownRight linkList'>
 								<li><a href='{{g.user.url}}'>My Profile</a></li>
 								<li><a href='{{url_for('edit_settings')}}'>Edit Settings</a></li>
 								<li><a href='{{url_for('logout')}}'>Log Out</a></li>
 							</ul>
 						</div>
+
 						{% else %}
 						<a href='{{url_for('login')}}' id='loginLink'>Log In</a>
 						<a href='{{url_for('register')}}'>Register</a>
@@ -81,7 +96,7 @@
 							% endif
 								<a href='{{href}}'{%if id==active_page%} class='selected'{%endif%}>{{caption}}</a>
 							% if menu is not none
-								<ul class='dropdownLeft'>
+								<ul class='dropdownLeft linkList'>
 									% for i_href, i_id, i_caption in menu
 									<li>
 										<a href='{{i_href}}'{%if i_id==active_page%} class='selected'{%endif%}>{{i_caption}}</a>

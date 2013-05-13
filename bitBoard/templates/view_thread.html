@@ -42,6 +42,21 @@
 	</a></li>
 	% endif
 
+	% if g.user
+	<li>
+		<a href='{{thread.follow_url}}' class='modActionLink followLink' data-cls-name='followLink'>
+			% if thread.is_followed_by(g.user)
+			Unfollow
+			% else
+			Follow
+			% endif
+		</a>
+		% if thread.follower_count
+		({{thread.follower_count}})
+		% endif
+	</li>
+	% endif
+
 	% if thread.can_be_replied_to_by(g.user)
 	<li><a href='{{thread.reply_url}}'>Post Reply</a></li>
 	% endif

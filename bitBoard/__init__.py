@@ -106,7 +106,7 @@ def jsonify_errors(form):
 	return [[form[name].label.text, errors] for name, errors in form.errors.iteritems()]
 
 GUEST_USER_GROUP_ID = 5
-from bitBoard.models import User, Usergroup, Config
+from bitBoard.models import User, Usergroup, Config, Notification
 
 @app.before_request
 def before_request():
@@ -295,6 +295,15 @@ def _get_online_users():
 	when = datetime.datetime.now() - datetime.timedelta(minutes=5)
 	return User.query.filter(User.last_active_at > when).all()
 
+def _get_notifications():
+	if not g.user:
+		return None
+	return Notification.query.\
+		filter_by(recipient=g.user).\
+		order_by(db.desc(Notification.id)).\
+		limit(15).\
+		all()
+
 def _update_and_get_view_count():
 	if hasattr(g, 'view_count'):
 		return g.view_count
@@ -317,6 +326,7 @@ def add_template_functions():
 			parse_text=parser.parse_text,
 			get_global_login_form=_get_global_login_form,
 			get_online_users=_get_online_users,
+			get_notifications=_get_notifications,
 			update_and_get_view_count=_update_and_get_view_count,
 			)
 

@@ -7,10 +7,17 @@
 * **[done]** Handle logging out on a protected page correctly
 * **[done]** Title tags on all pages
 * Notifications system
+	* **[done]** Base notification system
+	* Pruning of old notifications if they're not acted upon
+	* **[done]** Replies to followed threads
+	* Replies to private threads
+	* Depot submissions by users
+	* Periodic automatic updates of notifications
+	* (minor) Hide the notification dropdown when empty
+	* (minor) Use dategroups for the notifications panel
 * Report system
 * Admin interface
 * **[done]** Private messages
-* new PM announcement (ties into notifications?)
 * Logging
 * BBCode inc. embedded YT videos, smileys, URL parsing, ...
 * ... or maybe I should just switch to Markdown? I'll probably do that.
@@ -33,6 +40,10 @@
 * Post icons
 * **[done]** Read post tracking
 * **[done]** Handle findPost URL param
+* *[kinda done]* Thread following
+	* However, there's one interesting issue. I need to exclude people who
+	  followed a thread but lose permission to view it (the thread is moved,
+	  or their usergroup changes, or their usergroup's permissions change).
 * Allow mods to view previous revisions of posts
 * Finish post layout implementation
 * Custom titles

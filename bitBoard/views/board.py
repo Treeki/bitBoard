@@ -251,6 +251,14 @@ def _base_view_thread(thread):
 		read.time = datetime.datetime.now()
 		db.session.commit()
 
+		notification = Notification.query.\
+			filter_by(
+				recipient_id=g.user.id, thread_id=thread.id,
+				type=Notification.FOLLOWED_THREAD).\
+			first()
+		if notification:
+			db.session.delete(notification)
+
 	query = thread.posts.options(
 			joinedload('creator'),
 			joinedload('current_version'))
@@ -441,6 +449,39 @@ def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
 			thread.forum.post_count += 1
 		thread.update_last_post(post)
 
+		# This is ugly. Deal with notifications.
+		notify_join = db.and_(
+			Notification.type == Notification.FOLLOWED_THREAD,
+			thread_followers.c.user_id == Notification.recipient_id,
+			thread_followers.c.thread_id == Notification.thread_id
+			)
+
+		notify_which = db.session.query(thread_followers.c.user_id, Notification.id).\
+			filter(thread_followers.c.thread_id == thread.id).\
+			filter(thread_followers.c.user_id != g.user.id).\
+			outerjoin(Notification, notify_join)
+		add_new = []
+		update_existing = []
+
+		for uid, nid in notify_which:
+			if nid:
+				update_existing.append(nid)
+			else:
+				add_new.append({
+					'recipient_id': uid,
+					'type': Notification.FOLLOWED_THREAD,
+					'thread_id': thread.id
+					})
+
+		if update_existing:
+			Notification.query.\
+				filter(Notification.id.in_(update_existing)).\
+				update({'count': Notification.count + 1}, synchronize_session=False)
+
+		if add_new:
+			db.session.execute(Notification.__table__.insert(), add_new)
+
+
 		db.session.commit()
 
 		if not ajax:
@@ -579,7 +620,10 @@ def delete_post(forum_slug, thread_id, thread_slug, post_id):
 	endpoint='lock_thread', defaults={'action': 'lock'}, methods=['GET', 'POST'])
 @app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/sticky',
 	endpoint='sticky_thread', defaults={'action': 'sticky'}, methods=['GET', 'POST'])
+@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/follow',
+	endpoint='follow_thread', defaults={'action': 'follow'}, methods=['GET', 'POST'])
 def thread_mod_action(forum_slug, thread_id, thread_slug, action):
+	# This view is becoming spaghetti.
 	url_forum = Forum.query.filter_by(slug=forum_slug).first()
 	thread = Thread.query.get(thread_id)
 
@@ -587,12 +631,22 @@ def thread_mod_action(forum_slug, thread_id, thread_slug, action):
 		abort(404)
 
 	forum = thread.forum
-	if not forum.can_be_moderated_by(g.user):
-		abort(403)
+	requires_moderator = True
 	if action == 'sticky':
 		url = thread.sticky_url
 	elif action == 'lock':
 		url = thread.lock_url
+	elif action == 'follow':
+		url = thread.follow_url
+		requires_moderator = False
+
+	if requires_moderator:
+		if not forum.can_be_moderated_by(g.user):
+			abort(403)
+	else:
+		if not forum.can_be_viewed_by(g.user):
+			abort(403)
+
 	if request.method == 'GET' and (url_forum != thread.forum or thread_slug != thread.slug):
 		return redirect(url, code=301)
 
@@ -627,13 +681,35 @@ def thread_mod_action(forum_slug, thread_id, thread_slug, action):
 			done_word = 'locked'
 			link_title = 'Unlock'
 			message = 'Are you sure you want to lock this thread?'
+	elif action == 'follow':
+		old_value = thread.is_followed_by(g.user)
+		attr = None
+
+		if old_value:
+			cap_verb = 'Follow'
+			link_title = 'Follow'
+			message = 'Are you sure you want to follow this thread?'
+		else:
+			cap_verb = 'Unfollow'
+			link_title = 'Unfollow'
+			message = 'Are you sure you want to stop following this thread?'
 
 
 	if request.method == 'POST':
-		setattr(thread, attr, not old_value)
+		if action == 'follow':
+			if old_value:
+				thread.followers.remove(g.user)
+				thread.follower_count -= 1
+				msg = 'You are no longer following this thread.'
+			else:
+				thread.followers.append(g.user)
+				thread.follower_count += 1
+				msg = 'You are now following this thread. You will receive notifications about new posts.'
+		else:
+			setattr(thread, attr, not old_value)
+			msg = 'The thread has been %s.' % done_word
 		db.session.commit()
 
-		msg = 'The thread has been %s.' % done_word
 
 		if ajax:
 			return jsonify(toast=msg, link_title=link_title)

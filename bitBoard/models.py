@@ -57,6 +57,8 @@ class User(db.Model):
 
 	last_post_at = db.Column(db.DateTime)
 
+	notifications = db.relationship('Notification', backref='recipient', lazy='dynamic')
+
 	thread_count = db.Column(db.Integer, default=0)
 	post_count = db.Column(db.Integer, default=0)
 
@@ -108,6 +110,38 @@ class User(db.Model):
 	def link(self):
 		raw_html = '<a href=\'%%s\' class=\'userLink\' style=\'text-decoration:none\'>%s</a>' % self.cached_group.username_tag
 		return Markup(raw_html) % (self.url, self.name)
+
+
+class Notification(db.Model):
+	__tablename__ = 'notifications'
+	id = db.Column(db.Integer, primary_key=True)
+
+	recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+	created_at = db.Column(db.DateTime, default=datetime.datetime.now)
+	updated_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+	count = db.Column(db.Integer, default=1)
+
+	FOLLOWED_THREAD = 1
+	type = db.Column(db.Integer, nullable=False)
+
+	thread_id = db.Column(db.Integer, db.ForeignKey('threads.id'))
+	thread = db.relationship('Thread', uselist=False,
+		primaryjoin='Notification.thread_id==Thread.id')
+
+	def __html__(self):
+		if self.type == self.FOLLOWED_THREAD:
+			if self.count == 1:
+				first = u'New post'
+			else:
+				first = u'%d new posts' % self.count
+
+			return Markup(u'%s in <a href="%s">%s</a>') % \
+				(first, self.thread.last_unread_url, self.thread.title)
+		else:
+			return u'(Unknown notification (%d))' % self.type
+
 
 
 class Category(db.Model):
@@ -216,6 +250,10 @@ pm_thread_users = db.Table('pm_thread_users', db.Model.metadata,
 	db.Column('thread_id', db.Integer, db.ForeignKey('threads.id')),
 	db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
 
+thread_followers = db.Table('thread_followers', db.Model.metadata,
+	db.Column('thread_id', db.Integer, db.ForeignKey('threads.id')),
+	db.Column('user_id', db.Integer, db.ForeignKey('users.id')))
+
 class Thread(db.Model):
 	__tablename__ = 'threads'
 	id = db.Column(db.Integer, primary_key=True)
@@ -229,6 +267,20 @@ class Thread(db.Model):
 	private_users = db.relationship(User,
 		secondary=pm_thread_users,
 		backref=db.backref('private_threads', lazy='dynamic'))
+
+	follower_count = db.Column(db.Integer, default=0)
+	followers = db.relationship(User,
+		secondary=thread_followers,
+		backref=db.backref('followed_threads', lazy='dynamic'),
+		lazy='dynamic')
+
+	def is_followed_by(self, user):
+		# I really don't like this. Surely there's got to be a better way? :x
+		r = db.session.query(thread_followers).\
+				filter_by(thread_id=self.id, user_id=user.id).\
+				first()
+
+		return bool(r)
 
 	creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -294,6 +346,9 @@ class Thread(db.Model):
 		else:
 			return url_for('post_reply', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
 
+	@property
+	def follow_url(self):
+		return url_for('follow_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
 	@property
 	def lock_url(self):
 		return url_for('lock_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
