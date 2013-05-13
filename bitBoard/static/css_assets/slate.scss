@@ -41,8 +41,8 @@ $globalHorzPadding: 12px;
 // Deeper blue: 220deg
 // Nice purple: 270deg
 // Brown: 10deg
-$themeHue: 260deg;
-$linkHue: $themeHue + 180deg;
+$themeHue: 200deg;
+$linkHue: 200deg; //$themeHue + 180deg;
 
 $pageBG: #272727;
 
@@ -62,7 +62,9 @@ $headerBG: hsl($themeHue, 20%, 10%);
 $lightbarColour: hsl($themeHue, 70%, 18%);
 $lightbar3DLight: lighten($lightbarColour, 10%);
 $lightbarGradTop: lighten($lightbarColour, 15%);
+$lightbarLinkBorder: darken($lightbarColour, 5%);
 $lightbar3DShadow: darken($lightbarColour, 15%);
+$lightbarLinkColour: hsl($themeHue, 70%, 85%);
 $subBarBGTop: hsl($themeHue, 40%, 10%);
 $subBarBGBottom: hsl($themeHue, 40%, 15%);
 
@@ -175,34 +177,81 @@ a {
 
 
 
+
+@mixin headerNavTopLevel {
+	color: $lightbarLinkColour;
+	text-shadow: 0px 1px 0px hsl($themeHue, 70%, 5%);
+	padding: 3px 9px;
+	border: 1px solid transparent;
+	border-left: 1px solid $lightbarColour;
+}
+
 @mixin headerNavTopLevelHover {
-	border-top: 1px solid $lightbar3DShadow;
-	border-left: 1px solid $lightbar3DShadow;
+	border-color: $lightbarLinkBorder;
 	background: lighten($lightbarColour, 10%);
-	background-image: linear-gradient($lightbarColour, lighten($lightbarColour, 10%));
+	background-image: linear-gradient(
+		lighten($lightbarColour, 30%),
+		lighten($lightbarColour, 10%));
+	@include boxShadow(inset 0px 1px 1px lighten($lightbarColour, 45%));
+}
+
+@mixin headerNavTopLevelPushed {
+	border-color: $lightbar3DShadow $lightbarLinkBorder $lightbarLinkBorder $lightbar3DShadow;
+	background: lighten($lightbarColour, 10%);
+	background-image: linear-gradient(
+		$lightbarColour,
+		lighten($lightbarColour, 10%));
 	@include boxShadow(inset 0px 1px 1px darken($lightbarColour, 5%));
 }
 
+
 #header_nav {
 	text-align: center;
-	& > a, & > .dropdownContainer > a {
-		color: hsl($themeHue, 70%, 85%);
-		text-shadow: 0px 1px 0px hsl($themeHue, 70%, 5%);
-		padding: 3px 9px;
-		border-left: 1px solid $lightbarColour;
-		&:hover {
-			@include headerNavTopLevelHover;
-		}
-	}
-	.selected, & > .dropdownContainer:hover > a {
-		@include headerNavTopLevelHover;
+}
+
+#header_nav > a,
+#header_nav > .dropdownContainer > a,
+#userButton {
+	@include headerNavTopLevel;
+}
+#header_nav > a:hover, #userButton:hover {
+	@include headerNavTopLevelHover;
+}
+#header_nav > a.selected,
+#header_nav > .dropdownContainer:hover > a,
+#userButton:active, #userButton:focus {
+	@include headerNavTopLevelPushed;
+	outline: none !important;
+}
+
+#userButton {
+	display: inline;
+	border-color: darken($lightbarColour, 5%);
+	background-image: linear-gradient(
+		lighten($lightbarColour, 25%),
+		lighten($lightbarColour, 0%));
+	&:hover {
+		text-decoration: none;
 	}
 }
+// TODO: MOVE ME!!
+.downArrow {
+	@include inlineBlock;
+	width: 1px;
+	height: 3px;
+	margin-left: 3px;
+	border: 4px solid transparent;
+	border-top-color: #fff;
+	border-bottom-width: 0;
+}
+
+
 #headerUserBar {
 	float: right;
 	width: 20%;
 	text-align: right;
 	& > a {
+		color: $lightbarLinkColour;
 		margin-left: 12px;
 	}
 }
@@ -336,9 +385,18 @@ $flashGradBottom: hsl(100deg, 50%, 11%);
 
 .dropdownLeft { left: -99999px; }
 .dropdownRight { right: 99999px; }
-.dropdownContainer:hover > .dropdownLeft { left: 0px; }
-.dropdownContainer:hover > .dropdownRight { right: 0px; }
+.dropdownContainer.hoverDropdown:hover > .dropdownLeft,
+.dropdownContainer > .clickToDropdown:active + .dropdownLeft,
+.dropdownContainer > .clickToDropdown:focus + .dropdownLeft,
+.dropdownLeft:hover
+{ left: 0px; }
+.dropdownContainer.hoverDropdown:hover > .dropdownRight,
+.dropdownContainer > .clickToDropdown:active + .dropdownRight,
+.dropdownContainer > .clickToDropdown:focus + .dropdownRight,
+.dropdownRight:hover
+{ right: 0px; }
 
+.clickDropdown { cursor: pointer; }
 
 .dropdownLeft, .dropdownRight {
 	@include box3d($dropdownColour);
@@ -353,6 +411,7 @@ $flashGradBottom: hsl(100deg, 50%, 11%);
 	min-width: 160px;
 	list-style: none;
 	position: absolute;
+	cursor: default;
 
 	text-align: left;
 

@@ -45,9 +45,11 @@
 					<div id='headerUserBar'>
 
 						{% if g.user %}
-						Logged in as
-						<div class='inline dropdownContainer'>
-							{{g.user.name}}
+						<div id='userButtonWrapper' class='dropdownContainer'>
+							<a href='javascript:void(0)' id='userButton' class='clickToDropdown' tabindex='1'>
+								{{g.user.name}}
+								<span class='downArrow'></span>
+							</a>
 							<ul class='dropdownRight'>
 								<li><a href='{{g.user.url}}'>My Profile</a></li>
 								<li><a href='{{url_for('edit_settings')}}'>Edit Settings</a></li>
@@ -75,7 +77,7 @@
 						) %}
 						% for href, id, caption, menu in navbar
 							% if menu is not none
-							<div class='inline dropdownContainer'>
+							<div class='inline hoverDropdown dropdownContainer'>
 							% endif
 								<a href='{{href}}'{%if id==active_page%} class='selected'{%endif%}>{{caption}}</a>
 							% if menu is not none
