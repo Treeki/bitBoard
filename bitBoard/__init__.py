@@ -247,7 +247,7 @@ def format_relative_date_and_time(timestamp):
 	else:
 		return format_date_and_time(timestamp)
 
-@app.template_filter('format_ugly_date_and_time')
+@app.template_filter('ugly_date_and_time')
 def format_ugly_date_and_time(timestamp):
 	if timestamp is None:
 		return '0'
