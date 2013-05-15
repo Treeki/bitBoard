@@ -356,6 +356,10 @@ class Thread(db.Model):
 	def sticky_url(self):
 		return url_for('sticky_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
 
+	@property
+	def can_be_followed(self):
+		return (not self.is_private)
+
 	def can_be_viewed_by(self, user):
 		if self.is_private:
 			return user in self.private_users

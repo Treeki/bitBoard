@@ -42,7 +42,7 @@
 	</a></li>
 	% endif
 
-	% if g.user
+	% if thread.can_be_followed and g.user
 	<li>
 		<a href='{{thread.follow_url}}' class='modActionLink followLink' data-cls-name='followLink'>
 			% if thread.is_followed_by(g.user)

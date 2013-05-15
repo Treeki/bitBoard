@@ -629,6 +629,8 @@ def thread_mod_action(forum_slug, thread_id, thread_slug, action):
 
 	if not thread:
 		abort(404)
+	if thread.is_private:
+		abort(404)
 
 	forum = thread.forum
 	requires_moderator = True
@@ -637,6 +639,8 @@ def thread_mod_action(forum_slug, thread_id, thread_slug, action):
 	elif action == 'lock':
 		url = thread.lock_url
 	elif action == 'follow':
+		if not thread.can_be_followed:
+			abort(404)
 		url = thread.follow_url
 		requires_moderator = False
 
