@@ -253,8 +253,7 @@ def _base_view_thread(thread):
 
 		notification = Notification.query.\
 			filter_by(
-				recipient_id=g.user.id, thread_id=thread.id,
-				type=Notification.FOLLOWED_THREAD).\
+				recipient_id=g.user.id, thread_id=thread.id).\
 			first()
 		if notification:
 			db.session.delete(notification)
@@ -377,6 +376,14 @@ def post_thread(forum_slug=None, is_private=False):
 		db.session.add(version)
 		post.current_version = version
 
+		if is_private:
+			for user in recipients:
+				if user != g.user:
+					notify = Notification(
+						thread=thread, recipient=user,
+						type=Notification.NEW_PRIVATE_THREAD)
+					db.session.add(notify)
+
 		db.session.commit()
 
 		flash('Your thread has been posted successfully.')
@@ -450,15 +457,16 @@ def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
 		thread.update_last_post(post)
 
 		# This is ugly. Deal with notifications.
+		u_table = pm_thread_users if is_private else thread_followers
 		notify_join = db.and_(
 			Notification.type == Notification.FOLLOWED_THREAD,
-			thread_followers.c.user_id == Notification.recipient_id,
-			thread_followers.c.thread_id == Notification.thread_id
+			u_table.c.user_id == Notification.recipient_id,
+			u_table.c.thread_id == Notification.thread_id
 			)
 
-		notify_which = db.session.query(thread_followers.c.user_id, Notification.id).\
-			filter(thread_followers.c.thread_id == thread.id).\
-			filter(thread_followers.c.user_id != g.user.id).\
+		notify_which = db.session.query(u_table.c.user_id, Notification.id).\
+			filter(u_table.c.thread_id == thread.id).\
+			filter(u_table.c.user_id != g.user.id).\
 			outerjoin(Notification, notify_join)
 		add_new = []
 		update_existing = []

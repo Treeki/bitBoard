@@ -124,6 +124,7 @@ class Notification(db.Model):
 	count = db.Column(db.Integer, default=1)
 
 	FOLLOWED_THREAD = 1
+	NEW_PRIVATE_THREAD = 2
 	type = db.Column(db.Integer, nullable=False)
 
 	thread_id = db.Column(db.Integer, db.ForeignKey('threads.id'))
@@ -139,6 +140,9 @@ class Notification(db.Model):
 
 			return Markup(u'%s in <a href="%s">%s</a>') % \
 				(first, self.thread.last_unread_url, self.thread.title)
+		elif self.type == self.NEW_PRIVATE_THREAD:
+			return Markup(u'%s has invited you to a private thread: <a href="%s">%s</a>') % \
+				(self.thread.creator.link, self.thread.url, self.thread.title)
 		else:
 			return u'(Unknown notification (%d))' % self.type
 
