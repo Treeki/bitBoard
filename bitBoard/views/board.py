@@ -309,7 +309,7 @@ def post_thread(forum_slug=None, is_private=False):
 	recipient_errors = []
 	# This is a bit of an ugly mess, but my brain isn't working right atm and
 	# I can't think of a better method. TODO: refactor me?
-	if is_private:
+	if is_private and form.recipients.data:
 		recipients = [g.user]
 		r_names = form.recipients.data.split('\n')
 
