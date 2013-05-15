@@ -45,7 +45,11 @@
 					<div id='headerUserBar'>
 						{% if g.user %}
 						% with notes = get_notifications()
-						<div id='notificationsWrapper' class='inline dropdownContainer'>
+						% set nStyle = ''
+						% if not notes
+							% set nStyle = " style='display:none;'"|safe
+						% endif
+						<div id='notificationsWrapper' class='inline dropdownContainer'{{nStyle}}>
 							<a href='javascript:void(0)' id='notificationsButton' class='clickToDropdown' tabindex='1'>
 								New: {{notes|length}}
 							</a>
