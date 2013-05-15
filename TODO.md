@@ -10,10 +10,10 @@
 	* **[done]** Base notification system
 	* Pruning of old notifications if they're not acted upon
 	* **[done]** Replies to followed threads
-	* Replies to private threads
+	* **[done]** Replies to private threads
 	* Depot submissions by users
 	* Periodic automatic updates of notifications
-	* (minor) Hide the notification dropdown when empty
+	* **[done]** (minor) Hide the notification dropdown when empty
 	* (minor) Use dategroups for the notifications panel
 * Report system
 * Admin interface
