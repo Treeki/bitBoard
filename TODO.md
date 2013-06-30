@@ -31,7 +31,7 @@
 * Add stats to index
 * Stop users from being able to delete a thread's first post
 * **[done]** Editing title/subtitle of thread
-* Editing title/subtitle with Quick Edit (or just disable quick edit for the first post?)
+* **[done]** Editing title/subtitle with Quick Edit (or just disable quick edit for the first post?)
 * Ninja post warning
 * Double post warning
 * Something to thank users for posts

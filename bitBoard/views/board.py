@@ -548,6 +548,7 @@ def edit_post(forum_slug, thread_id, thread_slug, post_id):
 	if 'getQuickEditAjaxForm' in request.args:
 		html = render_template('inline_edit.html',
 				post=post,
+				is_thread=edits_thread,
 				form=form,
 				url=post.edit_url)
 		return jsonify(form_html=html)
@@ -564,6 +565,9 @@ def edit_post(forum_slug, thread_id, thread_slug, post_id):
 
 			post.version_count += 1
 			post.current_version = version
+		else:
+			# Return the current version, as we're quick editing
+			version = cur_version
 
 		if edits_thread:
 			thread.title = form.title.data

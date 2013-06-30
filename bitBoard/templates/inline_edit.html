@@ -4,6 +4,13 @@
 
 	<form id='quickEditForm{{post.id}}' method='post' action='{{url}}'>
 		{{csrf_token_field()}}
+
+		{% if is_thread %}
+		Title: {{form.title}}
+		<br>
+		Subtitle: {{form.subtitle}}
+		{% endif %}
+
 		{{form.content(rows=8)}}
 		<div class='quickEditBar'>
 			<input type='submit' value='Save'>
