@@ -6,7 +6,11 @@ import unicodedata
 import datetime
 import os
 import os.path
-import resource
+try:
+	import resource
+	have_resource = True
+except ImportError:
+	have_resource = False
 import sys
 import flask
 from flask import Flask, request, session, g, redirect, url_for, \
@@ -40,7 +44,7 @@ except ImportError:
 	from psycopg2ct import compat
 	compat.register()
 
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'flying beetles'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -81,7 +85,7 @@ css = Bundle('css_assets/normalize.css', 'css_assets/main.css',
 	filters='css_slimmer', output='slate.css')
 assets.register('css_all', css)
 
-toolbar = DebugToolbarExtension(app)
+#toolbar = DebugToolbarExtension(app)
 
 permissions_cache = SimpleCache()
 usergroup_cache = SimpleCache()
@@ -118,7 +122,8 @@ def before_request():
 	save_req_info = not request.is_xhr
 
 	g.start_time = time.clock()
-	g.start_rusage = resource.getrusage(resource.RUSAGE_SELF)
+	if have_resource:
+		g.start_rusage = resource.getrusage(resource.RUSAGE_SELF)
 
 	g.effective_group = None
 	g.user = None
@@ -179,11 +184,12 @@ def teardown_request(exception):
 	if not hasattr(g, 'start_time') or g.start_time is None:
 		return
 
-	new = resource.getrusage(resource.RUSAGE_SELF)
-	old = g.start_rusage
-	u = new.ru_utime - old.ru_utime
-	s = new.ru_stime - old.ru_stime
-	print('%s Taken %f seconds; %f user, %f system' % (request, time.clock() - g.start_time, u, s))
+	if have_resource:
+		new = resource.getrusage(resource.RUSAGE_SELF)
+		old = g.start_rusage
+		u = new.ru_utime - old.ru_utime
+		s = new.ru_stime - old.ru_stime
+		print('%s Taken %f seconds; %f user, %f system' % (request, time.clock() - g.start_time, u, s))
 
 
 
