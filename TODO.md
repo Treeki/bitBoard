@@ -1,6 +1,6 @@
 ## GENERAL
 
-* Refactor the config, move it into a separate file, ...
+* **[done]** Refactor the config, move it into a separate file, ...
 * **[done]** Edit profile
 * **[done]** Change password
 * **[done]** Avatars

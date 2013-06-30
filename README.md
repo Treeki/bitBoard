@@ -65,10 +65,37 @@ the ridiculously long list of things I have planned...
 Also, PIL is necessary for validating the dimensions of uploaded avatars.
 
 If you want to modify the CSS, you'll need to install some version of
-Sass/Compass to compile it, and change HAVE_COMPASS to True in *__init__.py*.
-(I really should separate the config into a different file already.)
+Sass/Compass to compile it, and change HAVE_COMPASS to True in `config.py`.
 
 If you're not doing that, the pre-compiled version included in the repo should
 be fine.
 
 I hope I didn't forget anything.
+
+
+### Quick (Kinda) Install:
+
+- Clone the repo.
+- Use pip to install the latest versions of everything listed above.. except
+  for PIL, which is a special snowflake, so download the Windows installer
+  from the site or install it from your distro's repos if you're on Linux.
+- Copy `bitBoard/config.py.default` to `bitBoard/config.py`.
+- Edit your new `config.py` to include the appropriate settings.
+- Run using `python2 runserver.py`.
+- Be sad because the software isn't complete yet.
+
+
+### Some Notes:
+
+You can pass the `debug` argument to `runserver.py` to enable the debugger.
+This will force the server to listen only for local connections, because the
+Werkzeug debugger enables anyone to run arbitrary Python code and you
+probably don't want that.
+
+Don't use the testing server in production. Seriously.
+
+Speaking of which... I need to figure out how to make this thing easy to
+deploy with a production-ready web server. I figure it shouldn't be too hard,
+but... just noting this here so you know bitBoard isn't prepared for it yet :p
+
+

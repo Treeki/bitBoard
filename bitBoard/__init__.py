@@ -1,5 +1,4 @@
 import markupsafe
-#import sqlite3
 import time
 import re
 import unicodedata
@@ -37,37 +36,18 @@ class OptionalDateField(DateField):
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# for pypy compat.. which is kinda useless atm honestly
-try:
-	import psycopg2
-except ImportError:
-	from psycopg2ct import compat
-	compat.register()
+from config import *
 
-DEBUG = True
-SECRET_KEY = 'flying beetles'
-USERNAME = 'admin'
-PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = 'postgresql://me@localhost/bitboard'
+# for pypy compat.. which is kinda useless atm honestly
+if SQLALCHEMY_DATABASE_URI.startswith('postgresql'):
+	try:
+		import psycopg2
+	except ImportError:
+		from psycopg2ct import compat
+		compat.register()
+
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 CSRF_ENABLED = False # for wtforms
-MAX_CONTENT_LENGTH = 30 * 1024 * 1024
-
-THREADS_PER_PAGE = 25
-POSTS_PER_PAGE = 15
-
-# THREADS_PER_PAGE = 5
-# POSTS_PER_PAGE = 5
-
-PM_RECIPIENT_LIMIT = 10
-
-USE_COMPASS = False
-
-AVATAR_DIR = '/home/me/Dev/Python/bitBoard/data/avatars'
-AVATAR_FILE_SIZE = 200 * 1024
-AVATAR_IMAGE_SIZE = (150, 150)
-AVATAR_EXTENSIONS = set('png jpg gif'.split(' '))
-
 SEASURF_INCLUDE_OR_EXEMPT_VIEWS = 'include' if DEBUG else 'exempt'
 
 app = Flask(__name__)

@@ -3,6 +3,10 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
+import os
+if not os.path.exists('alembic/versions'):
+	os.mkdir('alembic/versions')
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -17,7 +21,10 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 import sys, os
 sys.path.append(os.getcwd())
+
+from bitBoard import config as bb_config
 from bitBoard.models import db
+config.set_main_option('sqlalchemy.url', bb_config.SQLALCHEMY_DATABASE_URI)
 target_metadata = db.Model.metadata
 
 # other values from the config, defined by the needs of env.py,

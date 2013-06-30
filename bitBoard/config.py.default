@@ -1,0 +1,36 @@
+DEBUG = True
+
+# Change this to something secret. It's used to ensure the security of
+# cookies, so it's important that no one finds out what it is!
+SECRET_KEY = 'an insecure default key'
+
+# This is used to define the database you connect to.
+# SQLite relative path:
+#   sqlite:///file.db
+# SQLite absolute path:
+#   sqlite:////path/to/file.db
+# MySQL:
+#   mysql://username:password@host/databaseName
+# PostgreSQL:
+#   postgresql://username@host/databaseName
+SQLALCHEMY_DATABASE_URI = 'sqlite:///bitBoard.db'
+
+# Max size of uploaded data.
+MAX_CONTENT_LENGTH = 30 * 1024 * 1024
+
+# General board vars.
+THREADS_PER_PAGE = 25
+POSTS_PER_PAGE = 15
+
+PM_RECIPIENT_LIMIT = 10
+
+# Set this to True to use Compass for CSS compilation.
+USE_COMPASS = False
+
+# Avatar upload things.
+# You'll probably want to change this...!
+AVATAR_DIR = '/home/me/Dev/Python/bitBoard/data/avatars'
+AVATAR_FILE_SIZE = 200 * 1024
+AVATAR_IMAGE_SIZE = (150, 150)
+AVATAR_EXTENSIONS = set('png jpg gif'.split(' '))
+
