@@ -288,7 +288,7 @@ class PrivateThreadForm(ThreadForm):
 	recipients = TextAreaField('Recipients')
 
 class MoveThreadForm(Form):
-	destforum = SelectField('Destination Forum')
+	destforum = SelectField('Destination Forum', coerce=int)
 
 @app.route('/forum/<forum_slug>/post',
 	endpoint='post_thread', methods=['GET', 'POST'])
@@ -679,9 +679,8 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 	if request.method == 'POST':
 		newforum = form.destforum.data
 		
-		# TODO figure out why this doesn't work right
-		#if newforum not in good_forums:
-		#	abort(404);
+		if newforum not in good_forums:
+			abort(404);
 			
 		oldforum = thread.forum
 		thread.forum.thread_count -= 1
@@ -695,10 +694,8 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 		
 		db.session.commit()
 		
-		oldlastthread = Thread.query.filter_by(forum_id=oldforum.id).order_by(db.desc(Thread.last_updated_at)).first()
-		oldforum.last_thread_id = None if oldlastthread is None else oldlastthread.id
-		newlastthread = Thread.query.filter_by(forum_id=newforum.id).order_by(db.desc(Thread.last_updated_at)).first()
-		newforum.last_thread_id = None if newlastthread is None else newlastthread.id
+		oldforum.update_last_thread()
+		newforum.update_last_thread()
 		
 		db.session.commit()
 		return redirect(thread.url, code=303)
