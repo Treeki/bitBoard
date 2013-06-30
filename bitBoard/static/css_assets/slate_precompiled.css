@@ -1,0 +1,1233 @@
+/* line 111, slate.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 113, slate.scss */
+body {
+  background: #272727;
+  color: #eee;
+}
+
+/* line 118, slate.scss */
+a {
+  color: #52b1e0;
+  text-decoration: none;
+}
+/* line 123, slate.scss */
+a:hover {
+  color: #93ceec;
+  text-decoration: underline;
+}
+
+/* line 129, slate.scss */
+.left {
+  text-align: left !important;
+}
+
+/* line 130, slate.scss */
+.center {
+  text-align: center !important;
+}
+
+/* line 131, slate.scss */
+.right {
+  text-align: right !important;
+}
+
+/* line 134, slate.scss */
+.thin {
+  margin: 6px 0;
+}
+
+/* line 138, slate.scss */
+#main_wrapper {
+  padding: 8px 12px 24px;
+}
+
+/* line 142, slate.scss */
+#main_header {
+  background: #141b1f;
+  background-image: linear-gradient(#141b1f, #1f292e);
+}
+
+/* line 147, slate.scss */
+#header_titlebar, #header_lightbar, .sub_bar {
+  *zoom: 1;
+}
+/* line 3, slate.scss */
+#header_titlebar:before, #header_titlebar:after, #header_lightbar:before, #header_lightbar:after, .sub_bar:before, .sub_bar:after {
+  content: " ";
+  display: table;
+}
+/* line 7, slate.scss */
+#header_titlebar:after, #header_lightbar:after, .sub_bar:after {
+  clear: both;
+}
+
+/* line 151, slate.scss */
+#header_title {
+  padding: 6px 12px;
+  font-size: 123.1%;
+  font-weight: bold;
+  float: left;
+}
+
+/* line 158, slate.scss */
+#header_lightbar {
+  padding: 6px 12px;
+  font-size: 93%;
+  border-top: 1px solid #155879;
+  background: #10425b;
+  background-image: linear-gradient(to bottom, #19688f, #0e394e);
+  border-bottom: 1px solid #02090d;
+  box-shadow: inset 0px 1px 1px #3ca7dd;
+}
+
+/* line 170, slate.scss */
+#header_board_stats {
+  float: left;
+  font-size: 70%;
+  line-height: 100%;
+  width: 20%;
+  text-align: left;
+}
+
+/* line 208, slate.scss */
+#header_nav {
+  text-align: center;
+}
+
+/* line 214, slate.scss */
+#header_nav > a,
+#header_nav > .dropdownContainer > a,
+#header_lightbar .clickToDropdown {
+  color: #bee2f4;
+  text-shadow: 0px 1px 0px #041016;
+  padding: 3px 9px;
+  border: 1px solid transparent;
+  border-left: 1px solid #0e394e;
+}
+
+/* line 218, slate.scss */
+#header_nav > a:hover,
+#header_lightbar .clickToDropdown:hover {
+  border-color: #0a2938;
+  background: #155879;
+  background-image: linear-gradient(#2597d0, #155879);
+  box-shadow: inset 0px 1px 1px #5fb7e3;
+}
+
+/* line 224, slate.scss */
+#header_nav > a.selected,
+#header_nav > .dropdownContainer:hover > a,
+#header_lightbar .clickToDropdown:active,
+#header_lightbar .clickToDropdown:focus {
+  border-color: #02090d #0a2938 #0a2938 #02090d;
+  background: #155879;
+  background-image: linear-gradient(#0e394e, #155879);
+  box-shadow: inset 0px 1px 1px #0a2938;
+  outline: none !important;
+}
+
+/* line 229, slate.scss */
+#header_lightbar .clickToDropdown {
+  border-color: #0a2938;
+  background: #155879;
+  background-image: linear-gradient(#2187ba, #0e394e);
+  padding-right: 20px;
+}
+/* line 237, slate.scss */
+#header_lightbar .clickToDropdown:hover {
+  text-decoration: none;
+}
+/* line 244, slate.scss */
+#header_lightbar .clickToDropdown:before {
+  position: absolute;
+  display: block;
+  content: '';
+  top: 9px;
+  right: 7px;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-top-color: #fff;
+  border-bottom-width: 0;
+}
+
+/* line 260, slate.scss */
+#headerUserBar {
+  float: right;
+  width: 20%;
+  text-align: right;
+}
+/* line 264, slate.scss */
+#headerUserBar > a {
+  color: #bee2f4;
+}
+
+/* line 270, slate.scss */
+#header_online_users {
+  font-size: 77%;
+  float: right;
+  padding: 6px 12px;
+}
+
+/* line 276, slate.scss */
+.sub_bar {
+  padding: 6px 12px;
+  font-size: 85%;
+}
+/* line 279, slate.scss */
+.sub_bar a {
+  font-weight: normal;
+}
+
+/* line 281, slate.scss */
+#main_header > .sub_bar {
+  background-image: linear-gradient(to bottom, #0f1d24, #172b36);
+  border-bottom: 1px solid #02090d;
+  box-shadow: inset 0px 1px 1px black, 0px 1px 2px #141b1f;
+}
+
+/* line 289, slate.scss */
+#main_footer > .sub_bar {
+  border-top: 1px solid #155879;
+  border-bottom: 1px solid #0e394e;
+}
+
+/* line 293, slate.scss */
+#footer_info {
+  padding-top: 8px;
+  text-align: center;
+  font-size: 70%;
+  color: #3e6274;
+}
+/* line 298, slate.scss */
+#footer_info a {
+  color: #6a98af;
+}
+
+/* line 301, slate.scss */
+#wrap_all_but_footer {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+}
+
+/* line 307, slate.scss */
+#footer_pusher, #main_footer {
+  height: 4em;
+}
+
+/* line 310, slate.scss */
+#main_footer {
+  background: #141b1f;
+  overflow: hidden;
+}
+
+/* line 317, slate.scss */
+.breadcrumbs {
+  float: left;
+}
+
+/* line 318, slate.scss */
+.crumbFocus {
+  font-weight: bold;
+}
+
+/* line 319, slate.scss */
+.page_links, .sbCentreLinks {
+  margin: 0;
+  padding: 0;
+}
+/* line 21, slate.scss */
+.page_links li, .sbCentreLinks li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0px;
+  list-style-type: none;
+}
+/* line 321, slate.scss */
+.page_links li, .sbCentreLinks li {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  padding: 0 8px;
+  border-left: 1px solid #0e394e;
+}
+/* line 326, slate.scss */
+.page_links li:first-child, .sbCentreLinks li:first-child {
+  border-left: 0;
+}
+
+/* line 331, slate.scss */
+.pageLinksNotALink {
+  color: #668899;
+}
+
+/* line 334, slate.scss */
+.page_links {
+  float: right;
+  margin-right: -8px;
+}
+
+/* line 339, slate.scss */
+.sbCentreLinks {
+  position: relative;
+  left: 50%;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  margin: 0 auto;
+}
+/* line 346, slate.scss */
+.sbCentreLinks li {
+  position: relative;
+  left: -50%;
+}
+/* line 350, slate.scss */
+.sbCentreLinks li:first-child {
+  border-left: 0;
+}
+
+/* line 361, slate.scss */
+.flash, .flashToast {
+  text-align: center;
+  padding: 4px 8px;
+  background: #203913;
+  border-top: 1px solid #356020;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #356020;
+  background: #203913;
+  border-top: 1px solid #356020;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  background: linear-gradient(to bottom, #2a4d19, #172a0e);
+  box-shadow: 0px 1px 3px #181818, inset 0px 1px 5px #356020;
+}
+
+/* line 370, slate.scss */
+.flash {
+  width: 70%;
+  margin: 0 auto 8px;
+}
+
+/* line 375, slate.scss */
+.flashToast {
+  z-index: 300;
+  position: fixed;
+  left: 20%;
+  right: 20%;
+  bottom: 20px;
+  opacity: 0.7;
+}
+
+/* line 389, slate.scss */
+.dropdownContainer {
+  position: relative;
+  z-index: 1000;
+}
+
+/* line 393, slate.scss */
+.dropdownContainer.inline {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+/* line 398, slate.scss */
+.dropdownLeft {
+  left: -99999px;
+}
+
+/* line 399, slate.scss */
+.dropdownRight {
+  right: 99999px;
+}
+
+/* line 404, slate.scss */
+.dropdownContainer.hoverDropdown:hover > .dropdownLeft,
+.dropdownContainer > .clickToDropdown:active + .dropdownLeft,
+.dropdownContainer > .clickToDropdown:focus + .dropdownLeft,
+.dropdownLeft:hover {
+  left: 0px;
+}
+
+/* line 409, slate.scss */
+.dropdownContainer.hoverDropdown:hover > .dropdownRight,
+.dropdownContainer > .clickToDropdown:active + .dropdownRight,
+.dropdownContainer > .clickToDropdown:focus + .dropdownRight,
+.dropdownRight:hover {
+  right: 0px;
+}
+
+/* line 411, slate.scss */
+.dropdownLeft, .dropdownRight {
+  background: #1a313d;
+  border-top: 1px solid #294e60;
+  border-bottom: 1px solid #030607;
+  border-left: 1px solid #294e60;
+  background: #1a313d;
+  border-top: 1px solid #294e60;
+  border-bottom: 1px solid #030607;
+  border-right: 1px solid #030607;
+  box-shadow: 0px 1px 2px #111111;
+  z-index: 50;
+  padding: 4px;
+  margin: 0;
+  min-width: 160px;
+  list-style: none;
+  position: absolute;
+  cursor: default;
+  text-align: left;
+}
+/* line 428, slate.scss */
+.dropdownLeft.linkList a, .dropdownRight.linkList a {
+  display: block;
+  padding: 1px 5px;
+  color: #a8d8f0;
+}
+/* line 433, slate.scss */
+.dropdownLeft.linkList a:hover, .dropdownRight.linkList a:hover {
+  background: #124864;
+  text-decoration: none;
+  box-shadow: inset 0px 1px 2px #05131a;
+}
+
+/* line 442, slate.scss */
+#notifications {
+  min-width: 240px;
+  padding: 0;
+  border-top: 0;
+}
+
+/* line 447, slate.scss */
+.notificationTime {
+  display: block;
+  font-size: 85%;
+  background: #254556;
+  border-top: 1px solid #315c72;
+  border-bottom: 1px solid #12232b;
+  padding: 2px 6px;
+  margin-top: 8px;
+}
+
+/* line 457, slate.scss */
+li:first-child .notificationTime {
+  margin-top: 0;
+}
+
+/* line 460, slate.scss */
+.notificationText {
+  display: block;
+  font-size: 85%;
+  padding: 2px 6px 2px 14px;
+  margin-bottom: 2px;
+}
+
+/* line 469, slate.scss */
+.tNormal {
+  border-collapse: separate;
+  *border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0px 1px 1px #111111;
+}
+
+/* line 477, slate.scss */
+td {
+  *position: relative;
+}
+
+/* line 480, slate.scss */
+.tHeaderLarge, .tFormTitle {
+  font-size: 93%;
+  padding: 2px;
+  text-align: center;
+  text-shadow: 0px 1px 1px black;
+  background: #0f3f57;
+  border-top: 1px solid #175e82;
+  border-bottom: 1px solid #041016;
+  border-left: 1px solid #175e82;
+  background: #0f3f57;
+  border-top: 1px solid #175e82;
+  border-bottom: 1px solid #041016;
+  border-right: 1px solid #041016;
+  box-shadow: inset 0px 1px 1px #3ca7dd;
+  background-image: linear-gradient(#1b6e98, #0f3f57);
+}
+
+/* line 491, slate.scss */
+.tHeader, .tFormSubTitle, .tFormFooter {
+  padding: 3px 8px;
+  font-size: 77%;
+  color: #94bdd1;
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #234252;
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  box-shadow: inset 0px 1px 1px #1c3440;
+  background-image: linear-gradient(#14262e, #1c3440);
+  text-align: center;
+}
+
+/* line 501, slate.scss */
+.tSubHeader {
+  padding: 2px 8px;
+  font-size: 77%;
+  color: #70a7c2;
+  background: #121c21;
+  border-top: 1px solid #243842;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #243842;
+  background: #121c21;
+  border-top: 1px solid #243842;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  text-align: left;
+}
+
+/* line 509, slate.scss */
+.tSeparator {
+  background: #1c3440;
+  border-top: 1px solid #2b5164;
+  border-bottom: 1px solid #05090b;
+  border-left: 1px solid #2b5164;
+  background: #1c3440;
+  border-top: 1px solid #2b5164;
+  border-bottom: 1px solid #05090b;
+  border-right: 1px solid #05090b;
+  height: 3px;
+}
+
+/* line 514, slate.scss */
+.tStd, .tFormLabel, .tFormField, .tFormUnifield, .tFormUnilabel, .tAjaxFormResult {
+  background: #1e1e1e;
+  border-top: 1px solid #383838;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #383838;
+  background: #1e1e1e;
+  border-top: 1px solid #383838;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding: 4px 8px;
+}
+
+/* line 524, slate.scss */
+.tMiniFooter {
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #234252;
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  height: 3px;
+}
+
+/* line 529, slate.scss */
+.tFooterWithPagination {
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #234252;
+  background: #14262e;
+  border-top: 1px solid #234252;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  box-shadow: inset 0px 1px 1px #325f76;
+  background-image: linear-gradient(#234252, #14262e);
+  font-size: 93%;
+  padding: 3px;
+}
+
+/* line 538, slate.scss */
+.tWideForm {
+  width: 95%;
+  margin: 0 auto;
+}
+
+/* line 542, slate.scss */
+.tForm75 {
+  width: 75%;
+  margin: 0 auto;
+}
+
+/* line 546, slate.scss */
+.tMidForm {
+  width: 50%;
+  margin: 0 auto;
+}
+
+/* line 554, slate.scss */
+.tFormSubTitle, .tFormFooter {
+  font-size: 85%;
+  text-align: center;
+}
+
+/* line 562, slate.scss */
+.tFormFooter > input, .tFormFooter > button {
+  margin: 4px 0 6px;
+}
+
+/* line 567, slate.scss */
+.tFormLabel {
+  font-size: 93%;
+  min-width: 120px;
+  width: 15%;
+  vertical-align: top;
+}
+
+/* line 573, slate.scss */
+.tFormUnilabel {
+  font-size: 93%;
+  color: #ccc;
+}
+
+/* line 577, slate.scss */
+.tFormWideLabels .tFormLabel {
+  min-width: 220px;
+}
+
+/* line 583, slate.scss */
+.tFormLabelExtra {
+  font-size: 77%;
+  color: #999;
+  padding-top: 3px;
+  margin-top: 3px;
+  border-top: 1px dotted #444;
+}
+/* line 590, slate.scss */
+.tFormLabelExtra > p {
+  margin: 0 0 1em 0;
+}
+
+/* line 597, slate.scss */
+.tFormField > textarea,
+.tFormField > input[type='text'],
+.tFormField > input[type='password'] {
+  width: 98%;
+}
+
+/* line 600, slate.scss */
+.tFormFieldError, .tAjaxFormResult {
+  background: #441111;
+  border-top: 1px solid #6d1b1b;
+  border-bottom: 1px solid #070202;
+  border-left: 1px solid #6d1b1b;
+  background: #441111;
+  border-top: 1px solid #6d1b1b;
+  border-bottom: 1px solid #070202;
+  border-right: 1px solid #070202;
+}
+
+/* line 604, slate.scss */
+.tFormError, .tAjaxFormResult {
+  font-size: 85%;
+  color: #fcc;
+}
+
+/* line 608, slate.scss */
+.tFormError {
+  display: block;
+}
+
+/* line 615, slate.scss */
+.tFormRequired {
+  color: #cc0000;
+}
+
+/* line 619, slate.scss */
+.tFormError {
+  padding-bottom: 8px;
+}
+
+/* line 623, slate.scss */
+.tAjaxFormResult {
+  display: none;
+}
+
+/* line 628, slate.scss */
+.inlinePostPreview {
+  height: 200px;
+  overflow: scroll;
+  border: 1px solid #000;
+  margin: 3px;
+  padding: 6px;
+}
+
+/* line 638, slate.scss */
+.paginationBlockAlone {
+  font-size: 93%;
+  padding: 2px;
+  *zoom: 1;
+  margin-top: 10px;
+  background: #1a1a1a;
+  border-top: 1px solid #343434;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #343434;
+  background: #1a1a1a;
+  border-top: 1px solid #343434;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  box-shadow: 0px 1px 4px #111111;
+}
+/* line 3, slate.scss */
+.paginationBlockAlone:before, .paginationBlockAlone:after {
+  content: " ";
+  display: table;
+}
+/* line 7, slate.scss */
+.paginationBlockAlone:after {
+  clear: both;
+}
+/* line 656, slate.scss */
+.paginationBlockAlone > .paginationHeader {
+  color: #aaa;
+}
+
+/* line 662, slate.scss */
+.paginationHeader {
+  padding: 3px 6px;
+  font-size: 85%;
+  float: left;
+}
+
+/* line 667, slate.scss */
+.inlinePagination {
+  float: right;
+  padding-right: 3px;
+}
+/* line 670, slate.scss */
+.inlinePagination > a, .inlinePagination > span {
+  float: left;
+  padding: 1px 6px;
+  margin: 1px 0px 1px 0px;
+  text-decoration: none;
+}
+/* line 677, slate.scss */
+.inlinePagination > span {
+  cursor: default;
+}
+
+/* line 683, slate.scss */
+.tNormal .inlinePagination > a, .tNormal .inlinePagination > span {
+  background: #143d52;
+  background-image: linear-gradient(to bottom, #1f5c7a, #0a1f29);
+  color: #94bdd1;
+  box-shadow: inset 0px 1px 2px #020608;
+}
+/* line 692, slate.scss */
+.tNormal .inlinePagination > a:hover {
+  background: #1f5c7a;
+  background-image: linear-gradient(to bottom, #297aa3, #0a1f29);
+}
+/* line 698, slate.scss */
+.tNormal .inlinePagination > .pgCurrent {
+  background: #121c21;
+  background-image: linear-gradient(to bottom, #121c21, #365463);
+}
+/* line 704, slate.scss */
+.tNormal .inlinePagination > .pgFiller {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* line 711, slate.scss */
+.paginationBlockAlone .inlinePagination > a, .paginationBlockAlone .inlinePagination > span {
+  margin-right: 0;
+  background: #393939;
+  background-image: linear-gradient(to bottom, #444444, #2a2a2a);
+  color: #ccc;
+  box-shadow: inset 0px 1px 3px #666666;
+}
+/* line 719, slate.scss */
+.paginationBlockAlone .inlinePagination > a:hover {
+  background: #555;
+  background-image: linear-gradient(to bottom, #666666, #4a4a4a);
+  box-shadow: inset 0px 1px 3px #999999;
+}
+/* line 724, slate.scss */
+.paginationBlockAlone .inlinePagination > .pgCurrent {
+  background: #444;
+  background-image: linear-gradient(to bottom, #222222, #494949);
+  box-shadow: inset 0px 1px 2px #151515;
+  color: #888;
+}
+/* line 730, slate.scss */
+.paginationBlockAlone .inlinePagination > .pgFiller {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* line 739, slate.scss */
+#pageWithSidebar {
+  width: 100%;
+}
+
+/* line 742, slate.scss */
+#pwsSidebar {
+  width: 20%;
+  min-width: 150px;
+  vertical-align: top;
+}
+
+/* line 747, slate.scss */
+#pwsContent {
+  padding-left: 12px;
+  vertical-align: top;
+}
+
+/* line 755, slate.scss */
+.pwsSidebarHeading {
+  padding: 4px 4px 3px 10px;
+  margin-top: 12px;
+  font-size: 77%;
+  color: #ddd;
+  text-shadow: 0px 1px 1px #000;
+  background: #0f3f57;
+  border-top: 1px solid #175e82;
+  border-bottom: 1px solid #041016;
+  border-left: 1px solid #175e82;
+  background: #0f3f57;
+  border-top: 1px solid #175e82;
+  border-bottom: 1px solid #041016;
+  border-right: 1px solid #041016;
+  border-radius: 5px 5px 0 0;
+  background: #1c3440;
+  background: linear-gradient(#124864, #081f2b);
+  border: 1px solid #111;
+  box-shadow: inset 0px 1px 1px #1b6e98;
+}
+/* line 772, slate.scss */
+.pwsSidebarHeading:first-child {
+  margin-top: 0;
+}
+
+/* line 776, slate.scss */
+.pwsSidebarSection {
+  padding: 4px 4px 1px;
+  background: #1e1e1e;
+  margin-bottom: 8px;
+  border-radius: 0 0 5px 5px;
+}
+
+/* line 782, slate.scss */
+#pwsSidebar a {
+  display: block;
+  margin-bottom: 4px;
+  padding: 2px 50px 2px 7px;
+  color: #70a7c2;
+  font-size: 85%;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+/* line 795, slate.scss */
+#pwsSidebar a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  right: 0;
+  width: 0;
+  border-left: 50px solid #1e1e1e;
+  border-top: 50px solid #1e1e1e;
+  border-bottom: 50px solid #1e1e1e;
+}
+/* line 810, slate.scss */
+#pwsSidebar a:hover {
+  background: #2b2b2b;
+  color: #fff;
+  text-decoration: none;
+}
+/* line 814, slate.scss */
+#pwsSidebar a:hover:after {
+  border-left: 50px solid #2b2b2b;
+}
+/* line 818, slate.scss */
+#pwsSidebar a.selected {
+  background: #264859;
+  color: #fff;
+}
+/* line 821, slate.scss */
+#pwsSidebar a.selected:after {
+  border-left: 50px solid #264859;
+}
+
+/* line 831, slate.scss */
+.fiDescription {
+  font-size: 85%;
+}
+
+/* line 833, slate.scss */
+.fiCounts {
+  font-size: 77%;
+  text-align: center;
+  background: #151515;
+}
+
+/* line 839, slate.scss */
+.fiLastPost {
+  font-size: 77%;
+}
+
+/* line 846, slate.scss */
+.threadListThreadLink {
+  font-size: 85%;
+  display: block;
+}
+
+/* line 850, slate.scss */
+.threadStickyNote {
+  color: #94bdd1;
+  font-weight: bold;
+}
+
+/* line 854, slate.scss */
+.threadSubtitle {
+  padding-top: 4px;
+  display: block;
+  color: #ddd;
+  font-size: 77%;
+}
+
+/* line 860, slate.scss */
+.threadListCreator {
+  text-align: center;
+  background: #151515;
+}
+
+/* line 864, slate.scss */
+.threadListPostCount {
+  background: #151515;
+  text-align: center;
+}
+
+/* line 868, slate.scss */
+.threadListLastPost {
+  font-size: 77%;
+}
+
+/* line 872, slate.scss */
+.threadListCrumbsSubtitle {
+  font-style: italic;
+}
+
+/* line 877, slate.scss */
+.threadSubtitleWithForumRef {
+  color: #ddd;
+  font-size: 77%;
+}
+/* line 880, slate.scss */
+.threadSubtitleWithForumRef:after {
+  content: ' -';
+}
+
+/* line 884, slate.scss */
+.threadListForumRef {
+  font-size: 77%;
+}
+/* line 886, slate.scss */
+.threadListForumRef > a {
+  color: #999;
+  font-style: italic;
+}
+
+/* line 892, slate.scss */
+.threadListPageJumpTitle {
+  padding: 0px 4px;
+}
+
+/* line 895, slate.scss */
+.threadListPageJump {
+  float: right;
+  font-size: 77%;
+  padding-top: 4px;
+  padding-left: 15px;
+  color: #bbb;
+}
+/* line 901, slate.scss */
+.threadListPageJump > a {
+  background: #111;
+  padding: 2px 5px;
+}
+
+/* line 911, slate.scss */
+.postSidebar {
+  vertical-align: top;
+  text-align: center;
+  width: 200px;
+  padding: 0;
+  background: #121c21;
+  border-top: 1px solid #243842;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #243842;
+  background: #121c21;
+  border-top: 1px solid #243842;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+/* line 918, slate.scss */
+.postSidebar .avatar {
+  display: block;
+  margin: 4px auto;
+}
+/* line 923, slate.scss */
+.postSidebar .userTitle {
+  display: block;
+  font-size: 77%;
+}
+/* line 927, slate.scss */
+.postSidebar .groupName {
+  display: block;
+  font-size: 77%;
+  color: #ddd;
+}
+
+/* line 937, slate.scss */
+.postSidebarTopBit {
+  border-bottom: 1px dotted #0f3f57;
+  padding: 4px 6px 8px 6px;
+  background-image: linear-gradient(to bottom, #17242b, #121c21);
+}
+
+/* line 943, slate.scss */
+.postSidebarInfo {
+  margin: 6px auto;
+  font-size: 77%;
+}
+/* line 946, slate.scss */
+.postSidebarInfo .label {
+  text-align: right;
+  padding-right: 6px;
+  color: #4d90b3;
+  width: 1px;
+}
+/* line 952, slate.scss */
+.postSidebarInfo .value {
+  text-align: left;
+}
+
+/* line 957, slate.scss */
+.postDate, .postRevisions, .postOptions {
+  font-size: 77%;
+  padding: 4px 8px;
+  color: #aaa;
+}
+
+/* line 963, slate.scss */
+.postDate {
+  background: #181818;
+  border-top: 1px solid #323232;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #323232;
+  height: 1px;
+}
+
+/* line 967, slate.scss */
+.postRevisions {
+  background: #181818;
+  border-top: 1px solid #323232;
+  border-bottom: 1px solid black;
+  color: #777;
+}
+
+/* line 971, slate.scss */
+.postOptions {
+  background: #181818;
+  border-top: 1px solid #323232;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  text-align: right;
+}
+/* line 974, slate.scss */
+.postOptions > a {
+  margin-right: 14px;
+}
+
+/* line 979, slate.scss */
+.postDate, .postRevisions, .postOptions {
+  background-image: linear-gradient(to bottom, #1f1f1f, #181818);
+}
+
+/* line 983, slate.scss */
+.postContentWrapper {
+  background: #222222;
+  border-top: 1px solid #3c3c3c;
+  border-bottom: 1px solid black;
+  border-left: 1px solid #3c3c3c;
+  background: #222222;
+  border-top: 1px solid #3c3c3c;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  vertical-align: top;
+  padding: 8px 8px;
+}
+
+/* line 988, slate.scss */
+.postText {
+  font-size: 93%;
+}
+
+/* line 991, slate.scss */
+.postSignature {
+  color: #888;
+  font-size: 77%;
+  padding-top: 4px;
+  margin-top: 16px;
+  border-top: 1px dotted #444;
+}
+
+/* line 999, slate.scss */
+.quickEdit > form > textarea {
+  width: 98%;
+}
+
+/* line 1003, slate.scss */
+.quickEditBar {
+  padding-top: 8px;
+  font-size: 85%;
+}
+
+/* line 1009, slate.scss */
+#thQuickReplyTable {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+/* line 1019, slate.scss */
+.js .epSimplePostStyleOptions,
+.js .epAdvancedPostStyleOptions {
+  display: none;
+}
+
+/* line 1026, slate.scss */
+.no-js .epSimplePostStyleOptions,
+.no-js .epAdvancedPostStyleOptions,
+.js.epSimplePostStyle .epSimplePostStyleOptions,
+.js.epAdvancedPostStyle .epAdvancedPostStyleOptions {
+  display: table-row;
+}
+
+/* line 1034, slate.scss */
+textarea, input, button {
+  color: #eee;
+}
+
+/* line 1038, slate.scss */
+textarea, input[type='text'], input[type='password'] {
+  box-shadow: inset 0px 1px 2px #111111;
+  border: 1px solid #555;
+  background: #333;
+  padding: 4px;
+  font-size: 85%;
+}
+/* line 1046, slate.scss */
+textarea:hover, input[type='text']:hover, input[type='password']:hover {
+  border: 1px solid #888;
+}
+/* line 1050, slate.scss */
+textarea:focus, textarea:active, input[type='text']:focus, input[type='text']:active, input[type='password']:focus, input[type='password']:active {
+  border: 1px solid #999;
+  background: #484848;
+}
+
+/* line 1056, slate.scss */
+button, input[type='submit'] {
+  background: #444444;
+  border-top: 1px solid #5e5e5e;
+  border-bottom: 1px solid #1e1e1e;
+  border-left: 1px solid #5e5e5e;
+  background: #444444;
+  border-top: 1px solid #5e5e5e;
+  border-bottom: 1px solid #1e1e1e;
+  border-right: 1px solid #1e1e1e;
+  color: #ccc;
+  padding: 3px 9px;
+  box-shadow: 0px 1px 1px black, inset 0px 1px 2px #555555;
+}
+/* line 1062, slate.scss */
+button:hover, input[type='submit']:hover {
+  background: #555555;
+  border-top: 1px solid #6e6e6e;
+  border-bottom: 1px solid #2f2f2f;
+  border-left: 1px solid #6e6e6e;
+  background: #555555;
+  border-top: 1px solid #6e6e6e;
+  border-bottom: 1px solid #2f2f2f;
+  border-right: 1px solid #2f2f2f;
+}
+/* line 1066, slate.scss */
+button:active, input[type='submit']:active {
+  background: #333333;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #404040;
+  border-left: 1px solid #1a1a1a;
+  background: #333333;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #404040;
+  border-right: 1px solid #404040;
+  padding-top: 5px;
+  padding-bottom: 1px;
+}
+
+/* line 1076, slate.scss */
+#overlayWrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4000;
+}
+
+/* line 1086, slate.scss */
+#overlayBG {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  filter: alpha(opacity=60);
+  zoom: 1;
+  opacity: 0.6;
+}
+
+/* line 1097, slate.scss */
+.overlay {
+  position: relative;
+  display: none;
+  z-index: 5000;
+  margin: 48px auto;
+  box-shadow: 0px 2px 4px black;
+}
+
+/* line 1106, slate.scss */
+#workingOverlay {
+  display: none;
+  position: fixed;
+  text-align: center;
+  right: 30px;
+  top: 30px;
+  font-size: 120%;
+  padding: 6px 12px;
+  z-index: 10000;
+  background: rgba(17, 17, 17, 0.7);
+  border-top: 1px solid rgba(43, 43, 43, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  border-left: 1px solid rgba(43, 43, 43, 0.7);
+  background: rgba(17, 17, 17, 0.7);
+  border-top: 1px solid rgba(43, 43, 43, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  border-right: 1px solid rgba(0, 0, 0, 0.7);
+}

@@ -61,6 +61,8 @@ POSTS_PER_PAGE = 15
 
 PM_RECIPIENT_LIMIT = 10
 
+USE_COMPASS = False
+
 AVATAR_DIR = '/home/me/Dev/Python/bitBoard/data/avatars'
 AVATAR_FILE_SIZE = 200 * 1024
 AVATAR_IMAGE_SIZE = (150, 150)
@@ -80,9 +82,15 @@ csrf = SeaSurf(app)
 
 assets = Environment(app)
 assets.url = '/static/'
-css = Bundle('css_assets/normalize.css', 'css_assets/main.css',
-	Bundle('css_assets/slate.scss', filters='compass'),
-	filters='css_slimmer', output='slate.css')
+
+if USE_COMPASS:
+	css = Bundle('css_assets/normalize.css', 'css_assets/main.css',
+		Bundle('css_assets/slate.scss', filters='compass'),
+		filters='css_slimmer', output='slate.css')
+else:
+	css = Bundle('css_assets/normalize.css', 'css_assets/main.css',
+		Bundle('css_assets/slate_precompiled.css'),
+		filters='css_slimmer', output='slate.css')
 assets.register('css_all', css)
 
 #toolbar = DebugToolbarExtension(app)
