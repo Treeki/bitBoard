@@ -5,6 +5,7 @@ from bitBoard import app, jsonify_errors, add_null_entities, \
 from bitBoard.views.base import RedirectForm, get_redirect_target
 from bitBoard.models import *
 from bitBoard.parser import parse_text
+from bitBoard.wtforms_extended_selectfield import SelectField
 from flask import Flask, request, session, g, redirect, url_for, \
 		abort, render_template, flash, jsonify, escape
 from flask.ext.wtf import Form, TextField, PasswordField, HiddenField, \
@@ -285,6 +286,9 @@ class ThreadForm(PostForm):
 
 class PrivateThreadForm(ThreadForm):
 	recipients = TextAreaField('Recipients')
+
+class MoveThreadForm(Form):
+	destforum = SelectField('Destination Forum')
 
 @app.route('/forum/<forum_slug>/post',
 	endpoint='post_thread', methods=['GET', 'POST'])
@@ -630,6 +634,83 @@ def delete_post(forum_slug, thread_id, thread_slug, post_id):
 			thread=post.thread,
 			forum=post.thread.forum,
 			url=post.delete_url)
+			
+@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/move',
+	endpoint='move_thread', methods=['GET', 'POST'])
+def thread_move_action(forum_slug, thread_id, thread_slug):
+	url_forum = Forum.query.filter_by(slug=forum_slug).first()
+	thread = Thread.query.get(thread_id)
+
+	if not thread:
+		abort(404)
+	if thread.is_private:
+		abort(404)
+
+	forum = url_forum
+	url = thread.move_url
+
+	if not forum.can_be_moderated_by(g.user):
+		abort(403)
+
+	if request.method == 'GET' and (url_forum != thread.forum or thread_slug != thread.slug):
+		return redirect(url, code=301)
+		
+	# wild copypasta
+	c_query = db.session.query(Category).order_by('position')
+	f_query = db.session.query(Forum).order_by('position')
+
+	categories = []
+	forum_lists = {}
+	good_forums = []
+	for category in c_query:
+		list = []
+		forum_lists[category.id] = list
+		categories.append((category.name, list))
+
+	for forum in f_query:
+		if forum.can_be_viewed_by(g.user):
+			forum_lists[forum.category_id].append((forum.id, forum.name))
+			good_forums.append(forum.id)
+			
+	ajax = ('ajax' in request.values) # TODO use this eventually
+	form = MoveThreadForm(destforum = thread.forum_id)
+	form.destforum.choices = categories
+	
+	if request.method == 'POST':
+		newforum = form.destforum.data
+		
+		# TODO figure out why this doesn't work right
+		#if newforum not in good_forums:
+		#	abort(404);
+			
+		oldforum = thread.forum
+		thread.forum.thread_count -= 1
+		thread.forum.post_count -= thread.post_count
+		
+		thread.forum_id = newforum
+		
+		newforum = Forum.query.filter_by(id=newforum).first()
+		newforum.thread_count += 1
+		newforum.post_count += thread.post_count
+		
+		db.session.commit()
+		
+		oldlastthread = Thread.query.filter_by(forum_id=oldforum.id).order_by(db.desc(Thread.last_updated_at)).first()
+		oldforum.last_thread_id = None if oldlastthread is None else oldlastthread.id
+		newlastthread = Thread.query.filter_by(forum_id=newforum.id).order_by(db.desc(Thread.last_updated_at)).first()
+		newforum.last_thread_id = None if newlastthread is None else newlastthread.id
+		
+		db.session.commit()
+		return redirect(thread.url, code=303)
+
+	else:
+		return render_template('move_thread.html',
+			form=form,
+			crumbs_type='thread',
+			forum=forum, thread=thread,
+			final_crumb=('Move Thread'),
+			url=url)
+
 
 @app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/lock',
 	endpoint='lock_thread', defaults={'action': 'lock'}, methods=['GET', 'POST'])

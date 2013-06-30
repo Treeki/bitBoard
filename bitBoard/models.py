@@ -359,6 +359,9 @@ class Thread(db.Model):
 	@property
 	def sticky_url(self):
 		return url_for('sticky_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
+	@property
+	def move_url(self):
+		return url_for('move_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
 
 	@property
 	def can_be_followed(self):
