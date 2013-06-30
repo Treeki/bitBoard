@@ -29,7 +29,7 @@ class MySanitiser(sanitizer.HTMLSanitizer):
 def parse_text(text):
 	t1 = time.clock()
 	parser = html5lib.HTMLParser(
-			tree=treebuilders.getTreeBuilder('simpletree'),
+			tree=treebuilders.getTreeBuilder('etree'),
 			tokenizer=MySanitiser)
 	t2 = time.clock()
 
@@ -42,7 +42,7 @@ def parse_text(text):
 	doc = parser.parse(text)
 	t5 = time.clock()
 
-	walker = treewalkers.getTreeWalker('simpletree')
+	walker = treewalkers.getTreeWalker('etree')
 	stream = walker(doc)
 	s = serializer.htmlserializer.HTMLSerializer()
 	output_generator = s.serialize(stream)
