@@ -24,7 +24,8 @@ moderators = Usergroup(name=u'Moderators',
 db.session.add(moderators)
 
 admins = Usergroup(name=u'Administrators',
-		username_tag=u'<span style=\'color: #008912\'><b>%s</b></span>')
+		username_tag=u'<span style=\'color: #008912\'><b>%s</b></span>',
+		is_admin=True)
 db.session.add(admins)
 
 guests = Usergroup(name=u'Guests',
