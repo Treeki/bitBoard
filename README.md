@@ -62,8 +62,13 @@ the ridiculously long list of things I have planned...
 - webassets 0.8
 - WTForms 1.0.2
 
-Also, PIL is necessary for validating the dimensions of uploaded avatars. And
-some version of Sass/Compass is needed for compiling the CSS file. Even though
-I don't use anything Compass-specific atm... (yet?)
+Also, PIL is necessary for validating the dimensions of uploaded avatars.
+
+If you want to modify the CSS, you'll need to install some version of
+Sass/Compass to compile it, and change HAVE_COMPASS to True in *__init__.py*.
+(I really should separate the config into a different file already.)
+
+If you're not doing that, the pre-compiled version included in the repo should
+be fine.
 
 I hope I didn't forget anything.
