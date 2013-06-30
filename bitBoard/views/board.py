@@ -115,6 +115,9 @@ def fetch_threads_and_threadread_query():
 
 @app.route('/messages')
 def private_messages():
+	if not g.user:
+		abort(403)
+
 	threads = fetch_threads_and_threadread_query().\
 			filter(Thread.is_private == True).\
 			filter(Thread.private_users.contains(g.user))
