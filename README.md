@@ -81,6 +81,7 @@ I hope I didn't forget anything.
   from the site or install it from your distro's repos if you're on Linux.
 - Copy `bitBoard/config.py.default` to `bitBoard/config.py`.
 - Edit your new `config.py` to include the appropriate settings.
+- Create the database with some initial settings: `python2 init_db.py`
 - Run using `python2 runserver.py`.
 - Be sad because the software isn't complete yet.
 
