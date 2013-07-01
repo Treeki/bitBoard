@@ -1,21 +1,17 @@
 {% extends "forum_base.html" %}
 
-{% block title %}{{final_crumb}}{% endblock %}
+{% block title %}Move Thread: {{thread.title}}{% endblock %}
 
 {% block sub_bar %}
-% if crumbs_type
 	{% call create_sub_bar() %}
 
 	{% call sub_bar_crumbs() %}
-		% if crumbs_type == 'thread'
 		{{base_thread_crumbs(forum, thread)}}
 		&raquo;
-		% endif
-		<a href='{{url}}'>{{final_crumb}}</a>
+		<a href='{{url}}'>Move</a>
 	{% endcall %}
 
 	{% endcall %}
-% endif
 {% endblock %}
 
 
@@ -27,10 +23,28 @@
 	{{csrf_token_field()}}
 	{{form.next}}
 
-	<table class='tNormal tWideForm'>
+	<table class='tNormal tMidForm'>
 		<tr>
 			<td class='tFormTitle' colspan='2'>
 				Move Thread
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormLabel'>
+				Thread
+			</td>
+			<td class='tFormField'>
+				{{thread.title}} by {{thread.creator.link}}
+			</td>
+		</tr>
+
+		<tr>
+			<td class='tFormLabel'>
+				Current Forum
+			</td>
+			<td class='tFormField'>
+				{{forum.name}}
 			</td>
 		</tr>
 
@@ -38,7 +52,7 @@
 		
 		<tr>
 			<td class='tFormFooter' colspan='2'>
-				<input type='submit' value='{{final_crumb}}'>
+				<input type='submit' value='Move'>
 			</td>
 		</tr>
 	</table>

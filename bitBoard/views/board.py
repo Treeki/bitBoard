@@ -646,7 +646,7 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 	if thread.is_private:
 		abort(404)
 
-	forum = url_forum
+	forum = thread.forum
 	url = thread.move_url
 
 	if not forum.can_be_moderated_by(g.user):
@@ -654,7 +654,7 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 
 	if request.method == 'GET' and (url_forum != thread.forum or thread_slug != thread.slug):
 		return redirect(url, code=301)
-		
+
 	# wild copypasta
 	c_query = db.session.query(Category).order_by('position')
 	f_query = db.session.query(Forum).order_by('position')
@@ -667,45 +667,45 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 		forum_lists[category.id] = list
 		categories.append((category.name, list))
 
-	for forum in f_query:
-		if forum.can_be_viewed_by(g.user):
-			forum_lists[forum.category_id].append((forum.id, forum.name))
-			good_forums.append(forum.id)
-			
+	for iter_forum in f_query:
+		if iter_forum != forum and forum.can_be_viewed_by(g.user):
+			forum_lists[iter_forum.category_id].append((iter_forum.id, iter_forum.name))
+			good_forums.append(iter_forum.id)
+
 	ajax = ('ajax' in request.values) # TODO use this eventually
-	form = MoveThreadForm(destforum = thread.forum_id)
+	form = MoveThreadForm(destforum=thread.forum_id)
 	form.destforum.choices = categories
-	
+
 	if request.method == 'POST':
-		newforum = form.destforum.data
-		
-		if newforum not in good_forums:
-			abort(404);
-			
-		oldforum = thread.forum
-		thread.forum.thread_count -= 1
-		thread.forum.post_count -= thread.post_count
-		
-		thread.forum_id = newforum
-		
-		newforum = Forum.query.filter_by(id=newforum).first()
-		newforum.thread_count += 1
-		newforum.post_count += thread.post_count
-		
+		new_forum_id = form.destforum.data
+
+		if new_forum_id not in good_forums:
+			# TODO: use something else here?
+			# this is not exactly a 404-worthy error...
+			abort(404)
+
+		old_forum = thread.forum
+		old_forum.thread_count -= 1
+		old_forum.post_count -= thread.post_count
+
+		thread.forum_id = new_forum_id
+
+		new_forum = Forum.query.filter_by(id=new_forum_id).first()
+		new_forum.thread_count += 1
+		new_forum.post_count += thread.post_count
+	
 		db.session.commit()
-		
-		oldforum.update_last_thread()
-		newforum.update_last_thread()
-		
+	
+		old_forum.update_last_thread()
+		new_forum.update_last_thread()
+	
 		db.session.commit()
 		return redirect(thread.url, code=303)
 
 	else:
 		return render_template('move_thread.html',
 			form=form,
-			crumbs_type='thread',
 			forum=forum, thread=thread,
-			final_crumb=('Move Thread'),
 			url=url)
 
 

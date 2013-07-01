@@ -56,7 +56,9 @@
 * **[done]** sticky/unsticky
 * **[done]** close/unclose
 * better indication for closed threads?
-* move thread
+* **[kinda done]** move thread
+	* Shadow threads. Maybe?
+	* Still needs to take thread following into account...
 * move posts/split thread, later
 * Eventually.. attachments, maybe?
 
