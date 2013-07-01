@@ -165,7 +165,7 @@ class Forum(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	slug = db.Column(db.String(50), unique=True)
 	name = db.Column(db.Unicode(250), nullable=False)
-	description = db.Column(db.Text)
+	description = db.Column(db.UnicodeText)
 
 	category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
 
