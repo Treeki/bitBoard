@@ -46,7 +46,7 @@
 	  or their usergroup changes, or their usergroup's permissions change).
 * Allow mods to view previous revisions of posts
 * Finish post layout implementation
-* Custom titles
+* **[done]** Custom titles
 * Automatic updates showing new threads/posts
 * Fix the styling on the Latest Posts page...
 * Post previewing
