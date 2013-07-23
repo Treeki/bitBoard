@@ -5,38 +5,34 @@
 {% block body %}
 {% set dategroup = None %}
 
-<table class='styled fullWidth rowHighlights'>
-	<tr class='header'>
-		<td style='width: 15%'>Date:</td>
-		<td style='text-align:left'>Thread:</td>
-		<td style='width: 20%'>Poster:</td>
+<table class='tNormal'>
+	<tr>
+		<td class='tHeader' style='width: 20%'>Date:</td>
+		<td class='tHeader' style='width: 20%'>Poster:</td>
+		<td class='tHeader' style='text-align:left'>Thread:</td>
 	</tr>
 	{% for post in posts %}
 	{% set dategroup = update_dategroup(dategroup, post.created_at) %}
 	{% if dategroup.show_now %}
-	<tr class='subheader'>
-		<td></td>
-		<td colspan='2'>
+	<tr>
+		<td class='tSubHeader' colspan='3' style='text-align:center'>
 			{{dategroup.current|date}}
 		</td>
 	</tr>
 	{% endif %}
-	<tr>
-		<td class='postListDateTime'>
-			<span class='postListTime'>{{post.created_at|time}}</span>
-			<br>
-			<span class='postListDate'>{{post.created_at|date}}</span>
+	<tr class='{{loop.cycle('row0', 'row1')}}'>
+		<td class='tStd postListDateTime'>
+			{{post.created_at|relative_date_and_time}}
 		</td>
-		<td class='postListThread'>
+		<td class='tStd postListCreator'>
+			{{post.creator.link}}
+		</td>
+		<td class='tStd postListThread'>
 			{% set thread = post.thread %}
 
 			<a href='{{thread.url}}' class='threadListThreadLink'>{{thread.title}}</a>
-			<br>
 			{% if thread.subtitle %}<span class='threadSubtitleWithForumRef'>{{thread.subtitle}}</span>{% endif %}
 			<span class='threadListForumRef'><a href='{{thread.forum.url}}'>{{thread.forum.name}}</a></span>
-		</td>
-		<td class='postListCreator'>
-			{{post.creator.link}}
 		</td>
 	</tr>
 	{% endfor %}
