@@ -62,9 +62,9 @@ class User(db.Model):
 	thread_count = db.Column(db.Integer, default=0)
 	post_count = db.Column(db.Integer, default=0)
 
-	threads = db.relationship('Thread', backref='creator',
+	threads = db.relationship('Thread',
 			lazy='dynamic',
-			primaryjoin='Thread.creator_id==User.id')
+			primaryjoin='and_(Thread.creator_id==User.id, Thread.type==1)')
 	posts = db.relationship('Post', backref='creator', lazy='dynamic')
 
 	title = db.Column(db.Unicode(250))
@@ -267,7 +267,10 @@ class Thread(db.Model):
 
 	forum_id = db.Column(db.Integer, db.ForeignKey('forums.id'), nullable=True)
 
-	is_private = db.Column(db.Boolean, default=False)
+	BASIC_THREAD = 1
+	PRIVATE = 2
+	type = db.Column(db.Integer, nullable=False)
+
 	private_users = db.relationship(User,
 		secondary=pm_thread_users,
 		backref=db.backref('private_threads', lazy='dynamic'))
@@ -287,6 +290,9 @@ class Thread(db.Model):
 		return bool(r)
 
 	creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+	creator = db.relationship('User',
+		uselist=False,
+		primaryjoin='Thread.creator_id==User.id')
 
 	is_locked = db.Column(db.Boolean, default=False)
 	is_stickied = db.Column(db.Boolean, default=False)
@@ -313,6 +319,12 @@ class Thread(db.Model):
 
 	icon = db.Column(db.Integer, default=None)
 
+	@property
+	def is_basic_thread(self):
+		return self.type == self.BASIC_THREAD
+	@property
+	def is_private(self):
+		return self.type == self.PRIVATE
 	def update_last_post(self, consider=None):
 		post = self.posts[-1]
 		if consider and consider.created_at > post.created_at:
@@ -321,7 +333,7 @@ class Thread(db.Model):
 		self.last_poster = post.creator
 		self.last_post_at = post.created_at
 		self.last_updated_at = post.created_at
-		if not self.is_private:
+		if self.is_basic_thread:
 			self.forum.update_last_thread(self)
 
 	def make_slug(self):
@@ -346,22 +358,31 @@ class Thread(db.Model):
 	@property
 	def reply_url(self):
 		if self.is_private:
-			return url_for('pm_post_reply', thread_id=self.id, thread_slug=self.slug)
+			return url_for('pm_post_reply',
+				thread_id=self.id, thread_slug=self.slug)
 		else:
-			return url_for('post_reply', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
+			return url_for('post_reply',
+				forum_slug=self.forum.slug,
+				thread_id=self.id, thread_slug=self.slug)
 
 	@property
 	def follow_url(self):
 		return url_for('follow_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
 	@property
 	def lock_url(self):
-		return url_for('lock_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
+		return url_for('lock_thread',
+			forum_slug=self.forum.slug,
+			thread_id=self.id, thread_slug=self.slug)
 	@property
 	def sticky_url(self):
-		return url_for('sticky_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
+		return url_for('sticky_thread',
+			forum_slug=self.forum.slug,
+			thread_id=self.id, thread_slug=self.slug)
 	@property
 	def move_url(self):
-		return url_for('move_thread', forum_slug=self.forum.slug, thread_id=self.id, thread_slug=self.slug)
+		return url_for('move_thread',
+			forum_slug=self.forum.slug,
+			thread_id=self.id, thread_slug=self.slug)
 
 	@property
 	def can_be_followed(self):
@@ -415,6 +436,7 @@ class Post(db.Model):
 
 	@property
 	def edit_url(self):
+		# Posts in private threads cannot currently be edited
 		thread = self.thread
 		return url_for('edit_post',
 				forum_slug=thread.forum.slug,
@@ -423,6 +445,7 @@ class Post(db.Model):
 
 	@property
 	def delete_url(self):
+		# Posts in private threads cannot currently be deleted
 		thread = self.thread
 		return url_for('delete_post',
 				forum_slug=thread.forum.slug,

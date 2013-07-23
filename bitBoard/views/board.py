@@ -120,7 +120,7 @@ def private_messages():
 		abort(403)
 
 	threads = fetch_threads_and_threadread_query().\
-			filter(Thread.is_private == True).\
+			filter(Thread.type == Thread.PRIVATE).\
 			filter(Thread.private_users.contains(g.user))
 
 	# This is since we depend on the userpanel_base template
@@ -199,6 +199,8 @@ def view_thread(slug, thread_id, thread_slug=None):
 		abort(404)
 	if not thread.can_be_viewed_by(g.user):
 		abort(403)
+	if not thread.is_basic_thread:
+		abort(403)
 	if url_forum != thread.forum or thread_slug != thread.slug:
 		return redirect(thread.url, code=301)
 	return _base_view_thread(thread)
@@ -210,6 +212,8 @@ def pm_view_thread(thread_id, thread_slug=None):
 	if not thread:
 		abort(404)
 	if not thread.can_be_viewed_by(g.user):
+		abort(403)
+	if not thread.is_private:
 		abort(403)
 	if thread_slug != thread.slug:
 		return redirect(thread.url, code=301)
@@ -345,7 +349,7 @@ def post_thread(forum_slug=None, is_private=False):
 				subtitle=form.subtitle.data,
 				forum=forum,
 				creator=g.user,
-				is_private=is_private,
+				type=(Thread.PRIVATE if is_private else Thread.BASIC_THREAD),
 				post_count=1)
 		thread.make_slug()
 		db.session.add(thread)
@@ -406,25 +410,31 @@ def post_thread(forum_slug=None, is_private=False):
 			url=url)
 
 @app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/reply',
-	endpoint='post_reply', methods=['GET', 'POST'])
+	endpoint='post_reply', methods=['GET', 'POST'],
+	defaults={'type': Thread.BASIC_THREAD})
 @app.route('/messages/<int:thread_id>-<thread_slug>/reply',
 	endpoint='pm_post_reply', methods=['GET', 'POST'],
-	defaults={'is_private': True})
-def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
-	if not is_private:
+	defaults={'type': Thread.PRIVATE})
+def post_reply(thread_id, thread_slug, type,
+	forum_slug=None, dcategory_slug=None):
+
+	if type == Thread.BASIC_THREAD:
 		url_forum = Forum.query.filter_by(slug=forum_slug).first()
 
 	thread = Thread.query.get(thread_id)
 	if not thread:
 		abort(404)
+	if type != thread.type:
+		abort(404)
+
 	if not thread.can_be_replied_to_by(g.user):
 		abort(403)
+
 	if request.method == 'GET':
 		url_valid = True
-		if not is_private:
-			if url_forum != thread.forum:
-				url_valid = False
-		if thread_slug != thread.slug:
+		if type == Thread.BASIC_THREAD and url_forum != thread.forum:
+			url_valid = False
+		elif thread_slug != thread.slug:
 			url_valid = False
 		if not url_valid:
 			return redirect(thread.reply_url, code=301)
@@ -434,7 +444,7 @@ def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
 	form = PostForm()
 
 	if form.validate_on_submit():
-		if is_private:
+		if type == Thread.PRIVATE:
 			post_number = -1
 		else:
 			post_number = g.user.post_count + 1
@@ -458,13 +468,14 @@ def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
 		post.current_version = version
 
 		thread.post_count += 1
-		if not is_private:
+		if type != Thread.PRIVATE:
 			g.user.post_count += 1
-			thread.forum.post_count += 1
+			if type == Thread.BASIC_THREAD:
+				thread.forum.post_count += 1
 		thread.update_last_post(post)
 
 		# This is ugly. Deal with notifications.
-		u_table = pm_thread_users if is_private else thread_followers
+		u_table = pm_thread_users if (type == Thread.PRIVATE) else thread_followers
 		notify_join = db.and_(
 			Notification.type == Notification.FOLLOWED_THREAD,
 			u_table.c.user_id == Notification.recipient_id,
@@ -520,25 +531,36 @@ def post_reply(thread_id, thread_slug, forum_slug=None, is_private=False):
 	else:
 		return jsonify(was_posted=False, errors=jsonify_errors(form))
 
-@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/<int:post_id>/edit', methods=['GET', 'POST'])
-def edit_post(forum_slug, thread_id, thread_slug, post_id):
-	url_forum = Forum.query.filter_by(slug=forum_slug).first()
+@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/<int:post_id>/edit',
+	endpoint='edit_post', methods=['GET', 'POST'],
+	defaults={'type': Thread.BASIC_THREAD})
+def edit_post(thread_id, thread_slug, post_id,
+	type, forum_slug=None, dcategory_slug=None):
+
+	if type == Thread.BASIC_THREAD:
+		url_forum = Forum.query.filter_by(slug=forum_slug).first()
+
 	url_thread = Thread.query.get(thread_id)
 	post = Post.query.get(post_id)
-	thread = post.thread
-
 	if not post:
+		abort(404)
+
+	thread = post.thread
+	if thread.type != type:
 		abort(404)
 	if not post.can_be_edited_by(g.user):
 		abort(403)
-	if request.method == 'GET' and (url_forum != thread.forum or thread_slug != thread.slug):
-		return redirect(post.edit_url, code=301)
+	if request.method == 'GET':
+		if thread_id != thread.id or \
+		   thread_slug != thread.slug or \
+		   (type == Thread.BASIC_THREAD and url_forum != thread.forum):
+			return redirect(post.edit_url, code=301)
 
 	posts_before = Post.query.\
 		filter(Post.thread == thread, Post.id < post.id).\
 		count()
 
-	edits_thread = (posts_before == 0)
+	edits_thread = (thread.is_basic_thread and (posts_before == 0))
 
 	ajax = ('ajax' in request.values)
 
@@ -601,18 +623,30 @@ def edit_post(forum_slug, thread_id, thread_slug, post_id):
 		return jsonify(was_edited=False, errors=jsonify_errors(form))
 
 
-@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/<int:post_id>/delete', methods=['GET', 'POST'])
-def delete_post(forum_slug, thread_id, thread_slug, post_id):
-	url_forum = Forum.query.filter_by(slug=forum_slug).first()
+@app.route('/forum/<forum_slug>/<int:thread_id>-<thread_slug>/<int:post_id>/delete',
+	endpoint='delete_post', methods=['GET', 'POST'],
+	defaults={'type': Thread.BASIC_THREAD})
+def delete_post(thread_id, thread_slug, post_id,
+	type, forum_slug=None, dcategory_slug=None):
+
+	if type == Thread.BASIC_THREAD:
+		url_forum = Forum.query.filter_by(slug=forum_slug).first()
+
 	url_thread = Thread.query.get(thread_id)
 	post = Post.query.get(post_id)
-
 	if not post:
+		abort(404)
+
+	thread = post.thread
+	if thread.type != type:
 		abort(404)
 	if not post.can_be_deleted_by(g.user):
 		abort(403)
-	if request.method == 'GET' and (url_forum != post.thread.forum or thread_slug != post.thread.slug):
-		return redirect(post.delete_url, code=301)
+	if request.method == 'GET':
+		if thread_id != thread.id or \
+		   thread_slug != thread.slug or \
+		   (type == Thread.BASIC_THREAD and url_forum != thread.forum):
+			return redirect(post.delete_url, code=301)
 
 	ajax = ('ajax' in request.values)
 
@@ -643,7 +677,7 @@ def thread_move_action(forum_slug, thread_id, thread_slug):
 
 	if not thread:
 		abort(404)
-	if thread.is_private:
+	if not thread.is_basic_thread:
 		abort(404)
 
 	forum = thread.forum
@@ -722,7 +756,7 @@ def thread_mod_action(forum_slug, thread_id, thread_slug, action):
 
 	if not thread:
 		abort(404)
-	if thread.is_private:
+	if not thread.is_basic_thread:
 		abort(404)
 
 	forum = thread.forum
