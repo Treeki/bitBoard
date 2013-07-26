@@ -1,7 +1,8 @@
 from bitBoard import app, jsonify_errors, add_null_entities, \
 		THREADS_PER_PAGE, POSTS_PER_PAGE, \
 		PM_RECIPIENT_LIMIT, \
-		parse_ugly_date_and_time, format_ugly_date_and_time
+		parse_ugly_date_and_time, format_ugly_date_and_time, \
+		add_extra_stylesheet
 from bitBoard.views.base import RedirectForm, get_redirect_target
 from bitBoard.models import *
 from bitBoard.parser import parse_text
@@ -272,6 +273,12 @@ def _base_view_thread(thread):
 
 	pagenum = int(request.args.get('page', 1))
 	pagination = query.paginate(pagenum, POSTS_PER_PAGE, error_out=False)
+
+	# for custom layouts
+	for post in pagination.items:
+		user = post.creator
+		if user.post_style == 2:
+			add_extra_stylesheet(user.style_url)
 
 	quick_reply = PostForm(formdata=None)
 	return render_template('view_thread.html',

@@ -1073,6 +1073,11 @@ td {
 }
 
 /* line 988, slate.scss */
+.postContentWrapperCustom {
+  vertical-align: top;
+}
+
+/* line 991, slate.scss */
 .postText {
   font-size: 93%;
 }

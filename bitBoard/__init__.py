@@ -130,6 +130,8 @@ def before_request():
 		g.effective_group_id = GUEST_USER_GROUP_ID
 		g.effective_group = Usergroup.get_cached(GUEST_USER_GROUP_ID)
 
+	g.extra_styles = []
+
 	# I don't think I like this bit too much...
 	g.show_ip_addresses = g.effective_group.is_admin
 
@@ -275,6 +277,12 @@ def _update_dategroup(dg, new_date):
 
 	return dg
 
+def add_extra_stylesheet(url):
+	if url not in g.extra_styles:
+		g.extra_styles.append(url)
+
+def _get_extra_stylesheets():
+	return g.extra_styles
 
 import bitBoard.views.base
 import bitBoard.views.user
@@ -326,5 +334,7 @@ def add_template_functions():
 			get_notifications=_get_notifications,
 			update_and_get_view_count=_update_and_get_view_count,
 			get_smilies=_get_smilies,
+
+			get_extra_stylesheets=_get_extra_stylesheets,
 			)
 

@@ -10,6 +10,10 @@
 		<link href="{{ASSET_URL}}" media="screen, projection" rel="stylesheet" type="text/css" id='blah'>
 		{% endassets %}
 
+		{% for css in get_extra_stylesheets() %}
+		<link href='{{css}}' media='screen,projection' rel='stylesheet' type='text/css'>
+		{% endfor %}
+
 		{% from "_form_helpers.html" import form_field_table_row, csrf_token_field %}
 
 		<script src="/static/vendor/modernizr-2.6.2.min.js"></script>

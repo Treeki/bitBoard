@@ -46,6 +46,8 @@
 	  or their usergroup changes, or their usergroup's permissions change).
 * Allow mods to view previous revisions of posts
 * Finish post layout implementation
+	* Inject style URLs properly when post_box is added to a page via JS
+	* Support non-external CSS
 * **[done]** Custom titles
 * Automatic updates showing new threads/posts
 * Fix the styling on the Latest Posts page...
