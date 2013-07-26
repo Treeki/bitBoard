@@ -136,7 +136,7 @@ a {
 }
 
 #main_wrapper {
-	padding: 8px $globalHorzPadding 24px;
+	padding: 12px $globalHorzPadding 24px;
 }
 
 #main_header {
@@ -641,7 +641,7 @@ td { *position: relative; }
 	padding: 2px;
 
 	@include clearfix;
-	margin-top: 10px;
+	//margin-top: 10px;
 
 	// @include box3d($paginationBlockColour);
 	// background-image: linear-gradient(lighten($paginationBlockColour, 10%), $paginationBlockColour);
@@ -1010,8 +1010,8 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 
 
 #thQuickReplyTable {
-	margin-top: 40px;
-	margin-bottom: 10px;
+	margin-top: 2em;
+	margin-bottom: 1em;
 }
 
 

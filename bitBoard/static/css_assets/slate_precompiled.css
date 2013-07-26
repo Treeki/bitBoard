@@ -33,7 +33,7 @@ a:hover {
 }
 
 #main_wrapper {
-  padding: 8px 12px 24px;
+  padding: 12px 12px 24px;
 }
 
 #main_header {
@@ -577,7 +577,6 @@ td {
   font-size: 93%;
   padding: 2px;
   *zoom: 1;
-  margin-top: 10px;
   background: #1a1a1a;
   border-top: 1px solid #343434;
   border-bottom: 1px solid black;
@@ -949,8 +948,8 @@ td {
 }
 
 #thQuickReplyTable {
-  margin-top: 40px;
-  margin-bottom: 10px;
+  margin-top: 2em;
+  margin-bottom: 1em;
 }
 
 .js .epSimplePostStyleOptions,

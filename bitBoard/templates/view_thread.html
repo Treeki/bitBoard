@@ -109,6 +109,8 @@
 	% endfor
 </div>
 
+{{ thread_pag_block }}
+
 
 {% if thread.can_be_replied_to_by(g.user) %}
 
@@ -139,7 +141,6 @@
 
 {% endif %}
 
-{{ thread_pag_block }}
 
 {% endblock %}
 
