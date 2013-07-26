@@ -1114,3 +1114,27 @@ button, input[type='submit'] {
 	z-index: 10000;
 	@include box3d(rgba(17, 17, 17, 0.7));
 }
+
+
+.smiliesList {
+	background: #0e0e0e;
+
+	//height: 120px;
+	//overflow-y: scroll;
+
+	margin-top: 0.5em;
+	padding: 4px;
+	text-align: center;
+
+}
+	.smileyBox {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		line-height: 18px;
+		background: #222;
+		margin: 1px;
+	}
+
+.smiley { vertical-align: baseline; }

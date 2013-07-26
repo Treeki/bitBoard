@@ -1,0 +1,8 @@
+<div class='smiliesList'>
+{% for code, url in get_smilies() -%}
+<span class='smileyBox' title='{{code}}'><img src='{{url}}' title='{{code}}'></span>
+{%- endfor %}
+
+
+<span class='smiliesListAddendum'>(hover for code)</span>
+</div>

@@ -22,6 +22,43 @@ RAW_BBCODE_REGEXES = (
 
 BBCODE_REGEXES = [(re.compile(regex), replace) for regex,replace in RAW_BBCODE_REGEXES]
 
+RAW_SMILIES = (
+	(':)', 'smile.gif'),
+	(';)', 'wink.gif'),
+	(':D', 'biggrin.gif'),
+	(':LOL:', 'lol.gif'),
+	('8-)', 'glasses.gif'),
+	(':(', 'frown.gif'),
+	(':mad:', 'mad.gif'),
+	('>_<', 'yuck.gif'),
+	(':P', 'tongue.gif'),
+	(':S', 'wobbly.gif'),
+	('O_O', 'eek.gif'),
+	('o_O', 'bigeyes.gif'),
+	('O_o', 'bigeyes2.gif'),
+	('^_^', 'cute.gif'),
+	('^^;;;', 'cute2.gif'),
+	('~:o', 'baby.gif'),
+	('x_x', 'sick.gif'),
+	(':eyeshift:', 'eyeshift.gif'),
+	(':vamp:', 'vamp.gif'),
+	('o_o', 'blank.gif'),
+	(';_;', 'cry.gif'),
+	('@_@', 'dizzy.gif'),
+	('-_-', 'annoyed.gif'),
+	('>_>', 'shiftright.gif'),
+	('<_<', 'shiftleft.gif'),
+	(':eyeshift2:', 'eyeshift2.gif'),
+	(':glare:', 'glare.png'),
+	(':ohdear:', 'ohdear.png'),
+	(':approve:', 'approved.gif'),
+	(':deny:', 'denied.gif'),
+	)
+
+# TODO: don't hardcode a path here
+SMILIES_WITH_URLS = [(code, '/static/smilies/%s' % img) for code,img in RAW_SMILIES]
+SMILEY_REPLACEMENTS = [(code, "<img src='%s' class='smiley'>" % url) for code,url in SMILIES_WITH_URLS]
+
 class MySanitiser(sanitizer.HTMLSanitizer):
 	def sanitize_css(self, style):
 		return style
@@ -36,8 +73,13 @@ def parse_text(text):
 	text = text.replace('\r', '')
 	text = text.replace('\n', '<br>')
 	t3 = time.clock()
+
+	for search,replace in SMILEY_REPLACEMENTS:
+		text = text.replace(search, replace)
+
 	for regex,replace in BBCODE_REGEXES:
 		text = regex.sub(replace, text)
+
 	t4 = time.clock()
 	doc = parser.parse(text)
 	t5 = time.clock()

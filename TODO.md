@@ -19,8 +19,8 @@
 * Admin interface
 * **[done]** Private messages
 * Logging
-* BBCode inc. embedded YT videos, smileys, URL parsing, ...
-* ... or maybe I should just switch to Markdown? I'll probably do that.
+* BBCode inc. embedded YT videos, URL parsing, ...
+* ... or maybe I should just switch to Markdown? I dunno.
 * Use POST requests for /logout
 * Test/fix the style on IE
 * Make it usable on mobile

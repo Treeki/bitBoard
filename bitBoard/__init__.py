@@ -311,6 +311,9 @@ def _update_and_get_view_count():
 	db.session.commit()
 	return g.view_count
 
+def _get_smilies():
+	return parser.SMILIES_WITH_URLS
+
 from bitBoard import parser
 @app.context_processor
 def add_template_functions():
@@ -322,5 +325,6 @@ def add_template_functions():
 			get_online_users=_get_online_users,
 			get_notifications=_get_notifications,
 			update_and_get_view_count=_update_and_get_view_count,
+			get_smilies=_get_smilies,
 			)
 

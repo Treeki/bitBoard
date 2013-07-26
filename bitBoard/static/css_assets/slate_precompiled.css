@@ -1231,3 +1231,27 @@ button:active, input[type='submit']:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.7);
   border-right: 1px solid rgba(0, 0, 0, 0.7);
 }
+
+/* line 1119, slate.scss */
+.smiliesList {
+  background: #0e0e0e;
+  margin-top: 0.5em;
+  padding: 4px;
+  text-align: center;
+}
+
+/* line 1130, slate.scss */
+.smileyBox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 18px;
+  background: #222;
+  margin: 1px;
+}
+
+/* line 1140, slate.scss */
+.smiley {
+  vertical-align: baseline;
+}
