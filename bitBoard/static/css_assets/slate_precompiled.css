@@ -3,16 +3,16 @@ html, body {
 }
 
 body {
-  background: #272727;
-  color: #eee;
+  background: #85a0ad;
+  color: #333333;
 }
 
 a {
-  color: #52b1e0;
+  color: #1f7ead;
   text-decoration: none;
 }
 a:hover {
-  color: #93ceec;
+  color: #3ca7dd;
   text-decoration: underline;
 }
 
@@ -39,6 +39,13 @@ a:hover {
 #main_header {
   background: #141b1f;
   background-image: linear-gradient(#141b1f, #1f292e);
+  color: #eeeeee;
+}
+#main_header a {
+  color: #52b1e0;
+}
+#main_header a:hover {
+  color: #3ca7dd;
 }
 
 #header_titlebar, #header_lightbar, .sub_bar {
@@ -84,7 +91,7 @@ a:hover {
 #header_nav > a,
 #header_nav > .dropdownContainer > a,
 #header_lightbar .clickToDropdown {
-  color: #bee2f4;
+  color: #bee2f4 !important;
   text-shadow: 0px 1px 0px #041016;
   padding: 3px 9px;
   border: 1px solid transparent;
@@ -100,6 +107,7 @@ a:hover {
 }
 
 #header_nav > a.selected,
+#header_nav > .dropdownContainer > a.selected,
 #header_nav > .dropdownContainer:hover > a,
 #header_lightbar .clickToDropdown:active,
 #header_lightbar .clickToDropdown:focus {
@@ -190,6 +198,13 @@ a:hover {
 #main_footer {
   background: #141b1f;
   overflow: hidden;
+  color: #eeeeee;
+}
+#main_footer a {
+  color: #52b1e0;
+}
+#main_footer a:hover {
+  color: #3ca7dd;
 }
 
 .breadcrumbs {
@@ -259,6 +274,7 @@ a:hover {
   border-right: 1px solid black;
   background: linear-gradient(to bottom, #2a4d19, #172a0e);
   box-shadow: 0px 1px 3px #181818, inset 0px 1px 5px #356020;
+  color: #eee;
 }
 
 .flash {
@@ -380,6 +396,7 @@ td {
   font-size: 93%;
   padding: 2px;
   text-align: center;
+  color: #eeeeee;
   text-shadow: 0px 1px 1px black;
   background: #0f3f57;
   border-top: 1px solid #175e82;
@@ -396,82 +413,82 @@ td {
 .tHeader, .tFormSubTitle, .tFormFooter {
   padding: 3px 8px;
   font-size: 77%;
-  color: #94bdd1;
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #234252;
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  box-shadow: inset 0px 1px 1px #1c3440;
-  background-image: linear-gradient(#14262e, #1c3440);
+  color: #2e576b;
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-left: 1px solid #dee8ed;
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-right: 1px solid #8bafc1;
+  box-shadow: inset 0px 1px 1px #cddde4;
+  background-image: linear-gradient(#bdd1db, #cddde4);
   text-align: center;
 }
 
 .tSubHeader {
   padding: 2px 8px;
   font-size: 77%;
-  color: #70a7c2;
-  background: #121c21;
-  border-top: 1px solid #243842;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #243842;
-  background: #121c21;
-  border-top: 1px solid #243842;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  color: #3d748f;
+  background: #eef4f6;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #bdd1db;
+  border-left: 1px solid white;
+  background: #eef4f6;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #bdd1db;
+  border-right: 1px solid #bdd1db;
   text-align: left;
 }
 
 .tSeparator {
-  background: #1c3440;
-  border-top: 1px solid #2b5164;
-  border-bottom: 1px solid #05090b;
-  border-left: 1px solid #2b5164;
-  background: #1c3440;
-  border-top: 1px solid #2b5164;
-  border-bottom: 1px solid #05090b;
-  border-right: 1px solid #05090b;
+  background: #cddde4;
+  border-top: 1px solid #eef4f6;
+  border-bottom: 1px solid #9cbac9;
+  border-left: 1px solid #eef4f6;
+  background: #cddde4;
+  border-top: 1px solid #eef4f6;
+  border-bottom: 1px solid #9cbac9;
+  border-right: 1px solid #9cbac9;
   height: 3px;
 }
 
 .tStd, .tFormLabel, .tFormField, .tFormUnifield, .tFormUnilabel, .tAjaxFormResult {
-  background: #1e1e1e;
-  border-top: 1px solid #383838;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #383838;
-  background: #1e1e1e;
-  border-top: 1px solid #383838;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #f0f0f0;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #cacaca;
+  border-left: 1px solid white;
+  background: #f0f0f0;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #cacaca;
+  border-right: 1px solid #cacaca;
   padding: 4px 8px;
 }
 
 .tMiniFooter {
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #234252;
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-left: 1px solid #dee8ed;
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-right: 1px solid #8bafc1;
   height: 3px;
 }
 
 .tFooterWithPagination {
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #234252;
-  background: #14262e;
-  border-top: 1px solid #234252;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  box-shadow: inset 0px 1px 1px #325f76;
-  background-image: linear-gradient(#234252, #14262e);
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-left: 1px solid #dee8ed;
+  background: #bdd1db;
+  border-top: 1px solid #dee8ed;
+  border-bottom: 1px solid #8bafc1;
+  border-right: 1px solid #8bafc1;
+  box-shadow: inset 0px 1px 1px white;
+  background-image: linear-gradient(#dee8ed, #bdd1db);
   font-size: 93%;
   padding: 3px;
 }
@@ -509,7 +526,7 @@ td {
 
 .tFormUnilabel {
   font-size: 93%;
-  color: #ccc;
+  color: #444444;
 }
 
 .tFormWideLabels .tFormLabel {
@@ -518,10 +535,10 @@ td {
 
 .tFormLabelExtra {
   font-size: 77%;
-  color: #999;
+  color: #666666;
   padding-top: 3px;
   margin-top: 3px;
-  border-top: 1px dotted #444;
+  border-top: 1px dotted #aaaaaa;
 }
 .tFormLabelExtra > p {
   margin: 0 0 1em 0;
@@ -577,14 +594,14 @@ td {
   font-size: 93%;
   padding: 2px;
   *zoom: 1;
-  background: #1a1a1a;
-  border-top: 1px solid #343434;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #343434;
-  background: #1a1a1a;
-  border-top: 1px solid #343434;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #d1dbe0;
+  border-top: 1px solid #f0f3f5;
+  border-bottom: 1px solid #a3b8c2;
+  border-left: 1px solid #f0f3f5;
+  background: #d1dbe0;
+  border-top: 1px solid #f0f3f5;
+  border-bottom: 1px solid #a3b8c2;
+  border-right: 1px solid #a3b8c2;
   box-shadow: 0px 1px 4px #111111;
 }
 .paginationBlockAlone:before, .paginationBlockAlone:after {
@@ -595,7 +612,7 @@ td {
   clear: both;
 }
 .paginationBlockAlone > .paginationHeader {
-  color: #aaa;
+  color: #555555;
 }
 
 .paginationHeader {
@@ -639,21 +656,22 @@ td {
 
 .paginationBlockAlone .inlinePagination > a, .paginationBlockAlone .inlinePagination > span {
   margin-right: 0;
-  background: #393939;
-  background-image: linear-gradient(to bottom, #444444, #2a2a2a);
-  color: #ccc;
-  box-shadow: inset 0px 1px 3px #666666;
+  background: #eeeeee;
+  background-image: linear-gradient(to bottom, #f7f7f7, #dbe9f0);
+  color: #777777;
+  box-shadow: inset 0px 1px 3px #70a7c2;
 }
 .paginationBlockAlone .inlinePagination > a:hover {
-  background: #555;
-  background-image: linear-gradient(to bottom, #666666, #4a4a4a);
-  box-shadow: inset 0px 1px 3px #999999;
+  background: #4d90b3;
+  background-image: linear-gradient(to bottom, #70a7c2, #3d748f);
+  box-shadow: inset 0px 1px 3px #add6eb;
+  color: #222222;
 }
 .paginationBlockAlone .inlinePagination > .pgCurrent {
-  background: #444;
-  background-image: linear-gradient(to bottom, #222222, #494949);
+  background: #94bdd1;
+  background-image: linear-gradient(to bottom, #70a7c2, #a6c8d9);
   box-shadow: inset 0px 1px 2px #151515;
-  color: #888;
+  color: #555555;
 }
 .paginationBlockAlone .inlinePagination > .pgFiller {
   background: transparent;
@@ -751,7 +769,7 @@ td {
 .fiCounts {
   font-size: 77%;
   text-align: center;
-  background: #151515;
+  background: #e3e6e8;
 }
 
 .fiLastPost {
@@ -764,24 +782,24 @@ td {
 }
 
 .threadStickyNote {
-  color: #94bdd1;
+  color: #2e576b;
   font-weight: bold;
 }
 
 .threadSubtitle {
   padding-top: 4px;
   display: block;
-  color: #ddd;
+  color: #555555;
   font-size: 77%;
 }
 
 .threadListCreator {
   text-align: center;
-  background: #151515;
+  background: #e3e6e8;
 }
 
 .threadListPostCount {
-  background: #151515;
+  background: #e3e6e8;
   text-align: center;
 }
 
@@ -794,7 +812,7 @@ td {
 }
 
 .threadSubtitleWithForumRef {
-  color: #ddd;
+  color: #555555;
   font-size: 77%;
 }
 .threadSubtitleWithForumRef:after {
@@ -805,7 +823,7 @@ td {
   font-size: 77%;
 }
 .threadListForumRef > a {
-  color: #999;
+  color: #777777;
   font-style: italic;
 }
 
@@ -818,10 +836,10 @@ td {
   font-size: 77%;
   padding-top: 4px;
   padding-left: 15px;
-  color: #bbb;
+  color: #666666;
 }
 .threadListPageJump > a {
-  background: #111;
+  background: #cddde4;
   padding: 2px 5px;
 }
 
@@ -830,14 +848,14 @@ td {
   text-align: center;
   width: 200px;
   padding: 0;
-  background: #121c21;
-  border-top: 1px solid #243842;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #243842;
-  background: #121c21;
-  border-top: 1px solid #243842;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #e0e7eb;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #b3c3cc;
+  border-left: 1px solid white;
+  background: #e0e7eb;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #b3c3cc;
+  border-right: 1px solid #b3c3cc;
 }
 .postSidebar .avatar {
   display: block;
@@ -856,7 +874,7 @@ td {
 .postSidebarTopBit {
   border-bottom: 1px dotted #0f3f57;
   padding: 4px 6px 8px 6px;
-  background-image: linear-gradient(to bottom, #17242b, #121c21);
+  background-image: linear-gradient(to bottom, #eaeef1, #e0e7eb);
 }
 
 .postSidebarInfo {
@@ -873,32 +891,26 @@ td {
   text-align: left;
 }
 
-.postDate, .postRevisions, .postOptions {
-  font-size: 77%;
-  padding: 4px 8px;
-  color: #aaa;
-}
-
 .postDate {
-  background: #181818;
-  border-top: 1px solid #323232;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #323232;
+  background: #d1dbe0;
+  border-top: 1px solid #f0f3f5;
+  border-bottom: 1px solid #a3b8c2;
+  border-left: 1px solid #f0f3f5;
   height: 1px;
 }
 
 .postRevisions {
-  background: #181818;
-  border-top: 1px solid #323232;
-  border-bottom: 1px solid black;
+  background: #d1dbe0;
+  border-top: 1px solid #f0f3f5;
+  border-bottom: 1px solid #a3b8c2;
   color: #777;
 }
 
 .postOptions {
-  background: #181818;
-  border-top: 1px solid #323232;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #d1dbe0;
+  border-top: 1px solid #f0f3f5;
+  border-bottom: 1px solid #a3b8c2;
+  border-right: 1px solid #a3b8c2;
   text-align: right;
 }
 .postOptions > a {
@@ -906,18 +918,21 @@ td {
 }
 
 .postDate, .postRevisions, .postOptions {
-  background-image: linear-gradient(to bottom, #1f1f1f, #181818);
+  font-size: 77%;
+  padding: 4px 8px;
+  color: #444444;
+  background-image: linear-gradient(to bottom, #eaeef1, #d1dbe0);
 }
 
 .postContentWrapper {
-  background: #222222;
-  border-top: 1px solid #3c3c3c;
-  border-bottom: 1px solid black;
-  border-left: 1px solid #3c3c3c;
-  background: #222222;
-  border-top: 1px solid #3c3c3c;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  background: #eeeeee;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #c8c8c8;
+  border-left: 1px solid white;
+  background: #eeeeee;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #c8c8c8;
+  border-right: 1px solid #c8c8c8;
   vertical-align: top;
   padding: 8px 8px;
 }
@@ -931,11 +946,11 @@ td {
 }
 
 .postSignature {
-  color: #888;
+  color: #666666;
   font-size: 77%;
   padding-top: 4px;
   margin-top: 16px;
-  border-top: 1px dotted #444;
+  border-top: 1px dotted #999999;
 }
 
 .quickEdit > form > textarea {
@@ -965,13 +980,13 @@ td {
 }
 
 textarea, input, button {
-  color: #eee;
+  color: #333333;
 }
 
 textarea, input[type='text'], input[type='password'] {
-  box-shadow: inset 0px 1px 2px #111111;
-  border: 1px solid #555;
-  background: #333;
+  box-shadow: inset 0px 1px 2px #aaaaaa;
+  border: 1px solid #888888;
+  background: #eeeeee;
   padding: 4px;
   font-size: 85%;
 }
@@ -980,7 +995,7 @@ textarea:hover, input[type='text']:hover, input[type='password']:hover {
 }
 textarea:focus, textarea:active, input[type='text']:focus, input[type='text']:active, input[type='password']:focus, input[type='password']:active {
   border: 1px solid #999;
-  background: #484848;
+  background: white;
 }
 
 button, input[type='submit'] {
@@ -1069,7 +1084,7 @@ button:active, input[type='submit']:active {
 }
 
 .smiliesList {
-  background: #0e0e0e;
+  background: #dddddd;
   margin-top: 0.5em;
   padding: 4px;
   text-align: center;
@@ -1081,7 +1096,7 @@ button:active, input[type='submit']:active {
   height: 20px;
   text-align: center;
   line-height: 18px;
-  background: #222;
+  background: #eeeeee;
   margin: 1px;
 }
 

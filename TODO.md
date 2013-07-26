@@ -23,7 +23,9 @@
 * ... or maybe I should just switch to Markdown? I dunno.
 * Use POST requests for /logout
 * Test/fix the style on IE
-* Make it usable on mobile
+	* Make it usable on mobile
+	* Finish the light theme
+	* Add some way for users to choose themes and Slate variations
 * case-insensitive username lookups for login and PM recipients, probably?
 
 ## FORUM

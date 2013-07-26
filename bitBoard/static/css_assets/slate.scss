@@ -43,20 +43,39 @@ $globalHorzPadding: 12px;
 // Brown: 10deg
 $themeHue: 200deg;
 $linkHue: 200deg; //$themeHue + 180deg;
+$darkTheme: false;
 
-$pageBG: #272727;
+@function darkOrLight($dark, $light) {
+	@if $darkTheme {
+		@return $dark;
+	} @else {
+		@return $light;
+	}
+}
 
-$linkColour: hsl($linkHue, 70%, 60%);
-$hoverLinkColour: hsl($linkHue, 70%, 75%);
+$pageBG: darkOrLight(#272727, hsl($themeHue, 20%, 60%));
+$darkBGTextColour: #eee;
+$mainTextColour: darkOrLight(#eee, #333);
 
-$accentHeaderColour: hsl($themeHue, 70%, 20%);
-$paginationColour: hsl($themeHue, 60%, 20%);
-$paginationBlockColour: hsl($themeHue, 60%, 10%);
-$accentSubHeaderColour: hsl($themeHue, 40%, 13%);
-$accentSubSubHeaderColour: hsl($themeHue, 30%, 10%);
+$darkBGLinkColour: hsl($linkHue, 70%, 60%);
+$linkColour: hsl($linkHue, 70%, darkOrLight(60%, 40%));
+
+$darkBGHoverLinkColour: hsl($linkHue, 70%, 55%);
+$hoverLinkColour: hsl($linkHue, 70%, darkOrLight(75%, 55%));
 
 $accentMinorTextColour: hsl($themeHue, 40%, 70%);
 $accentReallyMinorTextColour: hsl($themeHue, 30%, 35%);
+
+$accentHeaderLargeColour: hsl($themeHue, 70%, 20%);
+$paginationColour: hsl($themeHue, 60%, 20%);
+$paginationCurrentColour: hsl($themeHue, 30%, 10%);
+$paginationBlockColour: darkOrLight(hsl($themeHue, 60%, 10%), hsl($themeHue, 60%, 80%));
+
+$accentHeaderColour: darkOrLight(hsl($themeHue, 40%, 13%), hsl($themeHue, 30%, 80%));
+$accentHeaderTextColour: darkOrLight($accentMinorTextColour, hsl($themeHue, 40%, 30%));
+
+$accentSubHeaderColour: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 30%, 95%));
+$accentSubHeaderTextColour: darkOrLight(hsl($themeHue, 40%, 60%), hsl($themeHue, 40%, 40%));
 
 $headerBG: hsl($themeHue, 20%, 10%);
 $lightbarColour: hsl($themeHue, 70%, 18%);
@@ -107,12 +126,22 @@ $dropdownColour: hsl($themeHue, 40%, 17%);
 	@include box3d_hsplit_right($base, $invert);
 }
 
+@mixin darkBGText {
+	color: $darkBGTextColour;
+	a {
+		color: $darkBGLinkColour;
+		&:hover {
+			color: $darkBGHoverLinkColour;
+		}
+	}
+}
+
 // This makes the stretchy footer work
 html, body { height: 100%; }
 
 body {
 	background: $pageBG;
-	color: #eee;
+	color: $mainTextColour;
 }
 
 a {
@@ -142,6 +171,8 @@ a {
 #main_header {
 	background: $headerBG;
 	background-image: linear-gradient($headerBG, lighten($headerBG, 5%));
+
+	@include darkBGText;
 }
 
 #header_titlebar, #header_lightbar, .sub_bar {
@@ -179,7 +210,8 @@ a {
 
 
 @mixin headerNavTopLevel {
-	color: $lightbarLinkColour;
+	// !important needed to override dark text BG styles
+	color: $lightbarLinkColour !important;
 	text-shadow: 0px 1px 0px hsl($themeHue, 70%, 5%);
 	padding: 3px 9px;
 	border: 1px solid transparent;
@@ -219,6 +251,7 @@ a {
 	@include headerNavTopLevelHover;
 }
 #header_nav > a.selected,
+#header_nav > .dropdownContainer > a.selected,
 #header_nav > .dropdownContainer:hover > a,
 #header_lightbar .clickToDropdown:active,
 #header_lightbar .clickToDropdown:focus {
@@ -310,6 +343,7 @@ a {
 #main_footer {
 	background: $headerBG;
 	overflow: hidden;
+	@include darkBGText;
 }
 
 
@@ -366,6 +400,7 @@ $flashGradBottom: hsl(100deg, 50%, 11%);
 	@include box3d($flashColour);
 	background: linear-gradient(to bottom, $flashGradTop, $flashGradBottom);
 	@include boxShadow(0px 1px 3px #181818, inset 0px 1px 5px $flashHighlight);
+	color: #eee;
 }
 .flash {
 	width: 70%;
@@ -481,56 +516,57 @@ td { *position: relative; }
 	font-size: 93%;
 	padding: 2px;
 	text-align: center;
+	color: $darkBGTextColour;
 
-	text-shadow: 0px 1px 1px darken($accentHeaderColour, 30%);
-	@include box3d($accentHeaderColour);
-	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderColour, 35%));
-	background-image: linear-gradient(lighten($accentHeaderColour, 15%), $accentHeaderColour);
+	text-shadow: 0px 1px 1px darken($accentHeaderLargeColour, 30%);
+	@include box3d($accentHeaderLargeColour);
+	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderLargeColour, 35%));
+	background-image: linear-gradient(lighten($accentHeaderLargeColour, 15%), $accentHeaderLargeColour);
 }
 
 .tHeader {
 	padding: 3px 8px;
 	font-size: 77%;
-	color: $accentMinorTextColour;
-	@include box3d($accentSubHeaderColour);
-	@include boxShadow(inset 0px 1px 1px lighten($accentSubHeaderColour, 5%));
-	background-image: linear-gradient($accentSubHeaderColour, lighten($accentSubHeaderColour, 5%));
+	color: $accentHeaderTextColour;
+	@include box3d($accentHeaderColour);
+	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderColour, 5%));
+	background-image: linear-gradient($accentHeaderColour, lighten($accentHeaderColour, 5%));
 	text-align: center;
 }
 
 .tSubHeader {
 	padding: 2px 8px;
 	font-size: 77%;
-	color: darken($accentMinorTextColour, 10%);
-	@include box3d($accentSubSubHeaderColour);
+	color: $accentSubHeaderTextColour;
+	@include box3d($accentSubHeaderColour);
 	text-align: left;
 }
 
 .tSeparator {
-	@include box3d(lighten($accentSubHeaderColour, 5%));
+	@include box3d(lighten($accentHeaderColour, 5%));
 	height: 3px;
 }
 
 .tStd {
-	@include box3d(#1e1e1e);
+	@include box3d(darkOrLight(#1e1e1e, #f0f0f0));
 	padding: 4px 8px;
 }
 
 @mixin cellAlt {
-	background: #151515;
+	background: darkOrLight(#151515, hsl($themeHue, 10%, 90%));
 }
 
 
 .tMiniFooter {
-	@include box3d($accentSubHeaderColour);
+	@include box3d($accentHeaderColour);
 	height: 3px;
 }
 
 .tFooterWithPagination {
-	@include box3d($accentSubHeaderColour);
-	// @include boxShadow(inset 0px 1px 5px lighten($accentSubHeaderColour, 10%));
-	@include boxShadow(inset 0px 1px 1px lighten($accentSubHeaderColour, 20%));
-	background-image: linear-gradient(lighten($accentSubHeaderColour, 10%), $accentSubHeaderColour);
+	@include box3d($accentHeaderColour);
+	// @include boxShadow(inset 0px 1px 5px lighten($accentHeaderColour, 10%));
+	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderColour, 20%));
+	background-image: linear-gradient(lighten($accentHeaderColour, 10%), $accentHeaderColour);
 	font-size: 93%;
 	padding: 3px;
 }
@@ -572,7 +608,7 @@ td { *position: relative; }
 }
 .tFormUnilabel {
 	font-size: 93%;
-	color: #ccc;
+	color: darkOrLight(#ccc, #444);
 }
 .tFormWideLabels .tFormLabel {
 	min-width: 220px;
@@ -582,10 +618,10 @@ td { *position: relative; }
 }
 .tFormLabelExtra {
 	font-size: 77%;
-	color: #999;
+	color: darkOrLight(#999, #666);
 	padding-top: 3px;
 	margin-top: 3px;
-	border-top: 1px dotted #444;
+	border-top: 1px dotted darkOrLight(#444, #aaa);
 
 	& > p {
 		margin: 0 0 1em 0;
@@ -650,11 +686,11 @@ td { *position: relative; }
 	// 	0px 1px 3px #000
 	// 	);
 
-	@include box3d(#1a1a1a);
+	@include box3d(darkOrLight(#1a1a1a, hsl($themeHue, 20%, 85%)));
 	@include boxShadow(0px 1px 4px #111);
 
 	& > .paginationHeader {
-		color: #aaa;
+		color: darkOrLight(#aaa, #555);
 	}
 }
 
@@ -696,10 +732,10 @@ td { *position: relative; }
 			darken($paginationColour, 10%));
 	}
 	& > .pgCurrent {
-		background: $accentSubSubHeaderColour;
+		background: $paginationCurrentColour;
 		background-image: linear-gradient(to bottom,
-			$accentSubSubHeaderColour,
-			lighten($accentSubSubHeaderColour, 20%));
+			$paginationCurrentColour,
+			lighten($paginationCurrentColour, 20%));
 	}
 	& > .pgFiller {
 		background: transparent;
@@ -710,22 +746,29 @@ td { *position: relative; }
 .paginationBlockAlone .inlinePagination {
 	& > a, & > span {
 		margin-right: 0;
-		background: #393939;
-		background-image: linear-gradient(to bottom, #444, #2a2a2a);
-		color: #ccc;
-		@include boxShadow(inset 0px 1px 3px #666);
+		background: darkOrLight(#393939, #eee);
+		background-image: linear-gradient(to bottom,
+			darkOrLight(#444, #f7f7f7),
+			darkOrLight(#2a2a2a, hsl($themeHue, 40%, 90%)));
+		color: darkOrLight(#ccc, #777);
+		@include boxShadow(inset 0px 1px 3px darkOrLight(#666, hsl($themeHue, 40%, 60%)));
 	}
 
 	& > a:hover {
-		background: #555;
-		background-image: linear-gradient(to bottom, #666, #4a4a4a);
-		@include boxShadow(inset 0px 1px 3px #999);
+		background: darkOrLight(#555, hsl($themeHue, 40%, 50%));
+		background-image: linear-gradient(to bottom,
+			darkOrLight(#666, hsl($themeHue, 40%, 60%)),
+			darkOrLight(#4a4a4a, hsl($themeHue, 40%, 40%)));
+		@include boxShadow(inset 0px 1px 3px darkOrLight(#999, hsl($themeHue, 60%, 80%)));
+		color: darkOrLight(#ccc, #222);
 	}
 	& > .pgCurrent {
-		background: #444;
-		background-image: linear-gradient(to bottom, #222, #494949);
+		background: darkOrLight(#444, hsl($themeHue, 40%, 70%));
+		background-image: linear-gradient(to bottom,
+			darkOrLight(#222, hsl($themeHue, 40%, 60%)),
+			darkOrLight(#494949, hsl($themeHue, 40%, 75%)));
 		@include boxShadow(inset 0px 1px 2px #151515);
-		color: #888;
+		color: darkOrLight(#888, #555);
 	}
 	& > .pgFiller {
 		background: transparent;
@@ -759,7 +802,7 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 
 	color: #ddd;
 	text-shadow: 0px 1px 1px #000;
-	@include box3d($accentHeaderColour);
+	@include box3d($accentHeaderLargeColour);
 
 	border-radius: 5px 5px 0 0;
 	background: hsl($themeHue, 40%, 18%);
@@ -848,13 +891,13 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 	display: block;
 }
 .threadStickyNote {
-	color: hsl($themeHue, 40%, 70%);
+	color: hsl($themeHue, 40%, darkOrLight(70%, 30%));
 	font-weight: bold;
 }
 .threadSubtitle {
 	padding-top: 4px;
 	display: block;
-	color: #ddd;
+	color: darkOrLight(#ddd, #555);
 	font-size: 77%;
 }
 .threadListCreator {
@@ -875,7 +918,7 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 
 
 .threadSubtitleWithForumRef {
-	color: #ddd;
+	color: darkOrLight(#ddd, #555);
 	font-size: 77%;
 	&:after {
 		content: ' -';
@@ -884,7 +927,7 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 .threadListForumRef {
 	font-size: 77%;
 	& > a {
-		color: #999;
+		color: darkOrLight(#999, #777);
 		font-style: italic;
 	}
 }
@@ -897,16 +940,16 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 	font-size: 77%;
 	padding-top: 4px;
 	padding-left: 15px;
-	color: #bbb;
+	color: darkOrLight(#bbb, #666);
 	& > a {
-		background: #111;
+		background: darkOrLight(#111, hsl($themeHue, 30%, 85%));
 		padding: 2px 5px;
 	}
 }
 
 
 // THREADS
-$postSidebarBG: hsl($themeHue, 30%, 10%);
+$postSidebarBG: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 20%, 90%));
 
 .postSidebar {
 	vertical-align: top;
@@ -935,7 +978,7 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 }
 
 .postSidebarTopBit {
-	border-bottom: 1px dotted $accentHeaderColour;
+	border-bottom: 1px dotted $accentHeaderLargeColour;
 	padding: 4px 6px 8px 6px;
 	background-image: linear-gradient(to bottom, lighten($postSidebarBG, 3%), $postSidebarBG);
 }
@@ -954,22 +997,22 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 	}
 }
 
-.postDate, .postRevisions, .postOptions {
-	font-size: 77%;
-	padding: 4px 8px;
-	color: #aaa;
-}
+
+
+// POST TOP BAR
+
+$postTopBarColour: darkOrLight(#181818, hsl($themeHue, 20%, 85%));
 
 .postDate {
-	@include box3d_hsplit_left(#181818);
+	@include box3d_hsplit_left($postTopBarColour);
 	height: 1px; // just a hacky way to make it the minimum height
 }
 .postRevisions {
-	@include box3d_hsplit_mid(#181818);
+	@include box3d_hsplit_mid($postTopBarColour);
 	color: #777;
 }
 .postOptions {
-	@include box3d_hsplit_right(#181818);
+	@include box3d_hsplit_right($postTopBarColour);
 	text-align: right;
 	& > a {
 		margin-right: 14px;
@@ -977,11 +1020,17 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 }
 
 .postDate, .postRevisions, .postOptions {
-	background-image: linear-gradient(to bottom, #1f1f1f, #181818);
+	font-size: 77%;
+	padding: 4px 8px;
+	color: darkOrLight(#aaa, #444);
+
+	background-image: linear-gradient(to bottom,
+		lighten($postTopBarColour, 8%),
+		$postTopBarColour);
 }
 
 .postContentWrapper {
-	@include box3d(#222);
+	@include box3d(darkOrLight(#222, #eee));
 	vertical-align: top;
 	padding: 8px 8px;
 }
@@ -992,11 +1041,11 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 	font-size: 93%;
 }
 .postSignature {
-	color: #888;
+	color: darkOrLight(#888, #666);
 	font-size: 77%;
 	padding-top: 4px;
 	margin-top: 16px;
-	border-top: 1px dotted #444;
+	border-top: 1px dotted darkOrLight(#444, #999);
 }
 
 .quickEdit > form > textarea {
@@ -1035,13 +1084,13 @@ $postSidebarBG: hsl($themeHue, 30%, 10%);
 // FORMS
 
 textarea, input, button {
-	color: #eee;
+	color: darkOrLight(#eee, #333);
 }
 
 textarea, input[type='text'], input[type='password'] {
-	@include boxShadow(inset 0px 1px 2px #111);
-	border: 1px solid #555;
-	background: #333;
+	@include boxShadow(inset 0px 1px 2px darkOrLight(#111, #aaa));
+	border: 1px solid darkOrLight(#555, #888);
+	background: darkOrLight(#333, #eee);
 	padding: 4px;
 
 	font-size: 85%;
@@ -1052,7 +1101,7 @@ textarea, input[type='text'], input[type='password'] {
 
 	&:focus, &:active {
 		border: 1px solid #999;
-		background: #484848;
+		background: darkOrLight(#484848, #fff);
 	}
 }
 
@@ -1120,7 +1169,7 @@ button, input[type='submit'] {
 
 
 .smiliesList {
-	background: #0e0e0e;
+	background: darkOrLight(#0e0e0e, #ddd);
 
 	//height: 120px;
 	//overflow-y: scroll;
@@ -1136,7 +1185,7 @@ button, input[type='submit'] {
 		height: 20px;
 		text-align: center;
 		line-height: 18px;
-		background: #222;
+		background: darkOrLight(#222, #eee);
 		margin: 1px;
 	}
 
