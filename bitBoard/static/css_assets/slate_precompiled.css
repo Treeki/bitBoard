@@ -756,6 +756,10 @@ td {
   border-left: 50px solid #264859;
 }
 
+.fiCategoryTable {
+  margin-bottom: 1em;
+}
+
 .fiDescription {
   font-size: 85%;
 }
