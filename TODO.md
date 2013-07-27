@@ -19,8 +19,11 @@
 * Admin interface
 * **[done]** Private messages
 * Logging
-* BBCode inc. embedded YT videos, URL parsing, ...
-* ... or maybe I should just switch to Markdown? I dunno.
+* BBCode
+	* Automatic URL linkifying
+	* URL checking for src/href attribs
+	* Spoiler tag
+	* Code tag
 * Use POST requests for /logout
 * Test/fix the style on IE
 	* Make it usable on mobile
