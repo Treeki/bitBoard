@@ -243,11 +243,13 @@ a {
 
 #header_nav > a,
 #header_nav > .dropdownContainer > a,
-#header_lightbar .clickToDropdown {
+#header_lightbar .clickToDropdown,
+#headerUserBar > a {
 	@include headerNavTopLevel;
 }
 #header_nav > a:hover,
-#header_lightbar .clickToDropdown:hover {
+#header_lightbar .clickToDropdown:hover,
+#headerUserBar > a:hover {
 	@include headerNavTopLevelHover;
 }
 #header_nav > a.selected,
