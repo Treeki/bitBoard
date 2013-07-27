@@ -49,6 +49,7 @@
 * Allow mods to view previous revisions of posts
 * Finish post layout implementation
 	* Inject style URLs properly when post_box is added to a page via JS
+	* Support Quick Edit - could disable it for layouted posts as a quick fix?
 	* Support non-external CSS
 * **[done]** Custom titles
 * Automatic updates showing new threads/posts
