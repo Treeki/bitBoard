@@ -527,7 +527,7 @@ class WikiPage(db.Model):
 		return url_for('wiki_page_history', name=self.name)
 
 	def can_be_edited_by(self, user):
-		return user.cached_group.can_edit_wiki_pages
+		return (user and user.cached_group.can_edit_wiki_pages)
 
 class WikiRevision(db.Model):
 	__tablename__ = 'wiki_revisions'
