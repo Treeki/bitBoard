@@ -319,10 +319,13 @@ def edit_avatar(id, name):
 				file.stream.seek(0)
 
 				filename = '%d.%s' % (user.id, ext)
-				file.save(os.path.join(AVATAR_DIR, filename))
 
 				if user.avatar_path:
-					os.unlink(path_to_avatar(user.avatar_path))
+					try:
+						os.unlink(path_to_avatar(user.avatar_path))
+					except OSError:
+						pass
+				file.save(os.path.join(AVATAR_DIR, filename))
 
 				rand_token = random.randint(0,1000000)
 				user.avatar_path = '%s?%d' % (filename, rand_token)
