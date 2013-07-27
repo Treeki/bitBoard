@@ -42,7 +42,7 @@ a:hover {
   color: #eeeeee;
 }
 #main_header a {
-  color: #52b1e0;
+  color: #7dc4e8;
 }
 #main_header a:hover {
   color: #3ca7dd;
@@ -113,7 +113,7 @@ a:hover {
 #header_lightbar .clickToDropdown:focus {
   border-color: #02090d #0a2938 #0a2938 #02090d;
   background: #155879;
-  background-image: linear-gradient(#0e394e, #155879);
+  background-image: linear-gradient(#155879, #1d78a5);
   box-shadow: inset 0px 1px 1px #0a2938;
   outline: none !important;
 }
@@ -201,7 +201,7 @@ a:hover {
   color: #eeeeee;
 }
 #main_footer a {
-  color: #52b1e0;
+  color: #7dc4e8;
 }
 #main_footer a:hover {
   color: #3ca7dd;
@@ -423,7 +423,7 @@ td {
   border-bottom: 1px solid #8bafc1;
   border-right: 1px solid #8bafc1;
   box-shadow: inset 0px 1px 1px #cddde4;
-  background-image: linear-gradient(#bdd1db, #cddde4);
+  background-image: linear-gradient(#bdd1db, #dee8ed);
   text-align: center;
 }
 
@@ -431,14 +431,15 @@ td {
   padding: 2px 8px;
   font-size: 77%;
   color: #3d748f;
-  background: #eef4f6;
+  background: #dee8ed;
   border-top: 1px solid white;
-  border-bottom: 1px solid #bdd1db;
+  border-bottom: 1px solid #acc6d2;
   border-left: 1px solid white;
-  background: #eef4f6;
+  background: #dee8ed;
   border-top: 1px solid white;
-  border-bottom: 1px solid #bdd1db;
-  border-right: 1px solid #bdd1db;
+  border-bottom: 1px solid #acc6d2;
+  border-right: 1px solid #acc6d2;
+  background-image: linear-gradient(#dee8ed, #eef4f6);
   text-align: left;
 }
 
@@ -551,19 +552,19 @@ td {
 }
 
 .tFormFieldError, .tAjaxFormResult {
-  background: #441111;
-  border-top: 1px solid #6d1b1b;
-  border-bottom: 1px solid #070202;
-  border-left: 1px solid #6d1b1b;
-  background: #441111;
-  border-top: 1px solid #6d1b1b;
-  border-bottom: 1px solid #070202;
-  border-right: 1px solid #070202;
+  background: #ddaaaa;
+  border-top: 1px solid #eccece;
+  border-bottom: 1px solid #c77373;
+  border-left: 1px solid #eccece;
+  background: #ddaaaa;
+  border-top: 1px solid #eccece;
+  border-bottom: 1px solid #c77373;
+  border-right: 1px solid #c77373;
 }
 
 .tFormError, .tAjaxFormResult {
   font-size: 85%;
-  color: #fcc;
+  color: #441111;
 }
 
 .tFormError {
@@ -594,14 +595,14 @@ td {
   font-size: 93%;
   padding: 2px;
   *zoom: 1;
-  background: #d1dbe0;
-  border-top: 1px solid #f0f3f5;
-  border-bottom: 1px solid #a3b8c2;
-  border-left: 1px solid #f0f3f5;
-  background: #d1dbe0;
-  border-top: 1px solid #f0f3f5;
-  border-bottom: 1px solid #a3b8c2;
-  border-right: 1px solid #a3b8c2;
+  background: #b8d3e0;
+  border-top: 1px solid #dbe9f0;
+  border-bottom: 1px solid #82b2c9;
+  border-left: 1px solid #dbe9f0;
+  background: #b8d3e0;
+  border-top: 1px solid #dbe9f0;
+  border-bottom: 1px solid #82b2c9;
+  border-right: 1px solid #82b2c9;
   box-shadow: 0px 1px 4px #111111;
 }
 .paginationBlockAlone:before, .paginationBlockAlone:after {
@@ -699,19 +700,11 @@ td {
   font-size: 77%;
   color: #ddd;
   text-shadow: 0px 1px 1px #000;
-  background: #0f3f57;
-  border-top: 1px solid #175e82;
-  border-bottom: 1px solid #041016;
-  border-left: 1px solid #175e82;
-  background: #0f3f57;
-  border-top: 1px solid #175e82;
-  border-bottom: 1px solid #041016;
-  border-right: 1px solid #041016;
   border-radius: 5px 5px 0 0;
-  background: #1c3440;
-  background: linear-gradient(#124864, #081f2b);
+  background: #3d748f;
+  background: linear-gradient(#1c74a0, #134f6c);
   border: 1px solid #111;
-  box-shadow: inset 0px 1px 1px #1b6e98;
+  box-shadow: inset 0px 1px 1px #52b1e0;
 }
 .pwsSidebarHeading:first-child {
   margin-top: 0;
@@ -719,16 +712,17 @@ td {
 
 .pwsSidebarSection {
   padding: 4px 4px 1px;
-  background: #1e1e1e;
+  background: #dddddd;
   margin-bottom: 8px;
   border-radius: 0 0 5px 5px;
+  box-shadow: 0px 1px 2px #3d748f;
 }
 
 #pwsSidebar a {
   display: block;
   margin-bottom: 4px;
   padding: 2px 50px 2px 7px;
-  color: #70a7c2;
+  color: #2e576b;
   font-size: 85%;
   border-radius: 3px;
   position: relative;
@@ -742,17 +736,17 @@ td {
   margin-top: -50px;
   right: 0;
   width: 0;
-  border-left: 50px solid #1e1e1e;
-  border-top: 50px solid #1e1e1e;
-  border-bottom: 50px solid #1e1e1e;
+  border-left: 50px solid #dddddd;
+  border-top: 50px solid #dddddd;
+  border-bottom: 50px solid #dddddd;
 }
 #pwsSidebar a:hover {
-  background: #2b2b2b;
-  color: #fff;
+  background: #b8d3e0;
+  color: black;
   text-decoration: none;
 }
 #pwsSidebar a:hover:after {
-  border-left: 50px solid #2b2b2b;
+  border-left: 50px solid #b8d3e0;
 }
 #pwsSidebar a.selected {
   background: #264859;
@@ -776,6 +770,36 @@ td {
   font-size: 77%;
 }
 
+.fiIcon {
+  text-align: center;
+  font-size: 85%;
+}
+
+.forumIconUnread, .forumIconRead {
+  display: inline-block;
+  width: 2.5em;
+  height: 2.5em;
+  line-height: 2.5em;
+  text-align: center;
+  border-radius: 45%;
+  color: #eee;
+  font-weight: bold;
+}
+
+.forumIconUnread {
+  background: #337799;
+  background: linear-gradient(#8cbfd9, #265973);
+  box-shadow: inset 0px 1px 1px #0f3f57, 0px 1px 3px #888888;
+  text-shadow: 0px -1px 1px #081f2b;
+}
+
+.forumIconRead {
+  background: #b3b3b3;
+  background: linear-gradient(#e6e6e6, #999999);
+  box-shadow: inset 0px 1px 1px #666666, 0px 1px 3px #bbbbbb;
+  text-shadow: 0px -1px 1px #1a1a1a;
+}
+
 .threadListThreadLink {
   font-size: 85%;
   display: block;
@@ -791,6 +815,16 @@ td {
   display: block;
   color: #555555;
   font-size: 77%;
+}
+
+.threadListTitle.locked a {
+  color: #777;
+}
+
+.threadListIcon {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 16px;
 }
 
 .threadListCreator {
@@ -874,7 +908,7 @@ td {
 .postSidebarTopBit {
   border-bottom: 1px dotted #0f3f57;
   padding: 4px 6px 8px 6px;
-  background-image: linear-gradient(to bottom, #eaeef1, #e0e7eb);
+  background-image: linear-gradient(to bottom, #f9fafb, #e0e7eb);
 }
 
 .postSidebarInfo {

@@ -66,14 +66,26 @@ Private Messages
 
 		% set t_url = thread.url
 
+		% set hot = ''
+		% if thread.post_count > 30
+		% set hot = 'hot'
+		% endif
+
+		% set lockClass = ''
+		% if thread.is_locked
+		%   set lockClass = ' locked'
+		% endif
+
 		<td class='tStd threadListIcon'>
 			% if is_new
 			<a href='{{t_url}}?findPostAfter={{new_time|ugly_date_and_time}}'>
-				NEW!
+				<img src='/static/{{hot}}new.png'>
 			</a>
+			% elif hot
+			<img src='/static/hot.png'>
 			% endif
 		</td>
-		<td class='tStd threadListTitle'>
+		<td class='tStd threadListTitle{{lockClass}}'>
 			% if mode == 'updated_threads'
 
 			<a href='{{t_url}}' class='threadListThreadLink'>{{thread.title}}</a>

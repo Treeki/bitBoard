@@ -53,12 +53,12 @@ $darkTheme: false;
 	}
 }
 
-$pageBG: darkOrLight(#272727, hsl($themeHue, 20%, 60%));
+$pageBG: darkOrLight(hsl($themeHue, 10%, 15%), hsl($themeHue, 20%, 60%));
 $darkBGTextColour: #eee;
 $mainTextColour: darkOrLight(#eee, #333);
 
-$darkBGLinkColour: hsl($linkHue, 70%, 60%);
-$linkColour: hsl($linkHue, 70%, darkOrLight(60%, 40%));
+$darkBGLinkColour: hsl($linkHue, 70%, 70%);
+$linkColour: hsl($linkHue, 70%, darkOrLight(70%, 40%));
 
 $darkBGHoverLinkColour: hsl($linkHue, 70%, 55%);
 $hoverLinkColour: hsl($linkHue, 70%, darkOrLight(75%, 55%));
@@ -74,7 +74,7 @@ $paginationBlockColour: darkOrLight(hsl($themeHue, 60%, 10%), hsl($themeHue, 60%
 $accentHeaderColour: darkOrLight(hsl($themeHue, 40%, 13%), hsl($themeHue, 30%, 80%));
 $accentHeaderTextColour: darkOrLight($accentMinorTextColour, hsl($themeHue, 40%, 30%));
 
-$accentSubHeaderColour: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 30%, 95%));
+$accentSubHeaderColour: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 30%, 90%));
 $accentSubHeaderTextColour: darkOrLight(hsl($themeHue, 40%, 60%), hsl($themeHue, 40%, 40%));
 
 $headerBG: hsl($themeHue, 20%, 10%);
@@ -231,8 +231,8 @@ a {
 	border-color: $lightbar3DShadow $lightbarLinkBorder $lightbarLinkBorder $lightbar3DShadow;
 	background: lighten($lightbarColour, 10%);
 	background-image: linear-gradient(
-		$lightbarColour,
-		lighten($lightbarColour, 10%));
+		lighten($lightbarColour, 10%),
+		lighten($lightbarColour, 20%));
 	@include boxShadow(inset 0px 1px 1px darken($lightbarColour, 5%));
 }
 
@@ -530,7 +530,7 @@ td { *position: relative; }
 	color: $accentHeaderTextColour;
 	@include box3d($accentHeaderColour);
 	@include boxShadow(inset 0px 1px 1px lighten($accentHeaderColour, 5%));
-	background-image: linear-gradient($accentHeaderColour, lighten($accentHeaderColour, 5%));
+	background-image: linear-gradient($accentHeaderColour, lighten($accentHeaderColour, 10%));
 	text-align: center;
 }
 
@@ -539,6 +539,7 @@ td { *position: relative; }
 	font-size: 77%;
 	color: $accentSubHeaderTextColour;
 	@include box3d($accentSubHeaderColour);
+	background-image: linear-gradient($accentSubHeaderColour, lighten($accentSubHeaderColour, 5%));
 	text-align: left;
 }
 
@@ -634,12 +635,12 @@ td { *position: relative; }
 	width: 98%;
 }
 .tFormFieldError, .tAjaxFormResult {
-	@include box3d(#411);
+	@include box3d(darkOrLight(#411, #daa));
 }
 
 .tFormError, .tAjaxFormResult {
 	font-size: 85%;
-	color: #fcc;
+	color: darkOrLight(#fcc, #411);
 }
 .tFormError {
 	display: block;
@@ -686,7 +687,7 @@ td { *position: relative; }
 	// 	0px 1px 3px #000
 	// 	);
 
-	@include box3d(darkOrLight(#1a1a1a, hsl($themeHue, 20%, 85%)));
+	@include box3d(darkOrLight(#1a1a1a, hsl($themeHue, 40%, 80%)));
 	@include boxShadow(0px 1px 4px #111);
 
 	& > .paginationHeader {
@@ -778,7 +779,7 @@ td { *position: relative; }
 
 
 // SIDEBAR PAGES
-$sidebarBG: #1e1e1e;
+$sidebarBG: darkOrLight(#1e1e1e, #ddd);
 #pageWithSidebar {
 	width: 100%;
 }
@@ -793,7 +794,7 @@ $sidebarBG: #1e1e1e;
 }
 
 $pwslSat: 40%;
-$pwslHoverBG: #2b2b2b;
+$pwslHoverBG: darkOrLight(#2b2b2b, hsl($themeHue, 40%, 80%));
 $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 .pwsSidebarHeading {
 	padding: 4px 4px 3px 10px;
@@ -802,15 +803,15 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 
 	color: #ddd;
 	text-shadow: 0px 1px 1px #000;
-	@include box3d($accentHeaderLargeColour);
+	//@include box3d($accentHeaderLargeColour);
 
 	border-radius: 5px 5px 0 0;
-	background: hsl($themeHue, 40%, 18%);
+	background: hsl($themeHue, 40%, darkOrLight(18%, 40%));
 	background: linear-gradient(
-		hsl($themeHue, 70%, 23%),
-		hsl($themeHue, 70%, 10%));
+		hsl($themeHue, 70%, darkOrLight(23%, 37%)),
+		hsl($themeHue, 70%, darkOrLight(10%, 25%)));
 	border: 1px solid #111;
-	@include boxShadow(inset 0px 1px 1px hsl($themeHue, 70%, 35%));
+	@include boxShadow(inset 0px 1px 1px hsl($themeHue, 70%, darkOrLight(35%, 60%)));
 
 	&:first-child {
 		margin-top: 0;
@@ -821,12 +822,13 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 	background: $sidebarBG;
 	margin-bottom: 8px;
 	border-radius: 0 0 5px 5px;
+	@include boxShadow(0px 1px 2px hsl($themeHue, 40%, 40%));
 }
 #pwsSidebar a {
 	display: block;
 	margin-bottom: 4px;
 	padding: 2px 50px 2px 7px;
-	color: hsl($themeHue, 40%, 60%);
+	color: hsl($themeHue, 40%, darkOrLight(60%, 30%));
 	font-size: 85%;
 
 	border-radius: 3px;
@@ -852,7 +854,7 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 
 	&:hover {
 		background: $pwslHoverBG;
-		color: #fff;
+		color: darkOrLight(#fff, #000);
 		text-decoration: none;
 		&:after {
 			border-left: 50px solid $pwslHoverBG;
@@ -883,6 +885,57 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 	font-size: 77%;
 }
 
+.fiIcon {
+	text-align: center;
+	font-size: 85%;
+}
+$ficonSize: 2.5em;
+.forumIconUnread, .forumIconRead {
+	display: inline-block;
+
+	width: $ficonSize;
+	height: $ficonSize;
+
+	line-height: $ficonSize;
+	text-align: center;
+
+	border-radius: 45%;
+
+	color: #eee;
+	font-weight: bold;
+}
+
+// Note: for lighter icons:
+// Gradient S => 30
+// Gradient L (light ver) => 90 to 60
+// outset box shadow (light ber) => #bbb
+
+.forumIconUnread {
+	background: hsl($themeHue, 50%, darkOrLight(30%, 40%));
+	background: linear-gradient(
+		hsl($themeHue, 50%, darkOrLight(60%, 70%)),
+		hsl($themeHue, 50%, darkOrLight(20%, 30%))
+		);
+	@include boxShadow(
+		inset 0px 1px 1px hsl($themeHue, 70%, 20%),
+		0px 1px 3px darkOrLight(#000, #888)
+		);
+	text-shadow: 0px -1px 1px hsl($themeHue, 70%, 10%);
+}
+
+.forumIconRead {
+	background: hsl($themeHue, 0%, darkOrLight(30%, 70%));
+	background: linear-gradient(
+		hsl($themeHue, 0%, darkOrLight(50%, 90%)),
+		hsl($themeHue, 0%, darkOrLight(20%, 60%))
+		);
+	@include boxShadow(
+		inset 0px 1px 1px hsl($themeHue, 0%, 40%),
+		0px 1px 3px darkOrLight(#000, #bbb)
+		);
+	text-shadow: 0px -1px 1px hsl($themeHue, 0%, 10%);
+}
+
 
 // FORUM VIEW
 
@@ -899,6 +952,16 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 	display: block;
 	color: darkOrLight(#ddd, #555);
 	font-size: 77%;
+}
+.threadListTitle.locked {
+	a {
+		color: #777;
+	}
+}
+.threadListIcon {
+	text-align: center;
+	vertical-align: middle;
+	line-height: 16px;
 }
 .threadListCreator {
 	text-align: center;
@@ -980,7 +1043,9 @@ $postSidebarBG: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 20%, 90%));
 .postSidebarTopBit {
 	border-bottom: 1px dotted $accentHeaderLargeColour;
 	padding: 4px 6px 8px 6px;
-	background-image: linear-gradient(to bottom, lighten($postSidebarBG, 3%), $postSidebarBG);
+	background-image: linear-gradient(to bottom,
+		darkOrLight(lighten($postSidebarBG, 3%), lighten($postSidebarBG, 8%)),
+		$postSidebarBG);
 }
 
 .postSidebarInfo {

@@ -100,3 +100,10 @@ deploy with a production-ready web server. I figure it shouldn't be too hard,
 but... just noting this here so you know bitBoard isn't prepared for it yet :p
 
 
+
+### Acknowledgements:
+
+This project makes use of...
+
+- Smilies from AcmlmBoard and [Jul](http://github.com/xkeeper0/jul)
+- Icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com)

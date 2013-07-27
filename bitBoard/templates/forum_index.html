@@ -27,7 +27,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class='tHeader'></td>
+		<td class='tHeader' style='width: 40px'></td>
 		<td class='tHeader left'>Forum:</td>
 		<td class='tHeader' style='width: 12%'>Posts:</td>
 		<td class='tHeader' style='width: 25%'>Last Post:</td>
@@ -36,7 +36,11 @@
 	% for forum, unread_count in forums
 	<tr class='row0'>
 		<td class='tStd fiIcon'>
-			{{unread_count}}
+			% if unread_count
+				<span class='forumIconUnread'>{{unread_count}}</span>
+			% else
+				<span class='forumIconRead'>0</span>
+			% endif
 		</td>
 		<td class='tStd fiName'>
 			<a href='{{forum.url}}' class='fiLink'>{{forum.name}}</a>
