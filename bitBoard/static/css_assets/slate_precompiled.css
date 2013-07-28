@@ -37,8 +37,8 @@ a:hover {
 }
 
 #main_header {
-  background: #141b1f;
-  background-image: linear-gradient(#141b1f, #1f292e);
+  background: #081f2b;
+  background-image: linear-gradient(#0b2f41, #134f6c);
   color: #eeeeee;
 }
 #main_header a {
@@ -166,7 +166,7 @@ a:hover {
 }
 
 #main_header > .sub_bar {
-  background-image: linear-gradient(to bottom, #0f1d24, #172b36);
+  background-image: linear-gradient(to bottom, #112732, #173645);
   border-bottom: 1px solid #02090d;
   box-shadow: inset 0px 1px 1px black, 0px 1px 2px #141b1f;
 }
@@ -198,7 +198,7 @@ a:hover {
 }
 
 #main_footer {
-  background: #141b1f;
+  background: #081f2b;
   overflow: hidden;
   color: #eeeeee;
 }
@@ -274,7 +274,7 @@ a:hover {
   border-top: 1px solid #356020;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
-  background: linear-gradient(to bottom, #2a4d19, #172a0e);
+  background-image: linear-gradient(to bottom, #2a4d19, #172a0e);
   box-shadow: 0px 1px 3px #181818, inset 0px 1px 5px #356020;
   color: #eee;
 }
@@ -704,7 +704,7 @@ td {
   text-shadow: 0px 1px 1px #000;
   border-radius: 5px 5px 0 0;
   background: #3d748f;
-  background: linear-gradient(#1c74a0, #134f6c);
+  background-image: linear-gradient(#1c74a0, #134f6c);
   border: 1px solid #111;
   box-shadow: inset 0px 1px 1px #52b1e0;
 }
@@ -794,14 +794,14 @@ td {
 
 .forumIconUnread {
   background: #337799;
-  background: linear-gradient(#8cbfd9, #265973);
+  background-image: linear-gradient(#8cbfd9, #265973);
   box-shadow: inset 0px 1px 1px #0f3f57, 0px 1px 3px #888888;
   text-shadow: 0px -1px 1px #081f2b;
 }
 
 .forumIconRead {
   background: #b3b3b3;
-  background: linear-gradient(#e6e6e6, #999999);
+  background-image: linear-gradient(#e6e6e6, #999999);
   box-shadow: inset 0px 1px 1px #666666, 0px 1px 3px #bbbbbb;
   text-shadow: 0px -1px 1px #1a1a1a;
 }

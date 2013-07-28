@@ -77,15 +77,17 @@ $accentHeaderTextColour: darkOrLight($accentMinorTextColour, hsl($themeHue, 40%,
 $accentSubHeaderColour: darkOrLight(hsl($themeHue, 30%, 10%), hsl($themeHue, 30%, 90%));
 $accentSubHeaderTextColour: darkOrLight(hsl($themeHue, 40%, 60%), hsl($themeHue, 40%, 40%));
 
-$headerBG: hsl($themeHue, 20%, 10%);
+$headerBG: hsl($themeHue, 70%, 10%);
+$headerBGTop: hsl($themeHue, 70%, 15%);
+$headerBGBottom: hsl($themeHue, 70%, 25%);
 $lightbarColour: hsl($themeHue, 70%, 18%);
 $lightbar3DLight: lighten($lightbarColour, 10%);
 $lightbarGradTop: lighten($lightbarColour, 15%);
 $lightbarLinkBorder: darken($lightbarColour, 5%);
 $lightbar3DShadow: darken($lightbarColour, 15%);
 $lightbarLinkColour: hsl($themeHue, 70%, 85%);
-$subBarBGTop: hsl($themeHue, 40%, 10%);
-$subBarBGBottom: hsl($themeHue, 40%, 15%);
+$subBarBGTop: hsl($themeHue, 50%, 13%);
+$subBarBGBottom: hsl($themeHue, 50%, 18%);
 
 $dropdownColour: hsl($themeHue, 40%, 17%);
 
@@ -170,7 +172,7 @@ a {
 
 #main_header {
 	background: $headerBG;
-	background-image: linear-gradient($headerBG, lighten($headerBG, 5%));
+	background-image: linear-gradient($headerBGTop, $headerBGBottom);
 
 	@include darkBGText;
 }
@@ -400,7 +402,7 @@ $flashGradBottom: hsl(100deg, 50%, 11%);
 
 
 	@include box3d($flashColour);
-	background: linear-gradient(to bottom, $flashGradTop, $flashGradBottom);
+	background-image: linear-gradient(to bottom, $flashGradTop, $flashGradBottom);
 	@include boxShadow(0px 1px 3px #181818, inset 0px 1px 5px $flashHighlight);
 	color: #eee;
 }
@@ -809,7 +811,7 @@ $pwslSelBG: hsl($themeHue, $pwslSat, 25%);
 
 	border-radius: 5px 5px 0 0;
 	background: hsl($themeHue, 40%, darkOrLight(18%, 40%));
-	background: linear-gradient(
+	background-image: linear-gradient(
 		hsl($themeHue, 70%, darkOrLight(23%, 37%)),
 		hsl($themeHue, 70%, darkOrLight(10%, 25%)));
 	border: 1px solid #111;
@@ -918,7 +920,7 @@ $ficonSize: 2.5em;
 
 .forumIconUnread {
 	background: hsl($themeHue, 50%, darkOrLight(30%, 40%));
-	background: linear-gradient(
+	background-image: linear-gradient(
 		hsl($themeHue, 50%, darkOrLight(60%, 70%)),
 		hsl($themeHue, 50%, darkOrLight(20%, 30%))
 		);
@@ -931,7 +933,7 @@ $ficonSize: 2.5em;
 
 .forumIconRead {
 	background: hsl($themeHue, 0%, darkOrLight(30%, 70%));
-	background: linear-gradient(
+	background-image: linear-gradient(
 		hsl($themeHue, 0%, darkOrLight(50%, 90%)),
 		hsl($themeHue, 0%, darkOrLight(20%, 60%))
 		);
@@ -1238,6 +1240,9 @@ button, input[type='submit'] {
 	@include box3d(rgba(17, 17, 17, 0.7));
 }
 
+
+
+// SMILIES
 
 .smiliesList {
 	background: darkOrLight(#0e0e0e, #ddd);
