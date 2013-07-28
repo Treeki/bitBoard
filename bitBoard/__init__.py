@@ -322,10 +322,14 @@ def _update_and_get_view_count():
 def _get_smilies():
 	return parser.SMILIES_WITH_URLS
 
+def _get_board_title():
+	return BOARD_TITLE
+
 from bitBoard import parser
 @app.context_processor
 def add_template_functions():
 	return dict(
+			get_board_title=_get_board_title,
 			update_dategroup=_update_dategroup,
 			current_time=datetime.datetime.now,
 			parse_text=parser.parse_text,

@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>{%block title%}{%endblock%} - Treeki's Dev Board 2.5</title>
+		<title>{%block title%}{%endblock%} - {{get_board_title()}}</title>
 
 		{% assets "css_all" %}
 		<link href="{{ASSET_URL}}" media="screen, projection" rel="stylesheet" type="text/css" id='blah'>
@@ -23,7 +23,7 @@
 			<header id='main_header'>
 				<div id='header_titlebar'>
 					<div id='header_title'>
-						Treeki's Dev Board 2.5
+						{{get_board_title()}}
 					</div>
 					<div id='header_online_users'>
 						<b>Online Users:</b>

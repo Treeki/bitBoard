@@ -1,5 +1,8 @@
 DEBUG = True
 
+# This appears in the header and in <title> tags.
+BOARD_TITLE = 'bitBoard'
+
 # Change this to something secret. It's used to ensure the security of
 # cookies, so it's important that no one finds out what it is!
 SECRET_KEY = 'an insecure default key'
