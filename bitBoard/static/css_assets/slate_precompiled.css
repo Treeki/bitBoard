@@ -1007,6 +1007,33 @@ td {
   margin-bottom: 1em;
 }
 
+.postContentWrapper .bcQuote {
+  margin: 0.5em 0;
+  padding: 0;
+  box-shadow: 0px 1px 1px #999999;
+}
+.postContentWrapper .bcQuoteTitle {
+  font-size: 77%;
+  font-style: italic;
+  border-bottom: 1px solid #cccccc;
+  padding: 2px 0.5em;
+  background: #e0e7eb;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #b3c3cc;
+  border-left: 1px solid white;
+  background: #e0e7eb;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #b3c3cc;
+  border-right: 1px solid #b3c3cc;
+  background-image: linear-gradient(#f0f3f5, #dae2e7);
+  color: #668899;
+}
+.postContentWrapper .bcQuoteText {
+  padding: 2px 0.5em;
+  background: whitesmoke;
+  color: #555555;
+}
+
 .js .epSimplePostStyleOptions,
 .js .epAdvancedPostStyleOptions {
   display: none;

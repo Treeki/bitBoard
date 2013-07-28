@@ -1137,6 +1137,35 @@ $postTopBarColour: darkOrLight(#181818, hsl($themeHue, 20%, 85%));
 }
 
 
+.postContentWrapper {
+	.bcQuote {
+		margin: 0.5em 0;
+		padding: 0;
+		//border: 1px solid hsl($themeHue, 30%, 80%);
+		box-shadow: 0px 1px 1px darkOrLight(#111, #999);
+	}
+	.bcQuoteTitle {
+		font-size: 77%;
+		font-style: italic;
+		border-bottom: 1px solid darkOrLight(#333, #ccc);
+
+		padding: 2px 0.5em;
+
+		@include box3d(hsl($themeHue, 20%, darkOrLight(20%, 90%)));
+		background-image: linear-gradient(
+			hsl($themeHue, 20%, darkOrLight(20%, 95%)),
+			hsl($themeHue, 20%, darkOrLight(13%, 88%))
+			);
+		color: hsl($themeHue, 20%, darkOrLight(80%, 50%));
+	}
+	.bcQuoteText {
+		padding: 2px 0.5em;
+		background: darkOrLight(#333, #f5f5f5);
+		color: darkOrLight(#aaa, #555);
+	}
+}
+
+
 
 // POST STYLE EDITOR
 

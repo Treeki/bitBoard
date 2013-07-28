@@ -6,12 +6,8 @@ import re
 from xml.sax.saxutils import escape, unescape
 
 RAW_BBCODE_REGEXES = (
-		(r'\[b\](.+?)\[\/b\]', r'<b>\1</b>'),
-		(r'\[i\](.+?)\[\/i\]', r'<i>\1</i>'),
-		(r'\[u\](.+?)\[\/u\]', r'<u>\1</u>'),
-		(r'\[s\](.+?)\[\/s\]', r'<s>\1</s>'),
-		(r'\[sup\](.+?)\[\/sup\]', r'<sup>\1</sup>'),
-		(r'\[sub\](.+?)\[\/sub\]', r'<sub>\1</sub>'),
+		(r'\[[bius]\](.+?)\[\/\1\]', r'<\1>\2</\1>'),
+		(r'\[su[pb]\](.+?)\[\/su\1\]', r'<su\1>\2</su\1>'),
 		(r'\[size=((&quot;)?)(.+?)(\1)\](.+?)\[\/size\]', r'<span style="font-size: \3">\5</span>'),
 		(r'\[font=((&quot;)?)(.+?)(\1)\](.+?)\[\/font\]', r'<span style="font-family: \3">\5</span>'),
 		(r'\[color=((&quot;)?)(.+?)(\1)\](.+?)\[\/color\]', r'<span style="color: \3">\5</span>'),
@@ -20,9 +16,15 @@ RAW_BBCODE_REGEXES = (
 		(r'\[img](.+?)\[\/img\]', r'<img src="\1" alt="user posted image">'),
 		(r'\[spoiler](.+?)\[\/spoiler\]', r'<span class="spoiler">\1</span>'),
 		(r'\[youtube](.+?)\[\/youtube\]', r'<img youtube="\1">'),
+		(r'\[quote=((&quot;)?)(.+?)(\1)\]', r'<blockquote class="bcQuote withTitle"><div class="bcQuoteTitle">Originally posted by <b>\3</b>:</div><div class="bcQuoteText">'),
 		)
 
 BBCODE_REGEXES = [(re.compile(regex), replace) for regex,replace in RAW_BBCODE_REGEXES]
+
+BBCODE_REPLACEMENTS = (
+		('[quote]', '<blockquote class="bcQuote withoutTitle"><div class="bcQuoteTitle">Quote:</div><div class="bcQuoteText">'),
+		('[/quote]', '<div></blockquote>'),
+		)
 
 RAW_SMILIES = (
 	(':)', 'smile.gif'),
@@ -180,6 +182,9 @@ def parse_text(text):
 
 	for regex,replace in BBCODE_REGEXES:
 		text = regex.sub(replace, text)
+
+	for search,replace in BBCODE_REPLACEMENTS:
+		text = text.replace(search, replace)
 
 	t4 = time.clock()
 	doc = parser.parse(text)
