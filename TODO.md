@@ -56,7 +56,7 @@
 	* Support non-external CSS
 * **[done]** Custom titles
 * Automatic updates showing new threads/posts
-* Fix the styling on the Latest Posts page...
+* **[done]** Fix the styling on the Latest Posts page...
 * Post previewing
 * Ranks, MAYBE? dunno
 
