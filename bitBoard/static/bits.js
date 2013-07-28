@@ -71,6 +71,32 @@ function toast(message) {
 
 
 
+function addExtraCSS(newURL) {
+	var found = false;
+	var lastOne = null;
+
+	$('link').each(function(i,e) {
+		if (e.href == newURL) {
+			found = true;
+		}
+
+		lastOne = e;
+	});
+
+	if (found) {
+		return;
+	}
+
+	$('<link/>', {
+		href: newURL,
+		media: 'screen, projection',
+		rel: 'stylesheet',
+		type: 'text/css'
+	}).insertAfter($(lastOne));
+}
+
+
+
 $(document).ready(function() {
 	$('#loginLink').click(function(event) {
 		event.preventDefault();

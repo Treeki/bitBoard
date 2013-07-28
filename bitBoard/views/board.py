@@ -35,6 +35,18 @@ def get_viewable_forum_ids():
 			filter_by(group_id=g.effective_group_id, can_view=True).\
 			all())
 
+def get_layout_extra(post):
+	user = post.creator
+
+	data = {}
+
+	if user.post_style == 2:
+		if user.style_url:
+			data['style_url'] = user.style_url
+
+	return data
+
+
 @app.route('/forum')
 def forum_index():
 	c_query = db.session.query(Category).order_by('position')
@@ -526,7 +538,8 @@ def post_reply(thread_id, thread_slug, type,
 				post_id=post.id,
 				post_html=render_template('post_box.html',
 					post=post,
-					postNumber=thread.post_count)
+					postNumber=thread.post_count),
+				layout_extra=get_layout_extra(post)
 				)
 
 	if not ajax:

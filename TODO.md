@@ -51,7 +51,7 @@
 	  or their usergroup changes, or their usergroup's permissions change).
 * Allow mods to view previous revisions of posts
 * Finish post layout implementation
-	* Inject style URLs properly when post_box is added to a page via JS
+	* **[done]** Inject style URLs properly when post_box is added to a page via JS
 	* Support Quick Edit - could disable it for layouted posts as a quick fix?
 	* Support non-external CSS
 * **[done]** Custom titles
@@ -61,6 +61,7 @@
 * Ranks, MAYBE? dunno
 
 ### Moderation features:
+* make post deletion work
 * **[done]** sticky/unsticky
 * **[done]** close/unclose
 * better indication for closed threads?

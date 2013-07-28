@@ -149,6 +149,9 @@ $(document).ready(function() {
 				hideLoadOverlay();
 
 				if (data.was_posted) {
+					if (data.layout_extra.style_url)
+						addExtraCSS(data.layout_extra.style_url);
+
 					$('#postsContainer').append(data.post_html);
 					var newPost = $('#post'+data.post_id);
 					// from http://blog.pengoworks.com/index.cfm/2009/4/21/Fixing-jQuerys-slideDown-effect-ie-Jumpy-Animation
