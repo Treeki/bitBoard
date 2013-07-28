@@ -333,7 +333,7 @@ def post_thread(forum_slug=None, is_private=False):
 		for name in r_names:
 			name = name.strip()
 			if not name: continue
-			u = User.query.filter_by(name=name).first()
+			u = User.query.filter(db.func.lower(User.name) == db.func.lower(name)).first()
 			if u:
 				if u in recipients: continue
 				if u == g.user: continue

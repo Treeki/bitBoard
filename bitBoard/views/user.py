@@ -33,7 +33,7 @@ class LoginForm(RedirectForm):
 		if not rv:
 			return False
 
-		user = User.query.filter_by(name=self.name.data).first()
+		user = User.query.filter(db.func.lower(User.name) == db.func.lower(self.name.data)).first()
 		if not user:
 			self.name.errors.append('No account exists with that username. Please make sure you typed it in correctly!')
 			return False

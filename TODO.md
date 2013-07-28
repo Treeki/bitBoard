@@ -29,7 +29,7 @@
 	* Make it usable on mobile
 	* Finish the light theme
 	* Add some way for users to choose themes and Slate variations
-* case-insensitive username lookups for login and PM recipients, probably?
+* **[done]** case-insensitive username lookups for login and PM recipients, probably?
 
 ## FORUM
 
